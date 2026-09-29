@@ -77,9 +77,24 @@ def parse_meminfo(text: str, pkg: str) -> dict:
     return {"pss_kb": pss, "rss_kb": rss}
 
 
+_STATUS_NUM = {
+    0: "NONE",
+    1: "LIGHT",
+    2: "MODERATE",
+    3: "SEVERE",
+    4: "CRITICAL",
+    5: "EMERGENCY",
+    6: "SHUTDOWN",
+}
+
+
 def parse_thermal(text: str) -> list[str]:
-    buckets = sorted(set(_THERMAL_RE.findall(text)), key=lambda b: b.upper())
-    return [b.upper() for b in buckets]
+    buckets = {b.upper() for b in _THERMAL_RE.findall(text)}
+    # OnePlus/Android 13+ dump: "Thermal Status: 3" (numeric ThermalManager status)
+    m = re.search(r"Thermal Status:\s*(\d+)", text)
+    if m:
+        buckets.add(_STATUS_NUM.get(int(m.group(1)), f"UNKNOWN_{m.group(1)}"))
+    return sorted(buckets)
 
 
 def main():

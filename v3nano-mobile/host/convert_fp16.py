@@ -46,6 +46,21 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out-dir", type=str, default=str(ROOT / "v3nano-mobile" / "package" / "fp16"))
     parser.add_argument("--model-dir", type=str, default=str(MODEL_DIR))
+    parser.add_argument(
+        "--only",
+        nargs="+",
+        choices=GRAPH_FILES,
+        default=None,
+        help="Chỉ convert các graph này sang FP16; graph ngoài danh sách copy nguyên bản FP32 "
+             "(D4 mixed-precision sau khi S1 fail RTF trên Android CPU).",
+    )
+    parser.add_argument(
+        "--copy-fp32",
+        nargs="*",
+        choices=GRAPH_FILES,
+        default=None,
+        help="Cùng --only: các graph giữ FP32 (copy từ model dir). Mặc định = GRAPH_FILES - only.",
+    )
     args = parser.parse_args()
 
     src_dir = Path(args.model_dir)
@@ -54,11 +69,23 @@ def main():
     if not src_dir.is_dir():
         raise SystemExit(f"Model dir not found: {src_dir}")
 
+    if args.only is not None:
+        only = set(args.only)
+        copy_fp32 = set(args.copy_fp32 if args.copy_fp32 is not None else (set(GRAPH_FILES) - only))
+        mode = "mixed"
+    else:
+        only = set(GRAPH_FILES)
+        copy_fp32 = set()
+        mode = "all_fp16"
+
     report = {
         "tool": "v3nano-mobile/host/convert_fp16.py",
         "base_model_revision": BASE_MODEL_REVISION,
         "precision_from": "fp32",
-        "precision_to": "fp16",
+        "precision_to": "fp16" if mode == "all_fp16" else "mixed_fp16_fp32",
+        "mode": mode,
+        "fp16_graphs": sorted(only),
+        "fp32_graphs": sorted(copy_fp32),
         "converter": "onnxruntime.transformers.float16 (keep_io_types=True)",
         "graphs": [],
         "copied_non_graph_files": [],
@@ -73,6 +100,21 @@ def main():
         if not src.is_file():
             raise SystemExit(f"Missing graph: {src}")
         size_fp32 = src.stat().st_size
+        if name in copy_fp32:
+            dst = out_dir / name
+            dst.write_bytes(src.read_bytes())
+            print(f"[convert] {name}: copy FP32 ({size_fp32:,} bytes)", flush=True)
+            report["graphs"].append({
+                "file": f"graphs/{name}",
+                "fp32_bytes": size_fp32,
+                "fp16_bytes": size_fp32,
+                "ratio": 1.0,
+                "precision": "fp32",
+                "checker": "SKIPPED_COPY",
+                "shape_inference": "SKIPPED_COPY",
+                "convert_seconds": 0.0,
+            })
+            continue
         print(f"[convert] {name}: loading ({size_fp32:,} bytes fp32)...", flush=True)
         t0 = time.monotonic()
         model = onnx.load(str(src))
@@ -96,6 +138,7 @@ def main():
             "fp32_bytes": size_fp32,
             "fp16_bytes": size_fp16,
             "ratio": round(size_fp16 / size_fp32, 6),
+            "precision": "fp16",
             "checker": "PASS",
             "shape_inference": "PASS",
             "convert_seconds": round(dt, 1),
