@@ -1865,3 +1865,60 @@ Voice asset có thể là dữ liệu nhận dạng cá nhân. SDK cần:
 ### 14.8. Cập nhật branch
 
 Schema `voice asset`, `VoiceManager` interface và manifest validator là ứng viên có thể upstream nếu backward-compatible và có test. Official voice pack, mobile adapter, native cache, secure storage và provider-specific loading vẫn thuộc `develop`; không sửa schema voice cũ trên `main` chỉ để phục vụ mobile.
+
+## 15. Trạng thái triển khai plan 001-mvp (2026-09-29)
+
+> Cập nhật sau Sprint 2b + 3 + 4 core + 5 host-path. **Không** phải biên bản validation vòng 10 — đây là map DoD `02-lo-trinh-sprint.md` so với code trên `develop`.
+
+### 15.1. Bảng hoàn thiện theo sprint
+
+| Giai đoạn | Trạng thái | Ghi chú |
+|---|---|---|
+| Gđ0 Spike | **PARTIAL** | S1 host/iOS FP16 có số; **S1-Android / S2 soak / S3 Tier B = NOT RUN** (thiếu device) |
+| Sprint 1 | **DONE** | corpus-mvp-v1, golden, contract tests, CI pytest |
+| Sprint 2a | **DONE** | `com.vieneu.mobile.core` + golden JVM |
+| Sprint 2b | **PARTIAL** | `TextSegmenter` structural + golden 40 case; **sea-g2p normalize/G2P chưa on-device** |
+| Sprint 3 | **PARTIAL** | API/engine/pipeline + `OrtSynthesisEngine`; sample UI/device; iOS bridge body = stub |
+| Sprint 4 | **PARTIAL** | Queue/Thermal/Cache/Metrics/Worker unit-tested; **chưa AudioTrack + chưa 30' device** |
+| Sprint 5 | **PARTIAL** | CI job + release template; **registry/signing/HF bundle chưa có** |
+| Sprint 6–8 | **NOT STARTED** | device matrix, listening, telemetry, public release |
+
+### 15.2. Known limitations (chính thức — integrator phải biết)
+
+1. **G2P + normalize đầy đủ (sea-g2p, Rust) chưa chạy trên mobile.**  
+   `Reader.enqueue(text)` / `synthesizeText` chỉ chắc chắn với text đã normalize/phonemize hoặc khi inject `phonemizer`. Dùng `synthesizePhones` / `enqueuePhones` cho production path hiện tại. `TextNormalizer.mini` chỉ phục vụ demo.
+
+2. **iOS `OrtEngineBridge` chưa bind ORT C++** — bản inference đã PASS nằm ở `device-validation/.../NanoEngineTests.mm`; production iOS cần port body (BOOL `ctx_mask` bắt buộc qua C++ API).
+
+3. **Playback**: `AudioPlayer` là interface; chưa có `AudioTrack`/`AVAudioEngine` impl wired vào Reader. `GenerationQueue` cancel-at-boundary đã test JVM.
+
+4. **Mã lỗi** thống nhất theo `08` §8.4 (`E_CANCELED` — chính tả Mỹ); Flutter map 1:1.
+
+5. **Device-gated**: mọi RTF/RAM/thermal/soak/Tier B chưa có số mới → release note ghi `NOT RUN` + lý do (không bịa số).
+
+### 15.3. Freeze checklist v0.1 (chốt “đắt-để-sửa” — 00 §0.1)
+
+| Hạng mục | Trạng thái freeze | File/contract |
+|---|---|---|
+| generation_defaults | **FROZEN** | steps=8, sway=-1, cfg=3.0, max_chars=140, treble on (D1) |
+| default_voice_id | **FROZEN** | `duc_tri` (D8) |
+| package shape P1 FP16 | **FROZEN** | 4 graph, ≤150 MB gzip (D4/D5) |
+| provider ladder | **FROZEN** | Android CPU→XNNPACK; iOS CPU (D2/D3) |
+| chunk/gap/sway/treble contract | **FROZEN** | `eval/golden/*` + JVM tests |
+| error code table | **FROZEN** | `08` §8.4 + `api/EngineError.kt` |
+| manifest schema v1 | **OPEN** | `build_mobile_package.py` / `03-model-package.md` — cần ký chính thức |
+| voice asset schema v1 | **OPEN** | `voices_v3_nano_mobile.json` |
+| public API Kotlin/Swift/Dart | **OPEN** | đổi được trước tag `sdk-0.1.0`; sau đó chỉ migration note |
+| RNG semantics | **FROZEN** | `kotlin.random.Random`+Box-Muller; intra-platform determinism (quyết định b) |
+
+### 15.4. Gate phát hành MVP còn thiếu (§0.6)
+
+- [ ] S1-Android FP16 + S2 soak 30' + S3 Tier B (khi có device)
+- [ ] Benchmark ≥1 flagship + ≥1 mid-range mỗi platform
+- [ ] Playback 30 phút không underrun (AudioTrack + queue)
+- [ ] Listening review ≥2 người ký
+- [ ] License / attribution inventory
+- [ ] Registry + signing + rollback artifact thật
+- [ ] iOS ORT bridge body + SPM binary pin
+
+Xem thêm checklist release: `v3nano-mobile/eval/RELEASE_NOTE_TEMPLATE.md`.
