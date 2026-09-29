@@ -1,0 +1,4 @@
+# Quy tắc ignore dùng chung cho cây v3nano-mobile nằm ở ../../.gitignore
+# (build/, .gradle/, local.properties, nano_graphs/, nano_test_input/,
+#  evidence/, *.onnx …). Source-of-truth corpus: ../../eval/corpus/.
+# Regenerate assets: python3 v3nano-mobile/host/export_corpus_tensors.py
