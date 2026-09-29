@@ -1,26 +1,126 @@
 {
   "report_date": "2026-09-29",
-  "report_kind": "android-real-device-fp16",
-  "status": "NOT_RUN",
-  "reason": "Device disconnected mid-session. OnePlus PHP110 (UDID YH7LX4VWSSXOAQOJ, MT6983) was listed by `adb devices` at session start, then went offline before `gradle :app:installDebug` could complete (error: 'No connected devices!'). Subsequent `adb devices` calls returned empty. Never fabricate numbers — this report records the attempted run, not results.",
-  "device_seen_early_session": {
-    "udid": "YH7LX4VWSSXOAQOJ",
-    "model": "OnePlus PHP110",
-    "soc": "MediaTek MT6983",
-    "note": "Would qualify for FP16 step 5 if connected, but NOT for Tier B (plan requires non-MediaTek Snapdragon 4/6-series)."
+  "spike": "S1",
+  "status": "PARTIAL — FAIL RTF target, PASS hard-fail/NaN",
+  "hypothesis": "P1 FP16 trên Android thật: 0 hard-fail; peak RSS giảm ≥40% so FP32; RTF ≤0.5 (steps=8 CPU)",
+  "device": "OnePlus PHP110 (MT6983, Android 16, real device)",
+  "tier": "A (MediaTek flagship-class — KHÔNG phải Tier B Snapdragon 4/6)",
+  "precision": "fp16",
+  "runtime": "onnxruntime-android 1.22.0",
+  "harness": "v3nano-mobile/android/device-validation MainActivity foreground",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "package_fp16_total_bytes": 141208855,
+  "steps": 8,
+  "sway": -1.0,
+  "cfg": 3.0,
+  "smoke_runs_per_case": 3,
+  "voice": "Minh Quân",
+  "any_hard_fail": false,
+  "per_provider": {
+    "CPU": {
+      "fp16_rtf": {
+        "n": 60,
+        "median": 1.1584,
+        "p95": 1.8914,
+        "min": 0.6656,
+        "max": 2.0607
+      },
+      "fp32_rtf": {
+        "n": 60,
+        "median": 0.3207,
+        "p95": 0.4081,
+        "min": 0.2748,
+        "max": 0.4403
+      },
+      "fp16_graph_load_ms": 917,
+      "fp32_graph_load_ms": 1004,
+      "fp16_nan": false
+    },
+    "XNNPACK": {
+      "fp16_rtf": {
+        "n": 60,
+        "median": 1.2675,
+        "p95": 2.0469,
+        "min": 0.6978,
+        "max": 2.204
+      },
+      "fp32_rtf": {
+        "n": 60,
+        "median": 0.3559,
+        "p95": 0.4644,
+        "min": 0.2874,
+        "max": 0.5781
+      },
+      "fp16_graph_load_ms": 1331,
+      "fp32_graph_load_ms": 1166,
+      "fp16_nan": false
+    },
+    "NNAPI": {
+      "fp16_rtf": {
+        "n": 60,
+        "median": 1.2623,
+        "p95": 2.2169,
+        "min": 0.7362,
+        "max": 2.3208
+      },
+      "fp32_rtf": {
+        "n": 60,
+        "median": 0.4202,
+        "p95": 0.6283,
+        "min": 0.2936,
+        "max": 0.7146
+      },
+      "fp16_graph_load_ms": 1408,
+      "fp32_graph_load_ms": 3188,
+      "fp16_nan": false
+    }
   },
-  "what_was_prepared": {
-    "graphs_precision": "fp16",
-    "graphs_staged_into": "mobile/android/nano-mobile-harness/app/src/main/assets/nano_graphs/*.onnx",
-    "intent_extra_supported": "smokeRunsPerCase (MainActivity loops extra) for soak",
-    "soak_monitor_tool": "tools/mobile/device_soak_monitor.py"
+  "memory_rss_mb": {
+    "fp16_cpu_phase_peak": 647.3,
+    "fp16_xnnpack_phase_peak": 493.5,
+    "fp16_nnapi_phase_peak": 1048.5,
+    "fp16_overall_peak": 1048.9,
+    "fp32_cpu_xnnpack_note": "vòng 4: CPU/XNNPACK ~670MB; NNAPI ~910MB; peak 1089.5MB",
+    "cpu_path_reduction_pct": 3.4,
+    "xnnpack_path_reduction_pct": 26.3
   },
-  "what_this_does_NOT_prove": "Nothing about FP16 runtime behavior on Android real hardware — iOS real-device FP16 result is separate (2026-09-29-ios-real-device-fp16.json). Emulator smoke equivalence (post-refactor) is separate again.",
-  "rerun_when_device_returns": [
-    "1. adb devices — confirm UDID online",
-    "2. gradle :app:installDebug",
-    "3. adb shell am start -n com.vieneu.nanoharness/.MainActivity (with smokeRunsPerCase)",
-    "4. python3 tools/mobile/device_soak_monitor.py --udid <UDID> --minutes 30 for S2 soak",
-    "5. Compare RTF/RAM against 2026-09-28-macos-arm64-fp32 baseline + package validate report"
-  ]
+  "gates": {
+    "package_fp16_le_150mb_raw": {
+      "target": 150,
+      "actual_mb": 141.2,
+      "pass": true
+    },
+    "rss_reduction_ge_40pct_cpu_path": {
+      "target_pct": 40,
+      "actual_pct": 3.4,
+      "pass": false,
+      "note": "FP16 giảm kích thước file ~50% nhưng RSS CPU path chỉ giảm ~4% — RAM không tỷ lệ với file (ORT vẫn giữ arena/copy)."
+    },
+    "rtf_le_0_5_cpu": {
+      "target": 0.5,
+      "actual_median": 1.1584,
+      "pass": false
+    },
+    "zero_hard_fail": {
+      "pass": true
+    }
+  },
+  "s01_spot_check": {
+    "fp32_cpu_gen_ms": [
+      406,
+      373,
+      528
+    ],
+    "fp16_cpu_gen_ms": [
+      2017,
+      2300,
+      2356
+    ],
+    "audio_seconds": 1.216,
+    "conclusion": "FP16 CPU chậm ~5× so FP32 cùng case/device — nhiều khả năng ORT CPU EP thiếu kernel FP16 tối ưu, chuyển đổi FP16↔FP32 per-op."
+  },
+  "fail_action_per_plan": "02-lo-trinh-sprint Gđ0-S1: FAIL → quay lại D4: mixed FP16/FP32 (vector_estimator FP32?), hoặc INT8 thử sớm; đo lại gói. Không ship FP16-only trên Android CPU nếu chưa giải RTF.",
+  "what_this_proves": "FP16 load + sinh được full corpus 3 provider, 0 NaN/hard-fail trên OnePlus thật",
+  "what_this_does_NOT_prove": "Target RTF/RAM của spike S1 KHÔNG đạt ở Android; WER device-side chưa chạy; iOS FP16 lại đạt RTF 0.332 (xem report iOS cùng ngày) — vấn đề có thể là ORT Android CPU FP16 path, không phải contract sinh audio.",
+  "raw_result_file": "app external files nano_android_result_real_device.json (pulled)"
 }

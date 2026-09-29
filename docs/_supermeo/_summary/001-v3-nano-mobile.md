@@ -1922,3 +1922,21 @@ Schema `voice asset`, `VoiceManager` interface và manifest validator là ứng 
 - [ ] iOS ORT bridge body + SPM binary pin
 
 Xem thêm checklist release: `v3nano-mobile/eval/RELEASE_NOTE_TEMPLATE.md`.
+
+### 15.5. Kết quả Spike S1 FP16 trên device thật (2026-09-29)
+
+| Gate | iOS iPhone 11 | Android OnePlus PHP110 | Verdict |
+|---|---|---|---|
+| 0 hard-fail / 0 NaN | PASS | PASS (3 provider × 40 case) | PASS |
+| Package FP16 ≤150 MB gzip | 130.6 MB gzip | cùng gói | **PASS** |
+| RTF ≤0.5 (steps=8 CPU) | **0.332** (p95 0.397) | **1.158** (p95 1.891) | iOS PASS / **Android FAIL** |
+| Peak RSS giảm ≥40% | chưa đo Instruments | CPU path 647 vs ~670 MB (**−3.4%**); XNNPACK ~493 MB (−26%) | **FAIL** |
+
+**Đối chiếu s01 cùng device/corpus:** FP32 CPU `generation_ms` 406/373/528 → FP16 **2017/2300/2356** (chậm ~5×).  
+iOS FP16 vẫn RTF 0.332 ≈ baseline FP32 0.294 — vấn đề nằm ở **ORT Android CPU/XNNPACK FP16 path**, không phải contract sinh audio.
+
+**Hành động theo plan (Gđ0-S1 Fail):** quay lại **D4** — thử mixed FP16/FP32 (ví dụ giữ `vector_estimator`/hot graphs FP32), hoặc INT8 sớm; đo lại gói + RTF. **Không** ship FP16-only làm default trên Android nếu chưa giải RTF.
+
+Report: `v3nano-mobile/eval/reports/2026-09-29-android-real-device-fp16.json`, `.../2026-09-29-ios-real-device-fp16.json`.
+
+**S2 soak 30' / S3 Tier B:** xem report `2026-09-29-android-soak-tier-b.json` (S3 vẫn NOT RUN — máy đang có là MT6983 Tier A, không phải Snapdragon 4/6).

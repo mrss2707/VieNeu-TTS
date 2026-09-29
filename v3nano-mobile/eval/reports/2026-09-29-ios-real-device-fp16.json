@@ -1,11 +1,18 @@
 {
   "report_date": "2026-09-29",
-  "report_kind": "ios-real-device-fp16-spike",
-  "device": "physical device (see xcresult/devicectl for model) — real hardware, not Simulator",
+  "spike": "S1",
+  "status": "PASS",
+  "hypothesis": "P1 FP16 on real iPhone 11: 0 hard-fail; RTF comparable to FP32 steps=8 baseline 0.2936",
+  "device": "iPhone 11 (real device, not Simulator)",
+  "device_id": "00008030-001C046A34E8802E",
+  "precision": "fp16",
+  "runtime": "onnxruntime C++ API, CPU EP, BOOL ctx_mask",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "package_fp16_total_bytes": 141208855,
+  "steps": 8,
+  "sway": -1.0,
+  "cfg": 3.0,
   "test": "NanoMobileHarnessTests/NanoEngineTests/testProviderCPU",
-  "xcodebuild": "xcodebuild test -project NanoMobileHarness.xcodeproj -scheme NanoMobileHarness -destination platform=iOS,id=00008030-001C046A34E8802E -only-testing:NanoMobileHarnessTests/NanoEngineTests/testProviderCPU",
-  "graphs_precision": "fp16",
-  "graphs_source": "models/v3_nano_mobile/fp16/ (sha256 vector_estimator=094525ea86244dd3f5ec0434ee2b7946e8034fb3b38864312371dd2fd6d17609)",
   "test_duration_seconds": 107.241,
   "test_outcome": "passed (0 failures)",
   "device_from_xcresult": {
@@ -18,14 +25,14 @@
   "result": {
     "cfg": 3,
     "sway": -1,
-    "graph_load_ms": 914.9930477142334,
+    "graph_load_ms": 990.6389713287354,
     "fallback_to_cpu": false,
     "stress_cases": [
       {
         "audio_seconds": 2.432,
         "case_id": "st01",
         "nan_or_inf": false,
-        "generation_ms": 911.4989042282104,
+        "generation_ms": 918.1650876998901,
         "category": "so_dem",
         "n_chunks": 1
       },
@@ -33,7 +40,7 @@
         "audio_seconds": 4.224,
         "case_id": "st02",
         "nan_or_inf": false,
-        "generation_ms": 1570.3060626983643,
+        "generation_ms": 1525.5450010299683,
         "category": "ngay_thang",
         "n_chunks": 1
       },
@@ -41,7 +48,7 @@
         "audio_seconds": 4.672,
         "case_id": "st03",
         "nan_or_inf": false,
-        "generation_ms": 1698.2710361480713,
+        "generation_ms": 1691.7120218276978,
         "category": "tien_te",
         "n_chunks": 1
       },
@@ -49,7 +56,7 @@
         "audio_seconds": 3.328,
         "case_id": "st04",
         "nan_or_inf": false,
-        "generation_ms": 1406.6630601882935,
+        "generation_ms": 1246.2069988250732,
         "category": "phan_tram",
         "n_chunks": 1
       },
@@ -57,7 +64,7 @@
         "audio_seconds": 3.968,
         "case_id": "st05",
         "nan_or_inf": false,
-        "generation_ms": 1659.3940258026123,
+        "generation_ms": 1465.6898975372314,
         "category": "ten_rieng_dia_danh",
         "n_chunks": 1
       },
@@ -65,7 +72,7 @@
         "audio_seconds": 4.352,
         "case_id": "st06",
         "nan_or_inf": false,
-        "generation_ms": 1652.4980068206787,
+        "generation_ms": 1620.0250387191772,
         "category": "han_viet",
         "n_chunks": 1
       },
@@ -73,7 +80,7 @@
         "audio_seconds": 3.712,
         "case_id": "st07",
         "nan_or_inf": false,
-        "generation_ms": 1389.4180059432983,
+        "generation_ms": 1402.4900197982788,
         "category": "code_switching",
         "n_chunks": 1
       },
@@ -81,7 +88,7 @@
         "audio_seconds": 3.392,
         "case_id": "st08",
         "nan_or_inf": false,
-        "generation_ms": 1315.7579898834229,
+        "generation_ms": 1296.12398147583,
         "category": "code_switching",
         "n_chunks": 1
       },
@@ -89,7 +96,7 @@
         "audio_seconds": 4.032,
         "case_id": "st09",
         "nan_or_inf": false,
-        "generation_ms": 1548.7480163574219,
+        "generation_ms": 1541.975975036621,
         "category": "vien_tat",
         "n_chunks": 1
       },
@@ -97,7 +104,7 @@
         "audio_seconds": 4.096,
         "case_id": "st10",
         "nan_or_inf": false,
-        "generation_ms": 1568.0290460586548,
+        "generation_ms": 1556.8649768829346,
         "category": "so_thap_phan_gio",
         "n_chunks": 1
       },
@@ -105,7 +112,7 @@
         "audio_seconds": 3.136,
         "case_id": "st11",
         "nan_or_inf": false,
-        "generation_ms": 1230.8319807052612,
+        "generation_ms": 1231.9239377975464,
         "category": "trich_dan_long",
         "n_chunks": 1
       },
@@ -113,7 +120,7 @@
         "audio_seconds": 2.688,
         "case_id": "st12",
         "nan_or_inf": false,
-        "generation_ms": 1081.5240144729614,
+        "generation_ms": 1075.0019550323486,
         "category": "dau_cau_lap",
         "n_chunks": 1
       },
@@ -121,7 +128,7 @@
         "audio_seconds": 3.328,
         "case_id": "st13",
         "nan_or_inf": false,
-        "generation_ms": 1253.7360191345215,
+        "generation_ms": 1252.5460720062256,
         "category": "robustness_rong",
         "n_chunks": 1
       },
@@ -129,7 +136,7 @@
         "audio_seconds": 3.328,
         "case_id": "st14",
         "nan_or_inf": false,
-        "generation_ms": 1262.2560262680054,
+        "generation_ms": 1296.5340614318848,
         "category": "robustness_whitespace",
         "n_chunks": 1
       },
@@ -137,7 +144,7 @@
         "audio_seconds": 0.704,
         "case_id": "st15",
         "nan_or_inf": false,
-        "generation_ms": 374.18293952941895,
+        "generation_ms": 382.3810815811157,
         "category": "robustness_cau_cuc_ngan",
         "n_chunks": 1
       },
@@ -145,7 +152,7 @@
         "audio_seconds": 2.304,
         "case_id": "st16",
         "nan_or_inf": false,
-        "generation_ms": 950.5000114440918,
+        "generation_ms": 975.0230312347412,
         "category": "robustness_emoji",
         "n_chunks": 1
       },
@@ -153,7 +160,7 @@
         "audio_seconds": 20.912,
         "case_id": "st17",
         "nan_or_inf": false,
-        "generation_ms": 8223.11806678772,
+        "generation_ms": 7993.8260316848755,
         "category": "robustness_cau_dai_vuot_chunk",
         "n_chunks": 4
       },
@@ -161,7 +168,7 @@
         "audio_seconds": 3.2,
         "case_id": "st18",
         "nan_or_inf": false,
-        "generation_ms": 1298.3338832855225,
+        "generation_ms": 1288.3989810943604,
         "category": "oov_tu_hiem",
         "n_chunks": 1
       },
@@ -169,7 +176,7 @@
         "audio_seconds": 3.968,
         "case_id": "st19",
         "nan_or_inf": false,
-        "generation_ms": 1567.1160221099854,
+        "generation_ms": 1566.2779808044434,
         "category": "ten_rieng_nuoc_ngoai",
         "n_chunks": 1
       },
@@ -177,7 +184,7 @@
         "audio_seconds": 6.208,
         "case_id": "st20",
         "nan_or_inf": false,
-        "generation_ms": 2444.0850019454956,
+        "generation_ms": 2384.0129375457764,
         "category": "url_email",
         "n_chunks": 1
       }
@@ -186,9 +193,9 @@
     "smoke_cases": [
       {
         "generation_ms_per_run": [
-          457.75091648101807,
-          436.0530376434326,
-          422.4640130996704
+          526.2949466705322,
+          947.2500085830688,
+          753.896951675415
         ],
         "case_id": "s01",
         "audio_seconds": 1.216,
@@ -198,9 +205,9 @@
       },
       {
         "generation_ms_per_run": [
-          530.4170846939087,
-          536.5389585494995,
-          532.9079627990723
+          635.1649761199951,
+          575.1889944076538,
+          551.5279769897461
         ],
         "case_id": "s02",
         "audio_seconds": 1.6,
@@ -210,9 +217,9 @@
       },
       {
         "generation_ms_per_run": [
-          538.6819839477539,
-          538.9509201049805,
-          548.7880706787109
+          545.976996421814,
+          543.7510013580322,
+          548.0250120162964
         ],
         "case_id": "s03",
         "audio_seconds": 1.6,
@@ -222,9 +229,9 @@
       },
       {
         "generation_ms_per_run": [
-          526.0610580444336,
-          515.8629417419434,
-          509.56404209136963
+          560.3920221328735,
+          524.8110294342041,
+          546.8050241470337
         ],
         "case_id": "s04",
         "audio_seconds": 1.536,
@@ -234,9 +241,9 @@
       },
       {
         "generation_ms_per_run": [
-          859.7220182418823,
-          882.8740119934082,
-          876.3359785079956
+          894.3239450454712,
+          1089.1950130462646,
+          1026.0229110717773
         ],
         "case_id": "s05",
         "audio_seconds": 2.752,
@@ -246,9 +253,9 @@
       },
       {
         "generation_ms_per_run": [
-          2027.4380445480347,
-          2005.640983581543,
-          2005.4669380187988
+          2066.525936126709,
+          2070.331931114197,
+          2065.713047981262
         ],
         "case_id": "s06",
         "audio_seconds": 6.976,
@@ -258,9 +265,9 @@
       },
       {
         "generation_ms_per_run": [
-          3297.3519563674927,
-          3312.785029411316,
-          3323.2749700546265
+          3385.4469060897827,
+          3415.286064147949,
+          3322.3769664764404
         ],
         "case_id": "s07",
         "audio_seconds": 11.716,
@@ -270,9 +277,9 @@
       },
       {
         "generation_ms_per_run": [
-          1493.25692653656,
-          1493.3459758758545,
-          1489.7230863571167
+          1711.4999294281006,
+          1512.374997138977,
+          1563.1428956985474
         ],
         "case_id": "s08",
         "audio_seconds": 5.056,
@@ -282,9 +289,9 @@
       },
       {
         "generation_ms_per_run": [
-          397.2949981689453,
-          399.73294734954834,
-          400.2680778503418
+          401.5769958496094,
+          403.55193614959717,
+          403.3770561218262
         ],
         "case_id": "s09",
         "audio_seconds": 1.088,
@@ -294,9 +301,9 @@
       },
       {
         "generation_ms_per_run": [
-          551.3509511947632,
-          553.961992263794,
-          545.9890365600586
+          553.3100366592407,
+          551.9999265670776,
+          551.2089729309082
         ],
         "case_id": "s10",
         "audio_seconds": 1.664,
@@ -306,9 +313,9 @@
       },
       {
         "generation_ms_per_run": [
-          719.9939489364624,
-          719.9690341949463,
-          727.571964263916
+          723.7240076065063,
+          730.4329872131348,
+          731.7920923233032
         ],
         "case_id": "ref01",
         "audio_seconds": 2.24,
@@ -318,9 +325,9 @@
       },
       {
         "generation_ms_per_run": [
-          799.4430065155029,
-          812.3829364776611,
-          815.7809972763062
+          804.7530651092529,
+          809.1930150985718,
+          804.3249845504761
         ],
         "case_id": "ref02",
         "audio_seconds": 2.496,
@@ -330,9 +337,9 @@
       },
       {
         "generation_ms_per_run": [
-          591.4579629898071,
-          586.1259698867798,
-          623.013973236084
+          557.2299957275391,
+          559.3171119689941,
+          561.521053314209
         ],
         "case_id": "ref03",
         "audio_seconds": 1.664,
@@ -342,9 +349,9 @@
       },
       {
         "generation_ms_per_run": [
-          1523.9490270614624,
-          1237.3740673065186,
-          1248.4450340270996
+          1240.2770519256592,
+          1259.9029541015625,
+          1245.526909828186
         ],
         "case_id": "ref04",
         "audio_seconds": 4.096,
@@ -354,9 +361,9 @@
       },
       {
         "generation_ms_per_run": [
-          816.1909580230713,
-          810.6609582901001,
-          814.1950368881226
+          817.3619508743286,
+          811.3940954208374,
+          819.0230131149292
         ],
         "case_id": "voice01",
         "audio_seconds": 2.496,
@@ -366,9 +373,9 @@
       },
       {
         "generation_ms_per_run": [
-          899.4400501251221,
-          903.3489227294922,
-          898.6469507217407
+          903.5079479217529,
+          907.1680307388306,
+          908.82408618927
         ],
         "case_id": "voice02",
         "audio_seconds": 2.816,
@@ -378,9 +385,9 @@
       },
       {
         "generation_ms_per_run": [
-          932.8809976577759,
-          937.9839897155762,
-          961.3009691238403
+          963.2830619812012,
+          973.2929468154907,
+          985.4499101638794
         ],
         "case_id": "voice03",
         "audio_seconds": 2.944,
@@ -390,9 +397,9 @@
       },
       {
         "generation_ms_per_run": [
-          1294.7089672088623,
-          1266.8789625167847,
-          1293.159008026123
+          1287.3660326004028,
+          1291.7670011520386,
+          1314.0209913253784
         ],
         "case_id": "voice04",
         "audio_seconds": 3.904,
@@ -402,9 +409,9 @@
       },
       {
         "generation_ms_per_run": [
-          1586.5819454193115,
-          1127.0360946655273,
-          1129.2610168457031
+          1120.3150749206543,
+          1123.4290599822998,
+          1130.4600238800049
         ],
         "case_id": "voice05",
         "audio_seconds": 3.2,
@@ -414,9 +421,9 @@
       },
       {
         "generation_ms_per_run": [
-          1843.3899879455566,
-          1907.9580307006836,
-          1879.7680139541626
+          1838.7060165405273,
+          1871.8079328536987,
+          1894.3289518356323
         ],
         "case_id": "voice06",
         "audio_seconds": 5.376,
@@ -431,6 +438,10 @@
     "device": "physical device (see xcresult/devicectl for model) — real hardware, not Simulator",
     "voice": "Minh Quân",
     "steps": 8
+  },
+  "baseline_fp32_steps8": {
+    "rtf_median": 0.2936,
+    "source": "00-tong-quan.md §0.3 iPhone 11"
   },
   "what_this_proves": "FP16 4 graph chạy được trên iPhone thật (SiPhone / iPhone 11, UDID 00008030-001C046A34E8802E, iOS 26.6.2) qua provider CPU — 0 NaN/Inf, 0 hard fail trên toàn corpus smoke+stress; 2 lần test (15:13 và 15:40) đều PASSED.",
   "what_this_does_NOT_prove": "KHÔNG phải so sánh RTF/RAM trước-sau FP16 trên iOS (chưa poll meminfo). iPad 10 (UDID 00008101-001859093610801E) OFFLINE trong xctrace list devices — matrix thiết bị thứ 2 NOT RUN."
