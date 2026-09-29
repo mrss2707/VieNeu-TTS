@@ -191,8 +191,8 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
 
     NSString *voiceName = [[gm[@"voice"] stringByReplacingOccurrencesOfString:@" " withString:@"_"]
         stringByReplacingOccurrencesOfString:@"Đ" withString:@"D"];
-    // demo export uses voices/Mai_Anh (young female preset)
-    voiceName = @"Mai_Anh";
+    // demo export uses voices/Anh_Khoi (young male preset)
+    voiceName = @"Anh_Khoi";
     _spk = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/spk.bin", voiceName], error);
     _style = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/style.bin", voiceName], error);
     _nullSpk = LoadFloats(bundle, @"nano_test_input/demo/null_spk.bin", error);

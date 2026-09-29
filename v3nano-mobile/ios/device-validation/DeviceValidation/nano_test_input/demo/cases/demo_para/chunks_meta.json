@@ -1,7 +1,8 @@
 {
-  "n_chunks": 3,
+  "n_chunks": 4,
   "gaps": [
     "sentence",
-    "sentence"
+    "sentence",
+    "minor"
   ]
 }

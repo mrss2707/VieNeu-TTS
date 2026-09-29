@@ -12,17 +12,18 @@ final class ViewController: UIViewController {
     private var engine: NanoTtsEngine?
     private var player: AVAudioPlayer?
 
+    /// Đoạn văn cảm hứng từ *Đấu phá thương khung* (paraphrase, không chép nguyên bản dịch).
     private let demoParagraph = """
-    Ở đỉnh Côn Lôn, mây trắng cuồn cuộn như biển cả. \
-    Lục Vô Trần khoanh chân ngồi trên phiến đá cổ, linh khí quanh thân ngưng tụ thành từng sợi tơ vàng. \
-    Ba trăm năm tu luyện, hôm nay hắn sẽ độ kiếp. \
-    Trời đất đột nhiên tối sầm, lôi vân từ bốn phương kéo đến, sấm sét rạch ngang màn đêm.
+    Năm mười lăm tuổi, Tiêu Viêm từng là thiên tài trẻ nhất của gia tộc Tiêu. \
+    Thế nhưng, chỉ sau một đêm, đấu khí trong cơ thể hắn đột nhiên biến mất không dấu vết. \
+    Bốn năm sau, thiếu niên năm nào đứng giữa quảng trường, mặc cho ánh mắt chế giễu của tộc nhân, \
+    hắn siết chặt nắm đấm — nhất định phải lấy lại tất cả những gì đã mất.
     """
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = "VieNeu Nano TTS"
+        title = "Supermeo Mobile TTS"
         buildUI()
         loadEngine()
     }
@@ -78,7 +79,7 @@ final class ViewController: UIViewController {
                 if let engine {
                     self.engine = engine
                     self.speakButton.isEnabled = true
-                    self.statusLabel.text = "Sẵn sàng — giọng Mai Anh · treble 6kHz mix 0.5"
+                    self.statusLabel.text = "Sẵn sàng — giọng Anh Khôi · treble 6kHz mix 0.5"
                 } else {
                     self.speakButton.isEnabled = false
                     self.statusLabel.text = "Lỗi nạp model: \(message)"
