@@ -1,5 +1,7 @@
 # Plan 002 — Validation Plan cho v3 Nano Mobile
 
+> **⚠️ ARCHIVED (2026-09-29):** Tài liệu này **không còn được dùng làm protocol thực thi**. Phase validation 1 đã đóng; mọi dữ liệu, kết luận, nguyên tắc kiểm thử còn hiệu lực và backlog nhúng vào MVP đã gom tại [`001-v3-nano-mobile.md`](./001-v3-nano-mobile.md) §0–§0.13. File này giữ nguyên làm archive lịch sử — không cập nhật thêm.
+
 - **Trạng thái:** Draft kế hoạch kiểm thử giả thiết
 - **Phụ thuộc:** `001-v3-nano-mobile.md`
 - **Phạm vi:** v3 Nano Mobile mới, preset voice trước; Android ARM64 và iOS/iPadOS
