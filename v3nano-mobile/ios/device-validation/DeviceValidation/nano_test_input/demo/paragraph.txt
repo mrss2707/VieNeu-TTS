@@ -1,0 +1,1 @@
+Hôm nay trời đẹp. Chúng ta cùng nghe máy đọc một đoạn văn tiếng Việt bằng mô hình VieNeu Nano chạy ngay trên iPhone. Hy vọng giọng đọc đủ tự nhiên để bạn cảm nhận được chất lượng.
