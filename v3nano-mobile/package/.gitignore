@@ -1,0 +1,4 @@
+# Quy tắc ignore dùng chung cho cây v3nano-mobile nằm ở ../.gitignore
+# (package/fp16/, package/pkg/, *.onnx, *.npz …).
+# Weights KHÔNG commit (tải từ HF / sinh bởi host/convert_fp16.py +
+# host/build_mobile_package.py). Report: ../eval/reports/.

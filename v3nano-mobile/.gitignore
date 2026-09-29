@@ -1,0 +1,56 @@
+# v3nano-mobile — mọi rule ignore của cây này nằm Ở ĐÂY (hoặc .gitignore con
+# trong cùng cây). Không đặt rule mobile ở root repo.
+#
+# Nguyên tắc: KHÔNG commit weights / ORT binary / build output / dữ liệu export
+# sinh lại được. Source-of-truth cho corpus & quyết định:
+#   eval/corpus/  eval/golden/  eval/reports/  docs/_supermeo/_summary/001
+
+# ── Caches / build output ──────────────────────────────────────────
+__pycache__/
+*.py[oc]
+.gradle/
+build/
+*.apk
+*.aab
+*.ipa
+*.xcresult/
+DerivedData/
+# xcodegen sinh từ project.yml — không commit project sinh
+*.xcodeproj/
+
+# ── Machine-local / IDE ────────────────────────────────────────────
+local.properties
+*.log
+*.iml
+.idea/
+
+# ── Vendored ONNX Runtime (tải từ download.onnxruntime.ai) ─────────
+**/Frameworks/onnxruntime.xcframework/
+
+# ── Model weights / tensor binary (tải từ HF hoặc sinh bởi host/) ──
+*.onnx
+*.onnx.data
+*.npz
+*.wav
+*.tar.gz
+
+# ── Harness runtime assets — regenerate bằng host/export_corpus_tensors.py
+#    + copy graph từ HF (xem README trong */device-validation/) ────
+**/nano_graphs/
+**/nano_test_input/
+
+# ── Local run evidence (logcat, xcresult, junit xml) ───────────────
+#    report machine-readable sống ở eval/reports/
+**/evidence/
+
+# ── Package build output (host/convert_fp16.py + build_mobile_package.py) ──
+package/fp16/
+package/pkg/
+
+# ── Listening-test audio payload (base64 WAV ~50MB) ────────────────
+#    giữ html + manifest; kết luận ở docs/_supermeo/_summary/001 §0.10
+eval/listening-tests/*_data.json
+eval/listening-tests/*audio*.json
+
+# ── Host export temp ───────────────────────────────────────────────
+host/_exported_corpus_tensors/

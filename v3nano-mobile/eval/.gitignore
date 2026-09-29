@@ -1,0 +1,2 @@
+# Quy tắc ignore dùng chung cho cây v3nano-mobile nằm ở ../.gitignore.
+# (listening-tests/*_data.json — base64 WAV không commit; *.onnx, *.wav …)
