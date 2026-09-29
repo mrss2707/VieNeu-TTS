@@ -85,6 +85,79 @@ def export_chunk_split(out_dir: Path) -> None:
         json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def export_chunk_split_structural(out_dir: Path) -> None:
+    """Structural golden cho Kotlin TextSegmenter (Sprint 2b) — identity normalize.
+
+    Cùng component Python (split_into_sentences / pack / punc_norm local /
+    classify / merge) nhưng KHÔNG qua sea-g2p Normalizer (Rust — không port
+    bit-exact). Full-pipeline lock vẫn nằm ở chunk_split.json + Python tests.
+    """
+    from vieneu_utils.core_utils import (
+        _classify_gap, pack_sentences_into_chunks, split_into_sentences,
+    )
+    from vieneu_utils.phonemize_text import _merge_short_chunks, normalize_to_chunks_v3_with_gaps
+
+    def punc_norm_local(chunk: str) -> str:
+        c = chunk.strip()
+        if not c:
+            return c
+        if len(c.split()) < 5:
+            return c.rstrip(".,!?;:…") + "."
+        return c if c[-1] in ",.!?" else c + "."
+
+    def structural_only(text: str, max_chars: int = MAX_CHARS, min_chunk_chars: int = 20):
+        if not text:
+            return [], []
+        chunks: list[str] = []
+        gaps: list[str] = []
+        paragraphs = [p for p in text.replace("\r\n", "\n").replace("\r", "\n").split("\n") if p.strip()]
+        for para in paragraphs:
+            sentences = split_into_sentences(para)
+            if not sentences:
+                continue
+            para_chunks = pack_sentences_into_chunks(sentences, max_chars=max_chars)
+            if not para_chunks:
+                continue
+            if chunks:
+                gaps.append("para")
+            for j, ch in enumerate(para_chunks):
+                if j > 0:
+                    gaps.append("sentence")
+                chunks.append(ch)
+        chunks = [punc_norm_local(c) for c in chunks]
+        gaps = [g if g == "para" else _classify_gap(chunks[i]) for i, g in enumerate(gaps)]
+        return _merge_short_chunks(chunks, gaps, min_chunk_chars)
+
+    cases = []
+    for corpus in ("smoke", "stress"):
+        path = ROOT / "v3nano-mobile" / "eval" / "corpus" / f"{corpus}.jsonl"
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            entry = json.loads(line)
+            chunks, gaps = structural_only(entry["text"])
+            full_c, full_g = normalize_to_chunks_v3_with_gaps(entry["text"], max_chars=MAX_CHARS)
+            cases.append({
+                "case_id": f"{corpus}_{entry['id']}",
+                "text": entry["text"],
+                "sentences": split_into_sentences(entry["text"]),
+                "structural_chunks": chunks,
+                "structural_gaps": gaps,
+                "full_chunks": full_c,
+                "full_gaps": full_g,
+            })
+    result = {
+        "schema_version": "1",
+        "function": "structural (split_into_sentences + pack + punc_norm_local + classify + merge)",
+        "max_chars": MAX_CHARS,
+        "min_chunk_chars": 20,
+        "cases": cases,
+    }
+    (out_dir / "chunk_split_structural.json").write_text(
+        json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def export_join_gaps(out_dir: Path) -> None:
     from vieneu_utils.core_utils import (
         V3_GAP_SILENCE, gaps_to_silence, edge_silence, pause_pad_samples, join_audio_chunks,
@@ -254,6 +327,8 @@ def main():
 
     export_chunk_split(out_dir)
     print("✅ chunk_split.json")
+    export_chunk_split_structural(out_dir)
+    print("✅ chunk_split_structural.json")
     export_join_gaps(out_dir)
     print("✅ join_gaps.json")
     export_sway(out_dir)

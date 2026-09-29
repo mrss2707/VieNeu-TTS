@@ -1,0 +1,621 @@
+{
+  "schema_version": "1",
+  "function": "structural (split_into_sentences + pack + punc_norm_local + classify + merge)",
+  "max_chars": 140,
+  "min_chunk_chars": 20,
+  "cases": [
+    {
+      "case_id": "smoke_s01",
+      "text": "Xin chào.",
+      "sentences": [
+        "Xin chào."
+      ],
+      "structural_chunks": [
+        "Xin chào."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "xin chào."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s02",
+      "text": "Trời hôm nay đẹp quá.",
+      "sentences": [
+        "Trời hôm nay đẹp quá."
+      ],
+      "structural_chunks": [
+        "Trời hôm nay đẹp quá."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "trời hôm nay đẹp quá."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s03",
+      "text": "Bạn đã ăn cơm chưa?",
+      "sentences": [
+        "Bạn đã ăn cơm chưa?"
+      ],
+      "structural_chunks": [
+        "Bạn đã ăn cơm chưa?"
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "bạn đã ăn cơm chưa?"
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s04",
+      "text": "Ôi, thật tuyệt vời!",
+      "sentences": [
+        "Ôi, thật tuyệt vời!"
+      ],
+      "structural_chunks": [
+        "Ôi, thật tuyệt vời."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "ôi, thật tuyệt vời."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s05",
+      "text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "sentences": [
+        "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."
+      ],
+      "structural_chunks": [
+        "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s06",
+      "text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "sentences": [
+        "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."
+      ],
+      "structural_chunks": [
+        "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s07",
+      "text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+      "sentences": [
+        "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ.",
+        "Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."
+      ],
+      "structural_chunks": [
+        "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ.",
+        "Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."
+      ],
+      "structural_gaps": [
+        "sentence"
+      ],
+      "full_chunks": [
+        "ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ.",
+        "mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."
+      ],
+      "full_gaps": [
+        "sentence"
+      ]
+    },
+    {
+      "case_id": "smoke_s08",
+      "text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+      "sentences": [
+        "\"Anh có chắc là đường này đúng không?\", cô hỏi.",
+        "\"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\""
+      ],
+      "structural_chunks": [
+        "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "anh có chắc là đường này đúng không? cô hỏi. chắc chắn rồi, anh đáp, mình đã đi qua đây nhiều lần."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s09",
+      "text": "Được rồi.",
+      "sentences": [
+        "Được rồi."
+      ],
+      "structural_chunks": [
+        "Được rồi."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "được rồi."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_s10",
+      "text": "Sao lại như vậy?",
+      "sentences": [
+        "Sao lại như vậy?"
+      ],
+      "structural_chunks": [
+        "Sao lại như vậy."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "sao lại như vậy."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_ref01",
+      "text": "ví dụ 2. tính trung bình của dãy số.",
+      "sentences": [
+        "ví dụ 2.",
+        "tính trung bình của dãy số."
+      ],
+      "structural_chunks": [
+        "ví dụ 2. tính trung bình của dãy số."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "ví dụ hai. tính trung bình của dãy số."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_ref02",
+      "text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "sentences": [
+        "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện."
+      ],
+      "structural_chunks": [
+        "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "trên thực tế, các nghi ngờ đã bắt đầu xuất hiện."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_ref03",
+      "text": "Cậu có nhìn thấy không?",
+      "sentences": [
+        "Cậu có nhìn thấy không?"
+      ],
+      "structural_chunks": [
+        "Cậu có nhìn thấy không?"
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "cậu có nhìn thấy không?"
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_ref04",
+      "text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "sentences": [
+        "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước."
+      ],
+      "structural_chunks": [
+        "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice01",
+      "text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "sentences": [
+        "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên."
+      ],
+      "structural_chunks": [
+        "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "anh chỉ muốn được nhìn nhận như là một huấn luyện viên."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice02",
+      "text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+      "sentences": [
+        "Chúng ta có thể áp dụng logic tương tự với người khác."
+      ],
+      "structural_chunks": [
+        "Chúng ta có thể áp dụng logic tương tự với người khác."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "chúng ta có thể áp dụng logic tương tự với người khác."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice03",
+      "text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+      "sentences": [
+        "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó."
+      ],
+      "structural_chunks": [
+        "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "trong phòng rất tù mù, nên có thể dễ dàng che dấu nó."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice04",
+      "text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "sentences": [
+        "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa."
+      ],
+      "structural_chunks": [
+        "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice05",
+      "text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "sentences": [
+        "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa."
+      ],
+      "structural_chunks": [
+        "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "đến cuối thế kỷ mười chín, ngành đánh bắt cá được thương mại hóa."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "smoke_voice06",
+      "text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "sentences": [
+        "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ."
+      ],
+      "structural_chunks": [
+        "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "nuôi con theo phong cách do thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st01",
+      "text": "Tôi có ba trăm hai mươi lăm nghìn đồng trong ví.",
+      "sentences": [
+        "Tôi có ba trăm hai mươi lăm nghìn đồng trong ví."
+      ],
+      "structural_chunks": [
+        "Tôi có ba trăm hai mươi lăm nghìn đồng trong ví."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "tôi có ba trăm hai mươi lăm nghìn đồng trong ví."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st02",
+      "text": "Cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu.",
+      "sentences": [
+        "Cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu."
+      ],
+      "structural_chunks": [
+        "Cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st03",
+      "text": "Sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước.",
+      "sentences": [
+        "Sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước."
+      ],
+      "structural_chunks": [
+        "Sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st04",
+      "text": "Tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua.",
+      "sentences": [
+        "Tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua."
+      ],
+      "structural_chunks": [
+        "Tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st05",
+      "text": "Nguyễn Thị Minh Khai sinh ra tại Vinh, Nghệ An, sau đó chuyển đến Sài Gòn.",
+      "sentences": [
+        "Nguyễn Thị Minh Khai sinh ra tại Vinh, Nghệ An, sau đó chuyển đến Sài Gòn."
+      ],
+      "structural_chunks": [
+        "Nguyễn Thị Minh Khai sinh ra tại Vinh, Nghệ An, sau đó chuyển đến Sài Gòn."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "nguyễn thị minh khai sinh ra tại vinh, nghệ an, sau đó chuyển đến sài gòn."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st06",
+      "text": "Sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia.",
+      "sentences": [
+        "Sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia."
+      ],
+      "structural_chunks": [
+        "Sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st07",
+      "text": "Chúng tôi vừa deploy xong bản update mới lên production server.",
+      "sentences": [
+        "Chúng tôi vừa deploy xong bản update mới lên production server."
+      ],
+      "structural_chunks": [
+        "Chúng tôi vừa deploy xong bản update mới lên production server."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "chúng tôi vừa deploy xong bản update mới lên production server."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st08",
+      "text": "Anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng.",
+      "sentences": [
+        "Anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng."
+      ],
+      "structural_chunks": [
+        "Anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st09",
+      "text": "Ông làm việc tại UBND TP.HCM từ năm hai nghìn lẻ chín.",
+      "sentences": [
+        "Ông làm việc tại UBND TP.HCM từ năm hai nghìn lẻ chín."
+      ],
+      "structural_chunks": [
+        "Ông làm việc tại UBND TP.HCM từ năm hai nghìn lẻ chín."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "ông làm việc tại uỷ ban nhân dân thành phố hồ chí minh từ năm hai nghìn lẻ chín."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st10",
+      "text": "Cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng.",
+      "sentences": [
+        "Cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng."
+      ],
+      "structural_chunks": [
+        "Cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st11",
+      "text": "Cô hỏi: \"Anh có chắc là, kiểu như \\\"đến giờ chưa?\\\", đúng không?\"",
+      "sentences": [
+        "Cô hỏi: \"Anh có chắc là, kiểu như \\\"đến giờ chưa?\\\", đúng không?\""
+      ],
+      "structural_chunks": [
+        "Cô hỏi: \"Anh có chắc là, kiểu như \\\"đến giờ chưa?\\\", đúng không?\"."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "cô hỏi, anh có chắc là, kiểu như đến giờ chưa? đúng không?"
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st12",
+      "text": "Thật à... Không thể nào?! Chuyện gì đã xảy ra vậy???",
+      "sentences": [
+        "Thật à...",
+        "Không thể nào?!",
+        "Chuyện gì đã xảy ra vậy???"
+      ],
+      "structural_chunks": [
+        "Thật à... Không thể nào?! Chuyện gì đã xảy ra vậy???"
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "thật à, không thể nào? chuyện gì đã xảy ra vậy?"
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st13",
+      "text": "",
+      "sentences": [],
+      "structural_chunks": [],
+      "structural_gaps": [],
+      "full_chunks": [],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st14",
+      "text": "   ",
+      "sentences": [],
+      "structural_chunks": [],
+      "structural_gaps": [],
+      "full_chunks": [],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st15",
+      "text": "À.",
+      "sentences": [
+        "À."
+      ],
+      "structural_chunks": [
+        "À."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "à."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st16",
+      "text": "Hôm nay vui quá 😄🎉, mình rất thích buổi tiệc này!",
+      "sentences": [
+        "Hôm nay vui quá 😄🎉, mình rất thích buổi tiệc này!"
+      ],
+      "structural_chunks": [
+        "Hôm nay vui quá 😄🎉, mình rất thích buổi tiệc này!"
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "hôm nay vui quá, mình rất thích buổi tiệc này!"
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st17",
+      "text": "Trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế, đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày, cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế, và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này.",
+      "sentences": [
+        "Trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế, đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày, cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế, và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này."
+      ],
+      "structural_chunks": [
+        "Trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế,",
+        "đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày,",
+        "cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế,",
+        "và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này."
+      ],
+      "structural_gaps": [
+        "minor",
+        "minor",
+        "minor"
+      ],
+      "full_chunks": [
+        "trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế,",
+        "đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày,",
+        "cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế,",
+        "và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này."
+      ],
+      "full_gaps": [
+        "minor",
+        "minor",
+        "minor"
+      ]
+    },
+    {
+      "case_id": "stress_st18",
+      "text": "Bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu.",
+      "sentences": [
+        "Bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu."
+      ],
+      "structural_chunks": [
+        "Bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st19",
+      "text": "Albert Einstein và Isaac Newton đều là những nhà khoa học vĩ đại.",
+      "sentences": [
+        "Albert Einstein và Isaac Newton đều là những nhà khoa học vĩ đại."
+      ],
+      "structural_chunks": [
+        "Albert Einstein và Isaac Newton đều là những nhà khoa học vĩ đại."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "albert einstein và isaac newton đều là những nhà khoa học vĩ đại."
+      ],
+      "full_gaps": []
+    },
+    {
+      "case_id": "stress_st20",
+      "text": "Vui lòng liên hệ qua email support@example.com hoặc truy cập trang web để biết thêm chi tiết.",
+      "sentences": [
+        "Vui lòng liên hệ qua email support@example.com hoặc truy cập trang web để biết thêm chi tiết."
+      ],
+      "structural_chunks": [
+        "Vui lòng liên hệ qua email support@example.com hoặc truy cập trang web để biết thêm chi tiết."
+      ],
+      "structural_gaps": [],
+      "full_chunks": [
+        "vui lòng liên hệ qua email support a còng example chấm com hoặc truy cập trang web để biết thêm chi tiết."
+      ],
+      "full_gaps": []
+    }
+  ]
+}
