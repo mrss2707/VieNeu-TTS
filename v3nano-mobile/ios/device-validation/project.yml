@@ -10,6 +10,10 @@ targets:
     platform: iOS
     sources:
       - path: DeviceValidation/AppDelegate.swift
+      - path: DeviceValidation/ViewController.swift
+      - path: DeviceValidation/NanoTtsEngine.h
+      - path: DeviceValidation/NanoTtsEngine.mm
+      - path: DeviceValidation/DeviceValidation-Bridging-Header.h
       - path: DeviceValidation/nano_graphs
         buildPhase: resources
         type: folder
@@ -20,6 +24,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vieneu.mobile.validation.app
         SWIFT_VERSION: 5.0
+        SWIFT_OBJC_BRIDGING_HEADER: DeviceValidation/DeviceValidation-Bridging-Header.h
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 2SZYXGBDT5
         ENABLE_BITCODE: false
