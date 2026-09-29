@@ -1,0 +1,40 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "iPhone 11 (iPhone12,1, A13 Bionic, 4GB RAM, iOS 26.6.2) — PHYSICAL DEVICE, not Simulator",
+  "runtime": "onnxruntime (Apple xcframework pod, C++ API used directly)",
+  "runtime_version": "1.24.2",
+  "harness": "mobile/ios/NanoMobileHarness (xcodebuild test, testProviderCPU, full smoke+stress corpus)",
+  "voice": "Minh Quân",
+  "steps": 8,
+  "cfg": 3,
+  "sway": -1,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py --steps 8 --sway -1)",
+  "hypothesis": [
+    "H4-real-device-steps8"
+  ],
+  "provider_requested": "CPU",
+  "provider_actual": "CPU",
+  "graph_load_ms": 814.1520023345947,
+  "rtf_summary": {
+    "median": 0.2936,
+    "p95": 0.3409,
+    "stddev": 0.028,
+    "min": 0.2566,
+    "max": 0.4143,
+    "n": 60
+  },
+  "any_hard_fail_overall": false,
+  "comparison_to_steps16": {
+    "steps16_sway0_rtf_median": 0.7035,
+    "steps8_swayminus1_rtf_median": 0.2936,
+    "speedup_factor": 2.396,
+    "target_0_5_met": true,
+    "note": "So sánh trực tiếp với benchmarks/mobile/reports/2026-09-28-ios-real-device-cpu.json (cùng thiết bị, cùng provider CPU, cùng corpus, chỉ đổi steps 16->8 và sway 0->-1)."
+  },
+  "what_this_proves": "H4 (protocol 002): giảm steps=16->8 kèm sway=-1 trên iPhone 11 THẬT giúp RTF median giảm từ 0.7035 xuống 0.2936 (~2.4x nhanh hơn), ĐẠT target ≤0.5 của mục 2.2. Không NaN/Inf trên toàn bộ 40 case (20 smoke x3 lần lặp + 20 stress x1 lần).",
+  "what_this_does_NOT_prove": "Đây CHỈ là RTF + hard-fail check — KHÔNG phải quality/pronunciation score. Giảm steps có thể làm giảm chất lượng phát âm (rõ nhất ở audio dài, prosody, tên riêng) mà phép đo RTF/NaN không phát hiện được. Protocol 002 §H4 cấm rõ 'không chọn steps thấp chỉ vì nhanh nếu long-form score fail' — quyết định dùng steps=8 làm mặc định cần WER/CER + listening test trên chính audio steps=8 này trước, chưa làm trong vòng này. Chỉ 1 thiết bị/platform — protocol yêu cầu ma trận đầy đủ steps ∈ {4,6,8,12,16} × nhiều thiết bị trước khi kết luận chính thức."
+}

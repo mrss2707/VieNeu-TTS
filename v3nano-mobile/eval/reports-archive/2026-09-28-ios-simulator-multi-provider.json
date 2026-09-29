@@ -1,0 +1,55 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "iOS Simulator (Apple Silicon host, simulator runtime) — NOT a physical device",
+  "runtime": "onnxruntime (Apple xcframework pod, C++ API used directly)",
+  "runtime_version": "1.24.2",
+  "harness": "mobile/ios/NanoMobileHarness (xcodebuild test, full smoke+stress corpus)",
+  "voice": "Minh Quân",
+  "steps": 16,
+  "cfg": 3,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py)",
+  "hypothesis": [
+    "H1-partial-simulator-full-corpus",
+    "H6-preliminary-simulator-only",
+    "H9-partial-hard-fail-full-corpus"
+  ],
+  "any_hard_fail_overall": false,
+  "per_provider": {
+    "CPU": {
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 552.5,
+      "rtf_summary": {
+        "median": 0.2031,
+        "p95": 0.2772,
+        "stddev": 0.0353,
+        "min": 0.1525,
+        "max": 0.3084,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "CoreML": {
+      "provider_actual": "CoreML",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 2418.5,
+      "rtf_summary": {
+        "median": 0.5597,
+        "p95": 0.8536,
+        "stddev": 0.1696,
+        "min": 0.3101,
+        "max": 1.0387,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    }
+  },
+  "what_this_proves": "Toàn bộ 20 câu smoke corpus x 3 lần lặp x 2 provider (CPU/CoreML) + 20 câu stress corpus x 1 lần x 2 provider chạy PASS trên iOS Simulator, không NaN/Inf. RTF median: CPU=0.2031, CoreML=0.5597 — CoreML EP khởi tạo thành công (không fallback CPU), dùng ORT C++ API trực tiếp (OrtSessionOptionsAppendExecutionProvider_CoreML) vì ObjC wrapper không hỗ trợ đủ kiểu tensor cần thiết (xem report vòng 2).",
+  "what_this_does_NOT_prove": "Đây là iOS Simulator (Apple Silicon host, simulator runtime), KHÔNG phải iPhone/iPad thật. Theo nguyên tắc §2.3 protocol 002 và §8 của 001: KHÔNG dùng RTF ở đây để quyết định provider mặc định (H6) — quyết định đó cần >=2 thiết bị thật. CoreML trên Simulator KHÔNG có Apple Neural Engine (ANE) thật — nó chạy qua CoreML's CPU/GPU-only compute path của máy host, nên RTF CoreML ở đây hoàn toàn không phản ánh hiệu năng CoreML+ANE trên iPhone/iPad thật (đây là khác biệt lớn nhất so với NNAPI trên Android emulator, vốn ít nhất còn có driver ARM CPU thật bên dưới). Không đo RAM/thermal/battery. Không phải quality/pronunciation score."
+}

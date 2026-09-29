@@ -1,0 +1,77 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "OnePlus PHP110 (Android 16, real device — not emulator/simulator)",
+  "runtime": "onnxruntime-android",
+  "runtime_version": "1.22.0",
+  "harness": "mobile/android/nano-mobile-harness — MainActivity (foreground app)",
+  "voice": "Minh Quân",
+  "steps": 8,
+  "cfg": 3,
+  "sway": -1,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py --steps 8 --sway -1)",
+  "hypothesis": [
+    "H4-real-device-steps8",
+    "H6-real-device-single-device"
+  ],
+  "any_hard_fail_overall": false,
+  "per_provider": {
+    "CPU": {
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 977,
+      "rtf_summary": {
+        "median": 0.3239,
+        "p95": 0.4182,
+        "stddev": 0.0447,
+        "min": 0.2625,
+        "max": 0.4515,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "XNNPACK": {
+      "provider_actual": "XNNPACK",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1297,
+      "rtf_summary": {
+        "median": 0.3528,
+        "p95": 0.4704,
+        "stddev": 0.0552,
+        "min": 0.2655,
+        "max": 0.5028,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "NNAPI": {
+      "provider_actual": "NNAPI",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 2954,
+      "rtf_summary": {
+        "median": 0.4222,
+        "p95": 0.6608,
+        "stddev": 0.1037,
+        "min": 0.2709,
+        "max": 0.7229,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    }
+  },
+  "comparison_to_steps16": {
+    "steps16_sway0_cpu_rtf_median": 0.6077,
+    "steps8_swayminus1_cpu_rtf_median": 0.3239,
+    "speedup_factor": 1.876,
+    "target_0_5_met_on_cpu": true,
+    "note": "So sánh trực tiếp với benchmarks/mobile/reports/2026-09-28-android-real-device-multi-provider.json provider CPU (cùng thiết bị, cùng corpus, chỉ đổi steps 16->8 và sway 0->-1)."
+  },
+  "what_this_proves": "H4 (protocol 002): giảm steps=16->8 kèm sway=-1 trên Android THẬT (OnePlus PHP110) giúp RTF median CPU giảm từ 0.6077 xuống 0.3239 (~1.88x nhanh hơn), ĐẠT target ≤0.5. XNNPACK và NNAPI cũng giảm RTF tương ứng. Không NaN/Inf trên toàn bộ 120 case (3 provider x 40 case).",
+  "what_this_does_NOT_prove": "Đây CHỈ là RTF + hard-fail check — KHÔNG phải quality/pronunciation score. Protocol 002 §H4 cấm rõ 'không chọn steps thấp chỉ vì nhanh nếu long-form score fail' — quyết định dùng steps=8 làm mặc định cần WER/CER + listening test trên chính audio steps=8 trước, chưa làm trong vòng này. Chỉ 1 thiết bị Android — protocol yêu cầu ma trận đầy đủ steps x nhiều thiết bị trước khi kết luận chính thức."
+}

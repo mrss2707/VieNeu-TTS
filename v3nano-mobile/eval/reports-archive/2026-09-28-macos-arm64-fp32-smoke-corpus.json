@@ -1,0 +1,425 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "macOS Darwin 25.6.0, Apple Silicon arm64 (host, not a mobile device)",
+  "runtime": "onnxruntime",
+  "provider": "CPUExecutionProvider",
+  "precision": "fp32",
+  "steps": 16,
+  "cfg": 3.0,
+  "voice": "Minh Quân",
+  "corpus": "benchmarks/mobile/corpus/smoke.jsonl",
+  "runs_per_case": 3,
+  "hypothesis": [
+    "H1-partial-macos-multi-run",
+    "H2-per-graph-rss",
+    "H7-partial"
+  ],
+  "cold_start_ms": 342.8,
+  "rss_before_engine_load_mb": 360.1,
+  "rss_after_engine_load_mb": 486.5,
+  "engine_load_rss_delta_mb": 126.4,
+  "per_graph_load_rss_profile": {
+    "note": "Profile riêng (session độc lập với engine._so ở trên, load tuần tự 4 graph core để đo delta RSS mỗi graph). rss_delta_mb là RAM tăng thêm SAU KHI load graph đó, so với ngay trước khi load. Đây là bằng chứng cụ thể cho quyết định graph nào cần profile/quantize trước — không phải suy đoán từ size trên đĩa.",
+    "rss_before_mb": 64.4,
+    "rss_after_all_4_graphs_mb": 353.6,
+    "total_delta_mb": 289.2,
+    "per_graph": {
+      "text_encoder.onnx": {
+        "load_ms": 71.7,
+        "rss_after_mb": 132.8,
+        "rss_delta_mb": 68.5
+      },
+      "duration_predictor.onnx": {
+        "load_ms": 2.2,
+        "rss_after_mb": 133.0,
+        "rss_delta_mb": 0.2
+      },
+      "vector_estimator.onnx": {
+        "load_ms": 243.8,
+        "rss_after_mb": 284.7,
+        "rss_delta_mb": 151.6
+      },
+      "codec_decoder.onnx": {
+        "load_ms": 113.2,
+        "rss_after_mb": 353.6,
+        "rss_delta_mb": 68.9
+      }
+    }
+  },
+  "rtf_summary": {
+    "median": 0.2364,
+    "p95": 0.4268,
+    "stddev": 0.088,
+    "min": 0.1503,
+    "max": 0.5443,
+    "n": 60
+  },
+  "per_case": [
+    {
+      "id": "s01",
+      "category": "cau_ngan",
+      "char_count": 9,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        401.15,
+        386.67,
+        378.46
+      ],
+      "rtf_per_run": [
+        0.4268,
+        0.4203,
+        0.4252
+      ],
+      "audio_seconds": 0.89,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s02",
+      "category": "cau_ngan",
+      "char_count": 21,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        419.21,
+        431.69,
+        428.56
+      ],
+      "rtf_per_run": [
+        0.274,
+        0.327,
+        0.3429
+      ],
+      "audio_seconds": 1.25,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s03",
+      "category": "cau_hoi",
+      "char_count": 19,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        427.49,
+        427.21,
+        421.47
+      ],
+      "rtf_per_run": [
+        0.3314,
+        0.3212,
+        0.3319
+      ],
+      "audio_seconds": 1.27,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s04",
+      "category": "cau_cam_than",
+      "char_count": 19,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        422.73,
+        396.06,
+        406.68
+      ],
+      "rtf_per_run": [
+        0.3155,
+        0.2912,
+        0.3058
+      ],
+      "audio_seconds": 1.33,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s05",
+      "category": "cau_phay",
+      "char_count": 52,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        630.23,
+        680.38,
+        599.72
+      ],
+      "rtf_per_run": [
+        0.2324,
+        0.2567,
+        0.2298
+      ],
+      "audio_seconds": 2.61,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s06",
+      "category": "cau_dai",
+      "char_count": 135,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        1167.52,
+        1150.83,
+        1168.38
+      ],
+      "rtf_per_run": [
+        0.1699,
+        0.167,
+        0.1687
+      ],
+      "audio_seconds": 6.926,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s07",
+      "category": "doan_ke_chuyen",
+      "char_count": 217,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        1736.93,
+        1702.69,
+        1783.42
+      ],
+      "rtf_per_run": [
+        0.1533,
+        0.1503,
+        0.1577
+      ],
+      "audio_seconds": 11.31,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s08",
+      "category": "doan_hoi_thoai",
+      "char_count": 105,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        970.32,
+        916.21,
+        942.08
+      ],
+      "rtf_per_run": [
+        0.196,
+        0.1855,
+        0.1884
+      ],
+      "audio_seconds": 5.0,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s09",
+      "category": "cau_ngan",
+      "char_count": 9,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        357.01,
+        353.83,
+        391.93
+      ],
+      "rtf_per_run": [
+        0.5329,
+        0.4782,
+        0.5443
+      ],
+      "audio_seconds": 0.72,
+      "nan_or_inf": false
+    },
+    {
+      "id": "s10",
+      "category": "cau_hoi",
+      "char_count": 16,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        426.94,
+        433.95,
+        425.43
+      ],
+      "rtf_per_run": [
+        0.2588,
+        0.2874,
+        0.2594
+      ],
+      "audio_seconds": 1.64,
+      "nan_or_inf": false
+    },
+    {
+      "id": "ref01",
+      "category": "audio_ref_reused",
+      "char_count": 36,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        528.34,
+        526.65,
+        530.3
+      ],
+      "rtf_per_run": [
+        0.2435,
+        0.2416,
+        0.2467
+      ],
+      "audio_seconds": 2.15,
+      "nan_or_inf": false
+    },
+    {
+      "id": "ref02",
+      "category": "audio_ref_reused",
+      "char_count": 48,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        573.96,
+        565.61,
+        607.1
+      ],
+      "rtf_per_run": [
+        0.2362,
+        0.2303,
+        0.2488
+      ],
+      "audio_seconds": 2.44,
+      "nan_or_inf": false
+    },
+    {
+      "id": "ref03",
+      "category": "audio_ref_reused",
+      "char_count": 23,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        467.29,
+        424.67,
+        436.72
+      ],
+      "rtf_per_run": [
+        0.3338,
+        0.3146,
+        0.3259
+      ],
+      "audio_seconds": 1.34,
+      "nan_or_inf": false
+    },
+    {
+      "id": "ref04",
+      "category": "audio_ref_reused",
+      "char_count": 80,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        781.03,
+        803.01,
+        781.94
+      ],
+      "rtf_per_run": [
+        0.1957,
+        0.1993,
+        0.196
+      ],
+      "audio_seconds": 3.99,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice01",
+      "category": "preset_voice_caption_reused",
+      "char_count": 55,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        569.86,
+        572.16,
+        577.37
+      ],
+      "rtf_per_run": [
+        0.2345,
+        0.2435,
+        0.2366
+      ],
+      "audio_seconds": 2.44,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice02",
+      "category": "preset_voice_caption_reused",
+      "char_count": 54,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        620.8,
+        734.29,
+        668.85
+      ],
+      "rtf_per_run": [
+        0.2306,
+        0.271,
+        0.2477
+      ],
+      "audio_seconds": 2.7,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice03",
+      "category": "preset_voice_caption_reused",
+      "char_count": 53,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        623.97,
+        645.74,
+        642.74
+      ],
+      "rtf_per_run": [
+        0.2164,
+        0.2247,
+        0.2255
+      ],
+      "audio_seconds": 2.85,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice04",
+      "category": "preset_voice_caption_reused",
+      "char_count": 64,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        757.86,
+        762.23,
+        753.17
+      ],
+      "rtf_per_run": [
+        0.1994,
+        0.199,
+        0.1972
+      ],
+      "audio_seconds": 3.82,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice05",
+      "category": "preset_voice_caption_reused",
+      "char_count": 58,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        656.09,
+        662.06,
+        664.94
+      ],
+      "rtf_per_run": [
+        0.2083,
+        0.2108,
+        0.2124
+      ],
+      "audio_seconds": 3.13,
+      "nan_or_inf": false
+    },
+    {
+      "id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "char_count": 94,
+      "runs_per_case": 3,
+      "generation_ms_per_run": [
+        941.95,
+        947.15,
+        951.36
+      ],
+      "rtf_per_run": [
+        0.1772,
+        0.1778,
+        0.1795
+      ],
+      "audio_seconds": 5.3,
+      "nan_or_inf": false
+    }
+  ],
+  "any_nan_or_inf": false,
+  "what_this_proves": "RTF median/p95/stddev trên 20 câu smoke x 3 lần lặp/câu (60 data point) trên macOS CPU FP32 — thay thế cho '1 câu 1 lần' của vòng validation trước, đúng yêu cầu 'không lấy lần chạy nhanh nhất' của protocol 002 §8. Per-graph RSS load cho thấy graph nào chiếm RAM nhiều nhất khi load (không chỉ size trên đĩa).",
+  "what_this_does_NOT_prove": "Vẫn là macOS CPU host, KHÔNG phải Android/iOS thiết bị thật — không dùng RTF/RSS ở đây để tuyên bố target §2.2 của 001 đạt trên mobile thật. Corpus smoke.jsonl là corpus MVP (20 câu, xem benchmarks/mobile/corpus/manifest.json), không phải quy mô regression 300-1000 câu protocol 002 đề xuất."
+}

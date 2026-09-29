@@ -1,0 +1,62 @@
+{
+  "report_date": "2026-09-28T03:54:03Z",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "sdk_revision": null,
+  "device": "Android Emulator (Pixel-class AVD, arm64-v8a system image, API 34/Android 14) — NOT a physical device",
+  "os": "Android 14 (emulator, sdk_gphone64_arm64)",
+  "runtime": "onnxruntime-android (Maven com.microsoft.onnxruntime:onnxruntime-android)",
+  "runtime_version": "1.22.0",
+  "harness": "mobile/android/nano-mobile-harness (Gradle/Kotlin instrumented test, connectedDebugAndroidTest)",
+  "opset": {"ai.onnx": 17},
+  "provider": "CPUExecutionProvider (ORT default; NNAPI not attempted this round)",
+  "precision": "fp32",
+  "steps": 16,
+  "cfg": 3.0,
+  "thread_count": 4,
+  "hypothesis": ["H1-partial-emulator"],
+
+  "test_result": {
+    "framework": "JUnit4 / AndroidJUnit4, connectedDebugAndroidTest",
+    "test": "com.vieneu.nanoharness.NanoEngineTest#graphsLoadAndInferenceRunsOnArm64Cpu",
+    "outcome": "PASS",
+    "failures": 0,
+    "errors": 0,
+    "duration_s": 3.111,
+    "evidence_files": [
+      "mobile/android/nano-mobile-harness/evidence/junit-result.xml",
+      "mobile/android/nano-mobile-harness/evidence/logcat.txt"
+    ]
+  },
+
+  "measurement": {
+    "graph_load_ms": 1501,
+    "generation_ms": 1482,
+    "predicted_frames": 100,
+    "audio_seconds": 6.4,
+    "waveform_len_samples": 153600,
+    "nan_or_inf": false,
+    "ctx_shape": "1,159,256",
+    "rtf_approx": 0.2316
+  },
+
+  "what_this_proves": "4 graph core (text_encoder, duration_predictor, vector_estimator, codec_decoder) load được và chạy đúng full flow-matching Euler loop (16 steps, CFG=3.0) + codec decode qua onnxruntime-android CPUExecutionProvider thật trên ARM64 (ảo hóa), waveform không NaN/Inf, độ dài hợp lý. Đây là bằng chứng thật đầu tiên rằng graph tương thích ORT-for-Android, không phải suy luận qua Python.",
+
+  "what_this_does_NOT_prove": "Đây là Android Emulator (ARM64 system image, chạy qua Hypervisor.framework trên Apple Silicon host), KHÔNG phải thiết bị Android thật. Theo nguyên tắc §2.3/§8 của 001 và 002: không được dùng generation_ms/rtf_approx ở đây để tuyên bố RTF/RAM/thermal/battery mục tiêu §2.2 của 001 đạt trên mobile thật. Không đo NNAPI, không đo RAM/RSS thiết bị, không đo nhiều lần (chỉ 1 run — chưa đủ cho median/p95 theo §8 của 002), không test lifecycle/background/cancel.",
+
+  "infra_notes": {
+    "android_sdk_install": "brew install --cask android-commandlinetools; sdkmanager platform-tools, build-tools;34.0.0, platforms;android-34, system-images;android-34;google_apis;arm64-v8a, emulator",
+    "avd": "nano_mobile_test, arm64-v8a, API 34, boot headless (-no-window -no-audio -no-boot-anim), accel via Hypervisor.Framework",
+    "gradle_version": "9.8.0 (brew)",
+    "java_home_used": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+    "issue_fixed_1": "OnnxTensor byte[] load của vector_estimator.onnx (155MB) gây OutOfMemoryError trên Dalvik heap (~192MB limit) khi dùng createSession(byte[]) — đổi sang copy asset ra cache file rồi dùng createSession(path) để ORT native đọc thẳng từ filesystem, không qua Java heap.",
+    "issue_fixed_2": "~/.android/debug.keystore cũ trên máy bị lỗi 'tampered with, or password was incorrect' — đã xác nhận với người dùng trước khi mv sang debug.keystore.bak-broken; Gradle tự sinh keystore mới."
+  },
+
+  "cold_start_ms": 1501,
+  "first_audio_ms": null,
+  "peak_rss_mb": null,
+  "thermal_state": "not_measured (emulator)",
+  "quality_gate": "not_evaluated"
+}

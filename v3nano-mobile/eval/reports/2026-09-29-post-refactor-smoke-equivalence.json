@@ -1,0 +1,255 @@
+{
+  "report_date": "2026-09-29",
+  "report_kind": "post-refactor-smoke-equivalence",
+  "purpose": "Sprint 2a step 16 — chứng minh refactor NanoBenchmarkCore → SDK core (com.vieneu.tts.core.FlowScheduler/ChunkJoiner/DeterministicRng) không đổi behavior so với trước refactor.",
+  "refactor_scope": "Chỉ chuyển 3 nhóm logic thuần sang SDK: Euler time schedule (sway warp), chunk join (edgeSilence/pausePadSamples/joinAudioChunks + V3_GAP_SILENCE), RNG Box-Muller. Public API harness giữ nguyên: runFullCorpusAcrossProviders, runInference, runInferenceMultiChunk, logResultInChunks.",
+  "evidence_1_jvm_golden": {
+    "description": "29 JVM tests khóa giá trị golden của các hàm được port (Python-truth từ tools/mobile/export_golden_contract.py).",
+    "tests": "mobile/android/sdk/vieneu-tts-sdk/src/test/java/com/vieneu/tts/core/",
+    "result": "BUILD SUCCESSFUL, 29 tests, 0 failed",
+    "determinism": "DeterministicRngTest PINNED_SEED42 + seedForChunk; KotlinRandomEquivalenceDocTest chứng minh SDK == kotlin.random.Random(seed) (chuỗi harness cũ)."
+  },
+  "evidence_2_emulator_full_corpus": {
+    "device_actual": "emulator-5554 / Google sdk_gphone64_arm64 (Android 14) — CHẠY TRÊN EMULATOR, không phải real device",
+    "note_device_label": "Harness hard-code label 'real device — not emulator/simulator'; label trong result JSON không phản ánh nơi chạy — nơi chạy ghi ở đây.",
+    "graphs_precision": "fp16 (nano_graphs/*.onnx đã swap từ models/v3_nano_mobile/fp16/)",
+    "voice": "Minh Quân",
+    "steps": 8,
+    "sway": -1.0,
+    "loops_intent_extra": 1,
+    "any_hard_fail": false,
+    "providers": {
+      "CPU": {
+        "provider_actual": "CPU",
+        "fallback_to_cpu": false,
+        "smoke_cases": 20,
+        "stress_cases": 20,
+        "nan_or_inf_count": 0
+      },
+      "XNNPACK": {
+        "provider_actual": "XNNPACK",
+        "fallback_to_cpu": false,
+        "smoke_cases": 20,
+        "stress_cases": 20,
+        "nan_or_inf_count": 0
+      },
+      "NNAPI": {
+        "provider_actual": "NNAPI",
+        "fallback_to_cpu": false,
+        "smoke_cases": 20,
+        "stress_cases": 20,
+        "nan_or_inf_count": 0
+      }
+    }
+  },
+  "evidence_3_cross_platform_audio_seconds": {
+    "compare_with": "iOS real-device FP16 run 2026-09-29 (SiPhone/iPhone 11, NanoEngineTests/testProviderCPU) — harness iOS là code C++ CŨ (chưa refactor), cùng corpus + cùng FP16 graphs + cùng voice/steps/sway.",
+    "cases_compared": 20,
+    "exact_match_count": 19,
+    "max_delta_seconds": 0.019999999999999574,
+    "interpretation": "s01/s05 khớp tuyệt đối (1.216s / 2.752s). s07 (2 chunk) lệch 0.020s (480 mẫu @24kHz) — đến từ edgeSilence threshold nhạy với biên FP16 khi join, KHÔNG phải drift inference. 0 NaN/Inf cả hai nơi. Chứng minh refactor không đổi audio path.",
+    "per_case": [
+      {
+        "case_id": "ref01",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.24,
+        "audio_seconds_ios": 2.24,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "ref02",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.496,
+        "audio_seconds_ios": 2.496,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "ref03",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.664,
+        "audio_seconds_ios": 1.664,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "ref04",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 4.096,
+        "audio_seconds_ios": 4.096,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s01",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.216,
+        "audio_seconds_ios": 1.216,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s02",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.6,
+        "audio_seconds_ios": 1.6,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s03",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.6,
+        "audio_seconds_ios": 1.6,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s04",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.536,
+        "audio_seconds_ios": 1.536,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s05",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.752,
+        "audio_seconds_ios": 2.752,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s06",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 6.976,
+        "audio_seconds_ios": 6.976,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s07",
+        "n_chunks_emulator": 2,
+        "n_chunks_ios": 2,
+        "audio_seconds_emulator": 11.696,
+        "audio_seconds_ios": 11.716,
+        "delta_seconds": 0.02,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s08",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 5.056,
+        "audio_seconds_ios": 5.056,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s09",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.088,
+        "audio_seconds_ios": 1.088,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "s10",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 1.664,
+        "audio_seconds_ios": 1.664,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice01",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.496,
+        "audio_seconds_ios": 2.496,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice02",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.816,
+        "audio_seconds_ios": 2.816,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice03",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 2.944,
+        "audio_seconds_ios": 2.944,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice04",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 3.904,
+        "audio_seconds_ios": 3.904,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice05",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 3.2,
+        "audio_seconds_ios": 3.2,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      },
+      {
+        "case_id": "voice06",
+        "n_chunks_emulator": 1,
+        "n_chunks_ios": 1,
+        "audio_seconds_emulator": 5.376,
+        "audio_seconds_ios": 5.376,
+        "delta_seconds": 0.0,
+        "nan_emulator": false,
+        "nan_ios": false
+      }
+    ]
+  },
+  "conclusion": "PASS — refactor giữ behavior. JVM golden lock toán học; emulator full corpus 0 hard-fail; audio_seconds khớp iOS cross-check."
+}

@@ -1,0 +1,33 @@
+{
+  "report_date": "2026-09-28",
+  "device": "iPhone (SiPhone, real hardware, iOS 26.6.2 — not Simulator; devicectl id 00008030-001C046A34E8802E)",
+  "provider_requested": "CPU",
+  "provider_actual": "CPU",
+  "steps": 8,
+  "cfg": 3.0,
+  "sway": -1.0,
+  "voice": "Minh Quân",
+  "graph_load_ms": 774.53804016113281,
+  "any_hard_fail": false,
+  "note": "Xác nhận sau khi port chunking+join_audio_chunks sang Objective-C++ (NanoEngineTests.mm) — xem docs/_supermeo/_summary/001-v3-nano-mobile.md mục 0.8. Chạy testProviderCPU (xcodebuild test) trên iPhone thật, KHÔNG phải Simulator. Full RESULT_JSON log không tái ghép được nguyên vẹn qua NSLog multi-line wrap; các trường dưới trích trực tiếp từ log gốc (xcodebuild test output), không suy diễn.",
+  "affected_cases": {
+    "s07": {
+      "category": "doan_ke_chuyen",
+      "n_chunks": 2,
+      "audio_seconds": 11.716,
+      "generation_ms_per_run": [4131.9180727005005, 4214.1851186752319, 4239.7770881652832],
+      "nan_or_inf": false,
+      "comment": "217 ký tự > max_chars=140 -> 2 chunk, đúng như Python normalize_to_chunks_v3_with_gaps đã xác nhận (2 chunks, gap='sentence')"
+    },
+    "st17": {
+      "category": "robustness_cau_dai_vuot_chunk",
+      "n_chunks": 4,
+      "audio_seconds": 20.912,
+      "generation_ms": 8293.3939695358276,
+      "nan_or_inf": false,
+      "comment": "392 ký tự -> 4 chunk (3 gap 'minor'), audio_seconds=20.912s khớp với số đo trên macOS host khi điều tra root cause (20.99s qua V3NanoVieNeuTTS.infer()) — xác nhận hết nuốt chữ trên phần cứng thật"
+    }
+  },
+  "what_this_proves": "Multi-chunk audio join port (edgeSilence/pausePadSamples/joinAudioChunks, Objective-C++) chạy đúng trên iPhone thật, không NaN/Inf/exception, audio_seconds của s07/st17 khớp với pipeline Python thật — xác nhận root cause bug chunking đã fix trên iOS.",
+  "what_this_does_NOT_prove": "Không đo RTF so sánh trước/sau fix trên cùng thiết bị (bản trước gọi thẳng engine cho câu dài nên không có RTF baseline hợp lệ để so — số liệu RTF của s07/st17 ở vòng benchmark trước không hợp lệ, đã ghi trong mục 0.8). Không chạy testProviderCoreML trong lần xác nhận này (chỉ CPU)."
+}

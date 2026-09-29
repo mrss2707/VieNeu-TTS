@@ -1,0 +1,843 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "asr_model": "Systran/faster-whisper-small (ctranslate2, int8, CPU)",
+  "jiwer_version": "unknown",
+  "device": "macOS Darwin 25.6.0, Apple Silicon arm64 (host, not a mobile device)",
+  "corpus": "benchmarks/mobile/corpus/smoke.jsonl (câu >=3 từ)",
+  "voices_tested": [
+    "Minh Quân",
+    "Ái Hân",
+    "Mỹ Duyên"
+  ],
+  "steps": 16,
+  "cfg": 3.0,
+  "sway": 0.0,
+  "hypothesis": [
+    "H9-partial-asr-proxy"
+  ],
+  "overall": {
+    "wer": {
+      "mean": 0.085,
+      "min": 0.0,
+      "max": 1.0,
+      "n": 54
+    },
+    "cer": {
+      "mean": 0.0777,
+      "min": 0.0,
+      "max": 0.7368,
+      "n": 54
+    }
+  },
+  "by_voice": {
+    "Minh Quân": {
+      "wer": {
+        "mean": 0.1058,
+        "min": 0.0,
+        "max": 0.6,
+        "n": 18
+      },
+      "cer": {
+        "mean": 0.0877,
+        "min": 0.0,
+        "max": 0.3684,
+        "n": 18
+      }
+    },
+    "Ái Hân": {
+      "wer": {
+        "mean": 0.118,
+        "min": 0.0,
+        "max": 1.0,
+        "n": 18
+      },
+      "cer": {
+        "mean": 0.0969,
+        "min": 0.0,
+        "max": 0.7368,
+        "n": 18
+      }
+    },
+    "Mỹ Duyên": {
+      "wer": {
+        "mean": 0.0312,
+        "min": 0.0,
+        "max": 0.2222,
+        "n": 18
+      },
+      "cer": {
+        "mean": 0.0483,
+        "min": 0.0,
+        "max": 0.25,
+        "n": 18
+      }
+    }
+  },
+  "by_category": {
+    "audio_ref_reused": {
+      "wer": {
+        "mean": 0.0551,
+        "min": 0.0,
+        "max": 0.2222,
+        "n": 12
+      },
+      "cer": {
+        "mean": 0.0649,
+        "min": 0.0,
+        "max": 0.25,
+        "n": 12
+      }
+    },
+    "cau_cam_than": {
+      "wer": {
+        "mean": 0.3333,
+        "min": 0.0,
+        "max": 1.0,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.2807,
+        "min": 0.0,
+        "max": 0.7368,
+        "n": 3
+      }
+    },
+    "cau_dai": {
+      "wer": {
+        "mean": 0.0889,
+        "min": 0.0667,
+        "max": 0.1333,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.0444,
+        "min": 0.037,
+        "max": 0.0593,
+        "n": 3
+      }
+    },
+    "cau_hoi": {
+      "wer": {
+        "mean": 0.1833,
+        "min": 0.0,
+        "max": 0.6,
+        "n": 6
+      },
+      "cer": {
+        "mean": 0.1135,
+        "min": 0.0,
+        "max": 0.3684,
+        "n": 6
+      }
+    },
+    "cau_ngan": {
+      "wer": {
+        "mean": 0.0667,
+        "min": 0.0,
+        "max": 0.2,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.127,
+        "min": 0.0952,
+        "max": 0.1905,
+        "n": 3
+      }
+    },
+    "cau_phay": {
+      "wer": {
+        "mean": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.0064,
+        "min": 0.0,
+        "max": 0.0192,
+        "n": 3
+      }
+    },
+    "doan_hoi_thoai": {
+      "wer": {
+        "mean": 0.0303,
+        "min": 0.0,
+        "max": 0.0909,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.127,
+        "min": 0.0952,
+        "max": 0.1619,
+        "n": 3
+      }
+    },
+    "doan_ke_chuyen": {
+      "wer": {
+        "mean": 0.0851,
+        "min": 0.0638,
+        "max": 0.1277,
+        "n": 3
+      },
+      "cer": {
+        "mean": 0.04,
+        "min": 0.0323,
+        "max": 0.0553,
+        "n": 3
+      }
+    },
+    "preset_voice_caption_reused": {
+      "wer": {
+        "mean": 0.0565,
+        "min": 0.0,
+        "max": 0.3125,
+        "n": 18
+      },
+      "cer": {
+        "mean": 0.0476,
+        "min": 0.0172,
+        "max": 0.1562,
+        "n": 18
+      }
+    }
+  },
+  "worst_10_cases_for_manual_audit": [
+    {
+      "voice": "Ái Hân",
+      "case_id": "s04",
+      "category": "cau_cam_than",
+      "original_text": "Ôi, thật tuyệt vời!",
+      "asr_transcript": "Ây, tìm phai.",
+      "wer": 1.0,
+      "cer": 0.7368
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s03",
+      "category": "cau_hoi",
+      "original_text": "Bạn đã ăn cơm chưa?",
+      "asr_transcript": "Mặt đang cơm chưa?",
+      "wer": 0.6,
+      "cer": 0.3684
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s10",
+      "category": "cau_hoi",
+      "original_text": "Sao lại như vậy?",
+      "asr_transcript": "Sao lại nhợi?",
+      "wer": 0.5,
+      "cer": 0.3125
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice04",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "asr_transcript": "bằng cầm khúc cây và ném vào báy có xanh tư rậm rập ở đằng xa.",
+      "wer": 0.3125,
+      "cer": 0.1562
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "ref01",
+      "category": "audio_ref_reused",
+      "original_text": "ví dụ 2. tính trung bình của dãy số.",
+      "asr_transcript": "Ví dụ 2, tính chung bình của giải số",
+      "wer": 0.2222,
+      "cer": 0.25
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "ref01",
+      "category": "audio_ref_reused",
+      "original_text": "ví dụ 2. tính trung bình của dãy số.",
+      "asr_transcript": "Ví dụ 2 tấn trung bình của giải số",
+      "wer": 0.2222,
+      "cer": 0.25
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s02",
+      "category": "cau_ngan",
+      "original_text": "Trời hôm nay đẹp quá.",
+      "asr_transcript": "Chơi hôm nay đẹp quá",
+      "wer": 0.2,
+      "cer": 0.1905
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "asr_transcript": "nuôi con theo phòng cách giò thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc trà mẹ.",
+      "wer": 0.1364,
+      "cer": 0.0957
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "asr_transcript": "Người con theo phong cách do thấy, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bực cha mẹ.",
+      "wer": 0.1364,
+      "cer": 0.0851
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s06",
+      "category": "cau_dai",
+      "original_text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "asr_transcript": "Cuối sáng ở làn trại yên tỉnh, những chiếc thuyền nhỏ lặng lẽ rời bến mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "wer": 0.1333,
+      "cer": 0.0593
+    }
+  ],
+  "per_case": [
+    {
+      "voice": "Minh Quân",
+      "case_id": "s02",
+      "category": "cau_ngan",
+      "original_text": "Trời hôm nay đẹp quá.",
+      "asr_transcript": "Chơi hôm nay đẹp quá",
+      "wer": 0.2,
+      "cer": 0.1905,
+      "audio_seconds": 1.29
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s03",
+      "category": "cau_hoi",
+      "original_text": "Bạn đã ăn cơm chưa?",
+      "asr_transcript": "Mặt đang cơm chưa?",
+      "wer": 0.6,
+      "cer": 0.3684,
+      "audio_seconds": 1.32
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s04",
+      "category": "cau_cam_than",
+      "original_text": "Ôi, thật tuyệt vời!",
+      "asr_transcript": "Ôi, thật tuyệt vời!",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.26
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s05",
+      "category": "cau_phay",
+      "original_text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "asr_transcript": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 2.71
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s06",
+      "category": "cau_dai",
+      "original_text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "asr_transcript": "Bùi sáng ở làng trải yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "wer": 0.0667,
+      "cer": 0.037,
+      "audio_seconds": 6.89
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s07",
+      "category": "doan_ke_chuyen",
+      "original_text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+      "asr_transcript": "Ngày xưa, ở một ngôi làng nhỏ ven sông có một cụ già sống một mình trong căn nhà tranh cũ kỹ.  Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắn hoảng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong sóng nghe.",
+      "wer": 0.0638,
+      "cer": 0.0323,
+      "audio_seconds": 11.65
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s08",
+      "category": "doan_hoi_thoai",
+      "original_text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+      "asr_transcript": "Anh có chắc là đường này đúng không?  Cô hỏi, chắc chắn rồi anh đáp. Mình đã đi qua đây nhiều lần.",
+      "wer": 0.0,
+      "cer": 0.1238,
+      "audio_seconds": 5.02
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "s10",
+      "category": "cau_hoi",
+      "original_text": "Sao lại như vậy?",
+      "asr_transcript": "Sao lại nhợi?",
+      "wer": 0.5,
+      "cer": 0.3125,
+      "audio_seconds": 1.5
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "ref01",
+      "category": "audio_ref_reused",
+      "original_text": "ví dụ 2. tính trung bình của dãy số.",
+      "asr_transcript": "Ví dụ 2, tính chung bình của giải số",
+      "wer": 0.2222,
+      "cer": 0.25,
+      "audio_seconds": 2.17
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "ref02",
+      "category": "audio_ref_reused",
+      "original_text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "asr_transcript": "trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "wer": 0.0,
+      "cer": 0.0208,
+      "audio_seconds": 2.42
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "ref03",
+      "category": "audio_ref_reused",
+      "original_text": "Cậu có nhìn thấy không?",
+      "asr_transcript": "Cậu có nhìn thấy không?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.23
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "ref04",
+      "category": "audio_ref_reused",
+      "original_text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "asr_transcript": "Tết là dịp mọi người háo hước đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "wer": 0.0526,
+      "cer": 0.025,
+      "audio_seconds": 4.04
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice01",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "asr_transcript": "anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "wer": 0.0,
+      "cer": 0.0182,
+      "audio_seconds": 2.42
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice02",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+      "asr_transcript": "chúng ta có thể áp dụng logic tương tự với người khác.",
+      "wer": 0.0,
+      "cer": 0.0185,
+      "audio_seconds": 2.682
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice03",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+      "asr_transcript": "trong phòng rất tù mù nên có thể dễ dàng che dấu nó.",
+      "wer": 0.0,
+      "cer": 0.0377,
+      "audio_seconds": 2.904
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice04",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "asr_transcript": "Bạn cầm khúc cây và ném vào bãi cỏ xanh tươi rậm dạp ở đằng xa.",
+      "wer": 0.0625,
+      "cer": 0.0312,
+      "audio_seconds": 3.84
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice05",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "asr_transcript": "đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "wer": 0.0,
+      "cer": 0.0172,
+      "audio_seconds": 3.08
+    },
+    {
+      "voice": "Minh Quân",
+      "case_id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "asr_transcript": "nuôi con theo phòng cách giò thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc trà mẹ.",
+      "wer": 0.1364,
+      "cer": 0.0957,
+      "audio_seconds": 5.3
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s02",
+      "category": "cau_ngan",
+      "original_text": "Trời hôm nay đẹp quá.",
+      "asr_transcript": "Trời, hôm nay đẹp quá",
+      "wer": 0.0,
+      "cer": 0.0952,
+      "audio_seconds": 1.27
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s03",
+      "category": "cau_hoi",
+      "original_text": "Bạn đã ăn cơm chưa?",
+      "asr_transcript": "Bạn đã ăn cơm chưa?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.23
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s04",
+      "category": "cau_cam_than",
+      "original_text": "Ôi, thật tuyệt vời!",
+      "asr_transcript": "Ây, tìm phai.",
+      "wer": 1.0,
+      "cer": 0.7368,
+      "audio_seconds": 1.11
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s05",
+      "category": "cau_phay",
+      "original_text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "asr_transcript": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 3.26
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s06",
+      "category": "cau_dai",
+      "original_text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "asr_transcript": "Cuối sáng ở làn trại yên tỉnh, những chiếc thuyền nhỏ lặng lẽ rời bến mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "wer": 0.1333,
+      "cer": 0.0593,
+      "audio_seconds": 8.52
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s07",
+      "category": "doan_ke_chuyen",
+      "original_text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+      "asr_transcript": "Ngày xưa, ở một ngôi làn nhỏ ven sông có một cụ già sống một mình trong căn nhà tranh củ kỷ, hối buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buôn xuống mặt nước và kể chuyện cho lũ trẻ trong sống nghe.",
+      "wer": 0.1277,
+      "cer": 0.0553,
+      "audio_seconds": 14.23
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s08",
+      "category": "doan_hoi_thoai",
+      "original_text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+      "asr_transcript": "Anh có chắc là đường này, đúng không?  Cô hỏi.  Chẳng rồi, anh Đáp, mình đã đi qua đây nhiều lần.",
+      "wer": 0.0909,
+      "cer": 0.1619,
+      "audio_seconds": 6.25
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "s10",
+      "category": "cau_hoi",
+      "original_text": "Sao lại như vậy?",
+      "asr_transcript": "Sao lại như vậy?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.27
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "ref01",
+      "category": "audio_ref_reused",
+      "original_text": "ví dụ 2. tính trung bình của dãy số.",
+      "asr_transcript": "Ví dụ 2, tính trung bình của giải số.",
+      "wer": 0.1111,
+      "cer": 0.1667,
+      "audio_seconds": 2.57
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "ref02",
+      "category": "audio_ref_reused",
+      "original_text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "asr_transcript": "trên thực tế các nghi ngờ đã bắt đầu xuất hiện.",
+      "wer": 0.0,
+      "cer": 0.0417,
+      "audio_seconds": 2.98
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "ref03",
+      "category": "audio_ref_reused",
+      "original_text": "Cậu có nhìn thấy không?",
+      "asr_transcript": "Cậu có nhìn thấy không?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.29
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "ref04",
+      "category": "audio_ref_reused",
+      "original_text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "asr_transcript": "Tất là dịp mọi người háo hức đón chào một năm mới, với nhiều hy vọng và mong ước.",
+      "wer": 0.0526,
+      "cer": 0.025,
+      "audio_seconds": 5.05
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice01",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "asr_transcript": "anh chỉ muốn được nhìn nhận như là một khuống luyện viên.",
+      "wer": 0.0833,
+      "cer": 0.0727,
+      "audio_seconds": 3.06
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice02",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+      "asr_transcript": "chúng ta có thể áp dụng logic tương tự với người khác.",
+      "wer": 0.0,
+      "cer": 0.0185,
+      "audio_seconds": 3.32
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice03",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+      "asr_transcript": "Trong phòng rất tù mù nên có thể dễ dàng che dấu nó.",
+      "wer": 0.0,
+      "cer": 0.0189,
+      "audio_seconds": 3.45
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice04",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "asr_transcript": "bằng cầm khúc cây và ném vào báy có xanh tư rậm rập ở đằng xa.",
+      "wer": 0.3125,
+      "cer": 0.1562,
+      "audio_seconds": 4.67
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice05",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "asr_transcript": "đến cuối thứ Kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "wer": 0.0769,
+      "cer": 0.0517,
+      "audio_seconds": 3.78
+    },
+    {
+      "voice": "Ái Hân",
+      "case_id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "asr_transcript": "Người con theo phong cách do thấy, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bực cha mẹ.",
+      "wer": 0.1364,
+      "cer": 0.0851,
+      "audio_seconds": 6.34
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s02",
+      "category": "cau_ngan",
+      "original_text": "Trời hôm nay đẹp quá.",
+      "asr_transcript": "Trời, hôm nay đẹp quá!",
+      "wer": 0.0,
+      "cer": 0.0952,
+      "audio_seconds": 1.38
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s03",
+      "category": "cau_hoi",
+      "original_text": "Bạn đã ăn cơm chưa?",
+      "asr_transcript": "Bạn đã ăn cơm chưa?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.6
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s04",
+      "category": "cau_cam_than",
+      "original_text": "Ôi, thật tuyệt vời!",
+      "asr_transcript": "Ôi! Thật tuyệt vời!",
+      "wer": 0.0,
+      "cer": 0.1053,
+      "audio_seconds": 1.65
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s05",
+      "category": "cau_phay",
+      "original_text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "asr_transcript": "Sau khi ăn xong chúng tôi đi dạo một vòng quanh hồ.",
+      "wer": 0.0,
+      "cer": 0.0192,
+      "audio_seconds": 4.12
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s06",
+      "category": "cau_dai",
+      "original_text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "asr_transcript": "Bùi sáng ở làng trải yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "wer": 0.0667,
+      "cer": 0.037,
+      "audio_seconds": 9.29
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s07",
+      "category": "doan_ke_chuyen",
+      "original_text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+      "asr_transcript": "Ngày xưa, ở một ngôi làng nhỏ ven sông có một cụ già sống một mình, trong căn nhà tranh cũ kỷ.  Mỗi buổi chiều, cụ thường ngồi trước hiên nhà ngắm hoàng hôn bung xuống mặt nước và kể chuyện cho lũ trẻ trong sóm nghe.",
+      "wer": 0.0638,
+      "cer": 0.0323,
+      "audio_seconds": 16.16
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s08",
+      "category": "doan_hoi_thoai",
+      "original_text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+      "asr_transcript": "Anh có chắc là đường này đúng không?  Cô hỏi, chắc chắn rồi, anh đáp, mình đã đi qua đây nhiều lần.",
+      "wer": 0.0,
+      "cer": 0.0952,
+      "audio_seconds": 7.0
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "s10",
+      "category": "cau_hoi",
+      "original_text": "Sao lại như vậy?",
+      "asr_transcript": "Sao lại như vậy?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.23
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "ref01",
+      "category": "audio_ref_reused",
+      "original_text": "ví dụ 2. tính trung bình của dãy số.",
+      "asr_transcript": "Ví dụ 2 tấn trung bình của giải số",
+      "wer": 0.2222,
+      "cer": 0.25,
+      "audio_seconds": 3.14
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "ref02",
+      "category": "audio_ref_reused",
+      "original_text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "asr_transcript": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 3.49
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "ref03",
+      "category": "audio_ref_reused",
+      "original_text": "Cậu có nhìn thấy không?",
+      "asr_transcript": "Cậu có nhìn thấy không?",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 1.7
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "ref04",
+      "category": "audio_ref_reused",
+      "original_text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "asr_transcript": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "wer": 0.0,
+      "cer": 0.0,
+      "audio_seconds": 5.54
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice01",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "asr_transcript": "Anh chỉ muốn được nhìn nhận như là một hốn luyện viên.",
+      "wer": 0.0833,
+      "cer": 0.0364,
+      "audio_seconds": 3.78
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice02",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+      "asr_transcript": "chúng ta có thể áp dụng logic tương tự với người khác.",
+      "wer": 0.0,
+      "cer": 0.0185,
+      "audio_seconds": 3.94
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice03",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+      "asr_transcript": "trong phòng rất tù mù nên có thể dễ dàng che dấu nó.",
+      "wer": 0.0,
+      "cer": 0.0377,
+      "audio_seconds": 4.23
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice04",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "asr_transcript": "bạn cầm khúc cây và ném vào bãi cỏ xanh cươi rộng rạp ở đằng xa.",
+      "wer": 0.125,
+      "cer": 0.0938,
+      "audio_seconds": 5.44
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice05",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "asr_transcript": "Đến cuối, thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "wer": 0.0,
+      "cer": 0.0172,
+      "audio_seconds": 4.37
+    },
+    {
+      "voice": "Mỹ Duyên",
+      "case_id": "voice06",
+      "category": "preset_voice_caption_reused",
+      "original_text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "asr_transcript": "nuôi con theo phong cách do thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "wer": 0.0,
+      "cer": 0.0319,
+      "audio_seconds": 7.15
+    }
+  ],
+  "what_this_proves": "WER/CER thật (không phải hard-fail check) trên 18 câu smoke x 3 voice (54 data point), steps=16 sway=0.0, dùng faster-whisper small làm ASR proxy.",
+  "what_this_does_NOT_prove": "KHÔNG phải listening test người thật — một phần yêu cầu chính thức của H9 theo protocol 002 (đánh giá speaker consistency, pause duration, pitch/energy jump, human preference score không đo được bằng ASR). ASR bản thân có sai số nhận dạng (WER/CER cao có thể do ASR nghe nhầm, không hẳn do TTS phát âm sai — cần nghe lại thủ công các case WER cao trước khi kết luận). Corpus chỉ 20 câu (MVP, xem benchmarks/mobile/corpus/manifest.json), không phải quy mô regression 300-1000 câu. Chạy trên macOS CPU host, không phải thiết bị mobile thật."
+}

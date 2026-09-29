@@ -1,0 +1,82 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "OnePlus PHP110 (SoC MediaTek mt6983, 15.8GB RAM, Android 16) — PHYSICAL DEVICE, not emulator",
+  "runtime": "onnxruntime-android",
+  "runtime_version": "1.22.0",
+  "harness": "mobile/android/nano-mobile-harness — MainActivity (foreground app), NOT connectedDebugAndroidTest (see infra_notes)",
+  "voice": "Minh Quân",
+  "steps": 16,
+  "cfg": 3,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py)",
+  "hypothesis": [
+    "H1-real-device-full-corpus",
+    "H6-real-device-single-device",
+    "H8-partial-no-thermal-yet",
+    "H9-partial-hard-fail-full-corpus"
+  ],
+  "any_hard_fail_overall": false,
+  "per_provider": {
+    "CPU": {
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1139,
+      "rtf_summary": {
+        "median": 0.6077,
+        "p95": 0.75,
+        "stddev": 0.0792,
+        "min": 0.4814,
+        "max": 0.8373,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "XNNPACK": {
+      "provider_actual": "XNNPACK",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1467,
+      "rtf_summary": {
+        "median": 0.6764,
+        "p95": 0.8897,
+        "stddev": 0.0919,
+        "min": 0.4967,
+        "max": 0.9007,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "NNAPI": {
+      "provider_actual": "NNAPI",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 3967,
+      "rtf_summary": {
+        "median": 0.9393,
+        "p95": 1.3116,
+        "stddev": 0.1948,
+        "min": 0.5549,
+        "max": 1.3405,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    }
+  },
+  "what_this_proves": "LẦN ĐẦU TIÊN có dữ liệu RTF thật từ THIẾT BỊ ANDROID THẬT (không phải emulator). Toàn bộ 20 câu smoke corpus x 3 lần lặp x 3 provider (CPU/XNNPACK/NNAPI) + 20 câu stress corpus x 1 lần x 3 provider chạy PASS, không NaN/Inf/exception. RTF median: CPU=0.6077, XNNPACK=0.6764, NNAPI=0.9393 — CPU nhanh nhất, NNAPI chậm nhất trên thiết bị này (xu hướng khớp với quan sát trên Android emulator ở vòng 4, nhưng giờ là bằng chứng thật trên phần cứng thật). Cả 3 provider khởi tạo thành công, không fallback CPU. NNAPI graph_load_ms=3967ms — chậm hơn đáng kể so với CPU/XNNPACK (~1100-1500ms), phản ánh chi phí compile/partition graph cho NNAPI driver thật.",
+  "what_this_does_NOT_prove": "Đây mới là 1 thiết bị Android thật (Tier A/flagship theo SoC MediaTek mt6983) — protocol 002 §H6 yêu cầu >=2 thiết bị thật cùng platform trước khi quyết định provider mặc định; OnePlus/MediaTek có thể không đại diện cho toàn bộ hệ sinh thái Android (khác vendor NPU driver, ví dụ Qualcomm/Samsung Exynos có thể cho kết quả khác). Không đo RAM/RSS thiết bị thật (chỉ RTF timing). Không đo thermal/battery — chỉ 1 lần chạy hết ~10 phút liên tục, chưa phải soak test 30-60 phút theo H8. Không phải quality/pronunciation score — chỉ hard-fail (NaN/Inf/exception) check.",
+  "infra_notes": {
+    "critical_finding_instrumented_test_unusable_on_real_device": "connectedDebugAndroidTest (androidTest instrumentation process, không có UI) bị OnePlus/OxygenOS's OplusHansManager ('Hans' StrictMode heuristic) tự động đóng băng định kỳ ngay giữa lúc benchmark chạy — vì tiến trình dùng CPU liên tục >300% bị coi là bất thường với process không-foreground. Đã thử: thêm vào `dumpsys deviceidle whitelist`, tắt `settings put global cached_apps_freezer disabled`, và người dùng tắt hạn chế nền thủ công trong Settings — process vẫn bị freeze/unfreeze theo chu kỳ (`OplusHansManager: freeze ... scene: |StrictMode-3|LcdOn`), CPU time đứng yên hàng chục giây liên tục dù process không exit.",
+    "fix_foreground_activity": "Giải pháp: chuyển sang MainActivity (foreground app có UI thật, chạy benchmark trên background thread + hiển thị tiến độ trên TextView, FLAG_KEEP_SCREEN_ON) thay vì instrumented test. Logic benchmark giữ nguyên 100% (tách vào NanoBenchmarkCore.kt, dùng chung giữa MainActivity và androidTest). Kết quả: process priority nice=-10 (so với nice=20 của instrumented test), CPU% duy trì 300-400% liên tục suốt ~10 phút không bị treo, toàn bộ 120 case (3 provider x 40 case) hoàn tất thành công.",
+    "run_method": "adb install -r app-debug.apk && adb shell am start -n com.vieneu.nanoharness/.MainActivity && adb logcat -s NanoEngineTest:I",
+    "total_duration_approx_s": 640
+  },
+  "cold_start_ms": 1139,
+  "first_audio_ms": null,
+  "peak_rss_mb": null,
+  "thermal_state": "not_measured",
+  "quality_gate": "not_evaluated"
+}

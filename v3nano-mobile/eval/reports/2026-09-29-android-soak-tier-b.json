@@ -1,0 +1,21 @@
+{
+  "report_date": "2026-09-29",
+  "report_kind": "android-soak-and-tier-b",
+  "soak_s2": {
+    "status": "NOT_RUN",
+    "reason": "Requires a connected Android real device for 30 minutes with tools/mobile/device_soak_monitor.py polling dumpsys meminfo/thermalservice/battery every 15s. No Android device remained connected (OnePlus YH7LX4VWSSXOAQOJ disconnected mid-session). Emulator thermal numbers are not representative — soak on emulator would fabricate a thermal-tier conclusion.",
+    "tooling_ready": true,
+    "tooling": {
+      "monitor": "tools/mobile/device_soak_monitor.py",
+      "harness_loop_extra": "MainActivity intent extra 'loops' (default 3) -> smokeRunsPerCase",
+      "poll_interval_seconds": 15
+    }
+  },
+  "tier_b_android_s3": {
+    "status": "NOT_RUN",
+    "reason": "Plan restricts Tier B to non-MediaTek Snapdragon 4/6-series. The only Android device seen this session was OnePlus PHP110 with MediaTek MT6983 — disqualified even if it had stayed connected. No Snapdragon 4/6-series device available.",
+    "qualifying_devices_seen": []
+  },
+  "what_this_proves": "Nothing about 30-min thermal stability or Tier-B floor. Tools and harness plumbing are ready; both runs are device-gated.",
+  "rerun_gate": "A non-MediaTek Snapdragon 4/6-series Android device online for >=30 min with USB debugging."
+}

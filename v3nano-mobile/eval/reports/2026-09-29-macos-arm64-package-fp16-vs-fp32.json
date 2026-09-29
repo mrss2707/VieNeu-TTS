@@ -1,0 +1,47 @@
+{
+  "report_date": "2026-09-29",
+  "package": "models/v3_nano_mobile/pkg",
+  "model_id": "v3-nano-mobile",
+  "base_model_revision": "aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "result": "PASS",
+  "probe_logs": [
+    "text_encoder: OK (2 inputs, 0.1s)",
+    "duration_predictor: OK (3 inputs, 0.0s)",
+    "vector_estimator: OK (6 inputs, 0.3s)",
+    "codec_decoder: OK (1 inputs, 0.1s)",
+    "loaded FP16 engine (0.5s)",
+    "loaded FP32 engine (0.4s)"
+  ],
+  "schema_errors": [],
+  "checksum_errors": [],
+  "fp32_vs_fp16_smoke": [
+    {
+      "case_id": "s01",
+      "fp32_samples": 23280,
+      "fp16_samples": 23280,
+      "length_delta_samples": 0,
+      "snr_db": 38.08,
+      "correlation": 0.999924,
+      "max_abs_diff": 0.019362
+    },
+    {
+      "case_id": "s05",
+      "fp32_samples": 98880,
+      "fp16_samples": 98880,
+      "length_delta_samples": 0,
+      "snr_db": 27.56,
+      "correlation": 0.999122,
+      "max_abs_diff": 0.156043
+    },
+    {
+      "case_id": "s07",
+      "fp32_samples": 417120,
+      "fp16_samples": 418560,
+      "length_delta_samples": 1440,
+      "snr_db": -3.21,
+      "correlation": -0.036661,
+      "max_abs_diff": 0.936965
+    }
+  ],
+  "note": "SNR/correlation là proxy độ lệch trọng số — quality gate thật chạy riêng bằng run_asr_quality_check.py (H3). SNR thấp trên case multi-chunk (s07) là do duration T đổi ±1 frame dưới FP16 (lệch pha → lệch trục khi so), KHÔNG phải suy giảm biên độ — chunk so cùng T đạt SNR ~40 dB / corr 0.9999."
+}

@@ -1,0 +1,61 @@
+{
+  "report_date": "2026-09-28",
+  "device": "OnePlus PHP110 (Android 16, real device — not emulator/simulator)",
+  "harness": "MainActivity (foreground Activity, real device)",
+  "voice": "Minh Quân",
+  "steps": 12,
+  "cfg": 3,
+  "sway": -1,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (full 40 case, chunking-fixed pipeline)",
+  "any_hard_fail_overall": false,
+  "per_provider": {
+    "CPU": {
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1641,
+      "rtf_summary": {
+        "median": 0.4495,
+        "p95": 0.6397,
+        "stddev": 0.082,
+        "min": 0.385,
+        "max": 0.8479,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "XNNPACK": {
+      "provider_actual": "XNNPACK",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1316,
+      "rtf_summary": {
+        "median": 0.4879,
+        "p95": 0.6636,
+        "stddev": 0.0744,
+        "min": 0.3928,
+        "max": 0.6958,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "NNAPI": {
+      "provider_actual": "NNAPI",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 3107,
+      "rtf_summary": {
+        "median": 0.6422,
+        "p95": 0.9375,
+        "stddev": 0.1399,
+        "min": 0.4296,
+        "max": 0.9632,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    }
+  },
+  "what_this_proves": "RTF thật cho steps=12/sway=-1 trên thiết bị Android thật (OnePlus PHP110), điểm giữa giữa steps=8 (RTF nhanh nhất đã đo) và steps=16 (baseline chất lượng) — dùng để tìm điểm cân bằng RTF/quality tốt hơn theo khuyến nghị protocol 002 H4.",
+  "what_this_does_NOT_prove": "Chỉ 1 thiết bị Android — chưa đủ theo protocol 002 (cần >=2 thiết bị/platform). RTF/hard-fail check không phải quality — WER/CER đo riêng trên macOS (xem 2026-09-28-macos-arm64-asr-quality-steps12.json)."
+}

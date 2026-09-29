@@ -1,0 +1,56 @@
+{
+  "report_date": "2026-09-28",
+  "device": "OnePlus PHP110 (Android 16, real device — YH7LX4VWSSXOAQOJ)",
+  "harness": "MainActivity (foreground Activity) + adb shell dumpsys polling",
+  "voice": "Minh Quân",
+  "steps": 8,
+  "cfg": 3.0,
+  "sway": -1.0,
+  "measurement_method": "adb shell dumpsys meminfo/thermalservice/battery polled every 15s — NO code changes to harness, purely external observation",
+  "total_samples": 81,
+  "total_duration_s": 1233,
+  "total_duration_min": 20.6,
+  "rounds_completed": "2 full-corpus runs completed + round 3 partially observed (NNAPI provider still running when data collection stopped) — 20.6 minutes total observation time with relaunch pauses between rounds",
+  "ram_pss_kb": {
+    "min": 532245,
+    "max": 914446,
+    "median": 667112,
+    "n": 81,
+    "note": "PSS peaks ~910MB during NNAPI provider; ~650-670MB during CPU/XNNPACK. Matches known per-graph RSS profile: vector_estimator.onnx alone loads ~150MB RSS (see §0.2 per-graph RSS on macOS host)"
+  },
+  "ram_rss_kb": {
+    "min": 702104,
+    "max": 1089452,
+    "median": 834044,
+    "n": 81
+  },
+  "thermal": {
+    "skin_temp_c": {
+      "min": 44.0,
+      "max": 50.6,
+      "start": 44.0,
+      "end": 49.9,
+      "trend": "Rises during continuous benchmark (peak 50.6°C), cools between rounds (drops to ~46°C when app restarts)"
+    },
+    "cpu_temp_c_note": "Sensor reports constant 88.512°C across all samples — likely a cached/stale or max-value sensor reading on this OnePlus device. Not reliable as a trend indicator. Use SKIN temp for trend analysis.",
+    "thermal_status": {
+      "values_seen": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "mapping": "0=NONE, 1=LIGHT, 2=MODERATE, 3=SEVERE (Android PowerManager.THERMAL_STATUS_*)",
+      "trend": "Starts at 0 (NONE), escalates to 1 (LIGHT) within ~2min of continuous load, reaches 3 (SEVERE) by ~4min, stays at 3 during sustained load. Drops back to 2 when app pauses between rounds. Never reaches 4 (CRITICAL)."
+    }
+  },
+  "battery": {
+    "start_pct": 84,
+    "end_pct": 79,
+    "drain_pct": 5,
+    "drain_pct_per_hour_approx": 14.6,
+    "note": "Device was charging (PlugType=2=USB) during measurement. Battery drain rate may differ when unplugged. Temperature rose from 350 to ~422 (units: dsi, /10 = 35.0→42.2°C)."
+  },
+  "what_this_proves": "First-ever on-device RAM (PSS/RSS) and thermal/battery measurements for the v3 Nano mobile harness. PSS peaks at ~910MB during NNAPI load (consistent with per-graph RSS profile: vector_estimator.onnx alone loads ~150MB). Thermal escalates to SEVERE (PowerManager.THERMAL_STATUS=3) within ~4 minutes of continuous full-corpus benchmarking but never reaches CRITICAL (4). Skin temperature rises ~6°C over continuous load (44→50.6°C) and cools to ~46°C during brief idle pauses between rounds. Battery drain 5% over 20.6 minutes (~15%/hour) while charging — real drain rate when unplugged would be higher. Peak RSS ~1.09GB on device (vs 476MB peak RSS on macOS host — significant difference due to NNAPI provider loading additional buffers + Android process overhead).",
+  "what_this_does_NOT_prove": "NOT a full 30-60 minute soak test per protocol 002 §H8 — this is a ~20-minute short soak with relaunch pauses between rounds. RTF degradation under thermal throttle not measured (would need RTF data correlated with thermal status over time). Only 1 Android device (OnePlus PHP110). iOS has no equivalent external measurement method without code changes. CPU temperature sensor reports constant value (unreliable for trend). Battery was charging during test."
+}

@@ -1,0 +1,83 @@
+{
+  "report_date": "2026-09-28T02:35:32Z",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "sdk_revision": null,
+  "device": "macOS Darwin 25.6.0, Apple Silicon arm64 (host, not a mobile device)",
+  "os": "Darwin 25.6.0",
+  "runtime": "onnxruntime",
+  "runtime_version": "1.24.4",
+  "onnx_version": "1.23.0",
+  "python_version": "3.12.12",
+  "opset": {"ai.onnx": 17, "speaker_encoder_only": 14},
+  "provider": "CPUExecutionProvider",
+  "precision": "fp32",
+  "steps": 16,
+  "cfg": 3.0,
+  "thread_count": 5,
+  "hypothesis": ["H1", "H2", "H7-partial", "H11"],
+
+  "onnx_checker": {
+    "graphs_checked": 8,
+    "all_pass": true,
+    "unsupported_operators": 0,
+    "op_types_union": ["Add","AveragePool","BatchNormalization","Cast","Clip","Concat","Constant","ConstantOfShape","Conv","Cos","Div","Equal","Erf","Expand","Gather","Gemm","Identity","InstanceNormalization","LayerNormalization","MatMul","Mod","Mul","Not","PRelu","Pad","Pow","Range","Reciprocal","ReduceMean","ReduceProd","ReduceSum","Relu","Reshape","Resize","Shape","Sigmoid","Sin","Slice","Softmax","Split","Sqrt","Squeeze","Sub","Tanh","Transpose","Unsqueeze","Where"],
+    "note": "Toàn bộ operator là ONNX standard ops phổ thông, không có custom-op; không kết luận được tương thích NNAPI/CoreML/ORT-Mobile builder vì chưa build harness Android/iOS thật (xem report riêng nếu có)."
+  },
+
+  "per_graph": {
+    "text_encoder.onnx":       {"size_bytes": 26519943,  "nodes": 584,  "unique_ops": 28, "checker": "PASS", "shape_inference": "PASS"},
+    "duration_predictor.onnx": {"size_bytes": 727809,     "nodes": 25,   "unique_ops": 13, "checker": "PASS", "shape_inference": "PASS"},
+    "vector_estimator.onnx":   {"size_bytes": 155132418,  "nodes": 1578, "unique_ops": 32, "checker": "PASS", "shape_inference": "PASS"},
+    "codec_decoder.onnx":      {"size_bytes": 99319941,   "nodes": 442,  "unique_ops": 21, "checker": "PASS", "shape_inference": "PASS"},
+    "codec_encoder.onnx":      {"size_bytes": 56419417,   "nodes": 285,  "unique_ops": 12, "checker": "PASS", "shape_inference": "PASS"},
+    "reference_encoder.onnx":  {"size_bytes": 10778145,   "nodes": 246,  "unique_ops": 21, "checker": "PASS", "shape_inference": "PASS"},
+    "speaker_encoder.onnx":    {"size_bytes": 28303423,   "nodes": 3206, "unique_ops": 27, "checker": "PASS", "shape_inference": "PASS"},
+    "denoiser.onnx":           {"size_bytes": 42661414,   "nodes": 881,  "unique_ops": 27, "checker": "PASS", "shape_inference": "PASS"}
+  },
+
+  "package_size": {
+    "P0_full_bundle_raw_mb": 419.9,
+    "P0_full_bundle_gzip_mb": 375.0,
+    "P1_preset_only_raw_mb": 281.8,
+    "P1_preset_only_gzip_mb": 261.8,
+    "reduction_raw_pct": 32.9,
+    "reduction_gzip_pct": 30.2,
+    "target_mvp_mb": 150,
+    "target_met": false,
+    "dominant_graphs_in_P1": ["vector_estimator.onnx (155.1 MB, 55% of P1)", "codec_decoder.onnx (99.3 MB, 35% of P1)"],
+    "note": "P1 (preset-only, không cloning/denoiser) vẫn vượt target ≤150MB MVP gần gấp đôi. vector_estimator + codec_decoder chiếm ~90% P1. Đây là bằng chứng trực tiếp cho nhánh 'Nếu fail' của H2 (002 §H2): không nên vội quantize toàn bộ; cần profile riêng 2 graph này trước (kiến trúc, precision per-layer) trước khi quyết định INT8/distill."
+  },
+
+  "inference_smoke": {
+    "voice": "Minh Quân",
+    "text": "Xin chào các bạn, đây là bản kiểm tra hiệu năng thật trên ONNX Runtime CPU macOS ARM64.",
+    "cold_start_ms": 549.2,
+    "generation_ms": 1089.7,
+    "audio_seconds": 6.29,
+    "rtf": 0.1732,
+    "rss_before_mb": 17.0,
+    "rss_after_load_mb": 425.5,
+    "rss_after_generate_mb": 476.5,
+    "peak_rss_delta_load_mb": 408.5,
+    "peak_rss_delta_generate_mb": 51.0,
+    "nan_or_inf": false,
+    "waveform_len_samples": 150960,
+    "sample_rate": 24000,
+    "note": "1 câu smoke, 1 lần chạy, CPUExecutionProvider, macOS host — KHÔNG phải Android/iOS device thật. RTF/RSS ở đây không được dùng để tuyên bố mục tiêu §2.2 của 001 đạt trên mobile."
+  },
+
+  "pytest_regression": {
+    "command": "uv run --no-sync pytest -q",
+    "result": "111 passed",
+    "duration_s": 58.33,
+    "note": "Toàn bộ test suite hiện có (bao gồm test_engine_v3nano.py với ONNX session mocked) PASS thật trên môi trường đã cài đủ dependency — xác nhận baseline reproducible (phục vụ tiền đề H11), không phải bằng chứng cho mobile regression vì tests dùng fake ONNX session."
+  },
+
+  "cold_start_ms": 549.2,
+  "first_audio_ms": null,
+  "peak_rss_mb": 476.5,
+  "thermal_state": "not_measured (macOS host)",
+  "quality_gate": "not_evaluated"
+}

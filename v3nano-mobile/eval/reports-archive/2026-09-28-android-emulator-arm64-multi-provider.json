@@ -1,0 +1,70 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "Android Emulator ARM64 (arm64-v8a, API 34) — NOT a physical device",
+  "runtime": "onnxruntime-android",
+  "runtime_version": "1.22.0",
+  "harness": "mobile/android/nano-mobile-harness (connectedDebugAndroidTest, full smoke+stress corpus)",
+  "voice": "Minh Quân",
+  "steps": 16,
+  "cfg": 3,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py)",
+  "hypothesis": [
+    "H1-partial-emulator-full-corpus",
+    "H6-preliminary-emulator-only",
+    "H9-partial-hard-fail-full-corpus"
+  ],
+  "any_hard_fail_overall": false,
+  "per_provider": {
+    "CPU": {
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 905,
+      "rtf_summary": {
+        "median": 0.2597,
+        "p95": 0.3544,
+        "stddev": 0.0512,
+        "min": 0.1769,
+        "max": 0.3732,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "XNNPACK": {
+      "provider_actual": "XNNPACK",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1298,
+      "rtf_summary": {
+        "median": 0.2817,
+        "p95": 0.3888,
+        "stddev": 0.063,
+        "min": 0.1812,
+        "max": 0.443,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    },
+    "NNAPI": {
+      "provider_actual": "NNAPI",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1457,
+      "rtf_summary": {
+        "median": 0.3358,
+        "p95": 0.6444,
+        "stddev": 0.1319,
+        "min": 0.2219,
+        "max": 0.8141,
+        "n": 60
+      },
+      "smoke_any_hard_fail": false,
+      "stress_any_hard_fail": false
+    }
+  },
+  "what_this_proves": "Toàn bộ 20 câu smoke corpus x 3 lần lặp x 3 provider (CPU/XNNPACK/NNAPI) + 20 câu stress corpus x 1 lần x 3 provider chạy PASS trên Android ARM64 emulator, không NaN/Inf/exception. RTF median: CPU=0.2597, XNNPACK=0.2817, NNAPI=0.3358 — cả 3 provider chạy được (không provider nào fallback về CPU do lỗi khởi tạo).",
+  "what_this_does_NOT_prove": "Đây là Android Emulator ARM64 (Hypervisor.framework, không phải thiết bị Android thật). Theo nguyên tắc §2.3 protocol 002 và §8 của 001: KHÔNG dùng RTF ở đây để quyết định provider mặc định (H6) — quyết định đó cần >=2 thiết bị thật cùng platform theo đúng test matrix H6 gốc. Trên emulator, NNAPI thường không có driver NPU/GPU thật để tăng tốc (chỉ chạy qua CPU reference implementation của Android Emulator), nên RTF NNAPI cao hơn CPU/XNNPACK ở đây RẤT CÓ THỂ là đặc thù ảo hóa, không phản ánh NNAPI thật trên thiết bị có NPU. Không đo RAM/thermal/battery. Không phải quality/pronunciation score — chỉ hard-fail (NaN/Inf/exception) check."
+}

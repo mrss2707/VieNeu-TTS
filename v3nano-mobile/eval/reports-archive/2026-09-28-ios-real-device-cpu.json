@@ -1,0 +1,38 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "iPhone 11 (iPhone12,1, A13 Bionic, 4GB RAM, iOS 26.6.2) — PHYSICAL DEVICE, not Simulator",
+  "runtime": "onnxruntime (Apple xcframework pod, C++ API used directly)",
+  "runtime_version": "1.24.2",
+  "harness": "mobile/ios/NanoMobileHarness (xcodebuild test, testProviderCPU, full smoke+stress corpus)",
+  "voice": "Minh Quân",
+  "steps": 16,
+  "cfg": 3,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (20+20 câu, exported via tools/mobile/export_corpus_tensors.py)",
+  "hypothesis": [
+    "H1-real-device-full-corpus",
+    "H6-real-device-single-device",
+    "H9-partial-hard-fail-full-corpus"
+  ],
+  "provider_requested": "CPU",
+  "provider_actual": "CPU",
+  "fallback_to_cpu": false,
+  "graph_load_ms": 841.9309854507446,
+  "rtf_summary": {
+    "median": 0.7035,
+    "p95": 1.132,
+    "stddev": 0.1917,
+    "min": 0.4859,
+    "max": 1.1686,
+    "n": 60
+  },
+  "any_hard_fail_smoke": false,
+  "any_hard_fail_stress": false,
+  "any_hard_fail_overall": false,
+  "coreml_provider_note": "testProviderCoreML trên cùng thiết bị này FAIL với lỗi kỹ thuật thật (không phải OS quản lý tiến trình): Ort::Exception 'Error executing model: Error in building plan', nguyên nhân gốc [espresso] 'Blob cannot be represented on texture: width 29184 ... larger than valid texture dimensions width 16384 height 16384' — giới hạn cứng Metal GPU texture size trên CoreML backend của iPhone 11. vector_estimator.onnx có sequence-length tensor vượt giới hạn texture 2D. Không có report riêng cho CoreML vì không hoàn thành — xem docs/_supermeo/_summary/001-v3-nano-mobile.md mục 0.5 để biết chi tiết đầy đủ.",
+  "what_this_proves": "Toàn bộ 20 câu smoke corpus x 3 lần lặp + 20 câu stress corpus x 1 lần chạy PASS trên CPUExecutionProvider, iPhone 11 THẬT (không phải Simulator), không NaN/Inf. RTF median=0.7035, p95=1.132 — đây là bằng chứng RTF thật đầu tiên trên phần cứng iOS thật trong toàn bộ quá trình validation.",
+  "what_this_does_NOT_prove": "Chỉ 1 thiết bị iOS (iPhone 11, A13 Bionic, ra mắt 2019 — không phải flagship hiện tại) — protocol 002 §H6 yêu cầu nhiều thiết bị/platform trước khi quyết định provider mặc định. Không đo RAM/RSS thiết bị thật. Không đo thermal/battery. Không phải quality/pronunciation score — chỉ hard-fail (NaN/Inf) check. CoreML EP chưa hoạt động trên thiết bị này (xem coreml_provider_note) nên chưa có so sánh provider thật trên iOS."
+}

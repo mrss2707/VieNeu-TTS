@@ -1,0 +1,26 @@
+{
+  "report_date": "2026-09-29",
+  "report_kind": "android-real-device-fp16",
+  "status": "NOT_RUN",
+  "reason": "Device disconnected mid-session. OnePlus PHP110 (UDID YH7LX4VWSSXOAQOJ, MT6983) was listed by `adb devices` at session start, then went offline before `gradle :app:installDebug` could complete (error: 'No connected devices!'). Subsequent `adb devices` calls returned empty. Never fabricate numbers — this report records the attempted run, not results.",
+  "device_seen_early_session": {
+    "udid": "YH7LX4VWSSXOAQOJ",
+    "model": "OnePlus PHP110",
+    "soc": "MediaTek MT6983",
+    "note": "Would qualify for FP16 step 5 if connected, but NOT for Tier B (plan requires non-MediaTek Snapdragon 4/6-series)."
+  },
+  "what_was_prepared": {
+    "graphs_precision": "fp16",
+    "graphs_staged_into": "mobile/android/nano-mobile-harness/app/src/main/assets/nano_graphs/*.onnx",
+    "intent_extra_supported": "smokeRunsPerCase (MainActivity loops extra) for soak",
+    "soak_monitor_tool": "tools/mobile/device_soak_monitor.py"
+  },
+  "what_this_does_NOT_prove": "Nothing about FP16 runtime behavior on Android real hardware — iOS real-device FP16 result is separate (2026-09-29-ios-real-device-fp16.json). Emulator smoke equivalence (post-refactor) is separate again.",
+  "rerun_when_device_returns": [
+    "1. adb devices — confirm UDID online",
+    "2. gradle :app:installDebug",
+    "3. adb shell am start -n com.vieneu.nanoharness/.MainActivity (with smokeRunsPerCase)",
+    "4. python3 tools/mobile/device_soak_monitor.py --udid <UDID> --minutes 30 for S2 soak",
+    "5. Compare RTF/RAM against 2026-09-28-macos-arm64-fp32 baseline + package validate report"
+  ]
+}

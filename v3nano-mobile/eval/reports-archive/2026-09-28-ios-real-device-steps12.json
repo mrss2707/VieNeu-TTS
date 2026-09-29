@@ -1,0 +1,25 @@
+{
+  "report_date": "2026-09-28",
+  "device": "iPhone (SiPhone, real hardware, iOS 26.6.2 — not Simulator; devicectl id 00008030-001C046A34E8802E)",
+  "harness": "xcodebuild test -only-testing:...testProviderCPU (real device)",
+  "voice": "Minh Quân",
+  "steps": 12,
+  "cfg": 3.0,
+  "sway": -1.0,
+  "smoke_runs_per_case": 3,
+  "corpus": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (full 40 case, chunking-fixed pipeline)",
+  "any_hard_fail_overall": false,
+  "provider_actual": "CPU",
+  "graph_load_ms": 803.7,
+  "rtf_summary_smoke_cpu": {
+    "median": 0.4599,
+    "p95": 0.5418,
+    "stddev": 0.0529,
+    "min": 0.3626,
+    "max": 0.5514,
+    "n": 57
+  },
+  "what_this_proves": "RTF thật cho steps=12/sway=-1 trên iPhone thật, điểm giữa giữa steps=8 và steps=16 — chỉ provider CPU (không chạy CoreML trong lượt này).",
+  "what_this_does_NOT_prove": "Chỉ 1 thiết bị iOS, chỉ provider CPU. RTF/hard-fail check không phải quality — WER/CER đo riêng trên macOS.",
+  "note": "n=57/60 (19/20 smoke case x 3 lần lặp) — case s10 bị regex parse miss do NSLog wrap 1 số ở ranh giới RESULT_JSON_CPU_CHUNK_N (giá trị thật ~723-724ms, không phải lỗi harness, chỉ là giới hạn khi tái ghép log từ text thay vì JSON gốc). any_hard_fail=false xác nhận từ log gốc bao gồm cả s10."
+}

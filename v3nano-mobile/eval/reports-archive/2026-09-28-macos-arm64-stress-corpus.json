@@ -1,0 +1,252 @@
+{
+  "report_date": "2026-09-28",
+  "main_base_commit": "c1390abbdb2eedcdf58eafb546966c06ce27af71",
+  "develop_commit": "1d700d3d08a251aedd8c4b34e4456a152b3f8eae",
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "device": "macOS Darwin 25.6.0, Apple Silicon arm64 (host, not a mobile device)",
+  "runtime": "onnxruntime",
+  "provider": "CPUExecutionProvider",
+  "precision": "fp32",
+  "steps": 16,
+  "cfg": 3.0,
+  "voice": "Minh Quân",
+  "corpus": "benchmarks/mobile/corpus/stress.jsonl",
+  "hypothesis": [
+    "H9-partial-hard-fail-only"
+  ],
+  "summary": {
+    "total_cases": 20,
+    "exceptions": 0,
+    "nan_or_inf_cases": 0,
+    "any_hard_fail": false,
+    "empty_or_whitespace_text_produced_nonempty_audio": [
+      "st13",
+      "st14"
+    ]
+  },
+  "per_case": [
+    {
+      "id": "st01",
+      "category": "so_dem",
+      "char_count": 48,
+      "outcome": "ran",
+      "generation_ms": 581.8,
+      "waveform_len_samples": 56160,
+      "audio_seconds": 2.34,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st02",
+      "category": "ngay_thang",
+      "char_count": 85,
+      "outcome": "ran",
+      "generation_ms": 815.0,
+      "waveform_len_samples": 99120,
+      "audio_seconds": 4.13,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st03",
+      "category": "tien_te",
+      "char_count": 90,
+      "outcome": "ran",
+      "generation_ms": 870.9,
+      "waveform_len_samples": 109920,
+      "audio_seconds": 4.58,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st04",
+      "category": "phan_tram",
+      "char_count": 63,
+      "outcome": "ran",
+      "generation_ms": 658.6,
+      "waveform_len_samples": 78000,
+      "audio_seconds": 3.25,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st05",
+      "category": "ten_rieng_dia_danh",
+      "char_count": 74,
+      "outcome": "ran",
+      "generation_ms": 753.1,
+      "waveform_len_samples": 90960,
+      "audio_seconds": 3.79,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st06",
+      "category": "han_viet",
+      "char_count": 79,
+      "outcome": "ran",
+      "generation_ms": 839.9,
+      "waveform_len_samples": 101952,
+      "audio_seconds": 4.248,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st07",
+      "category": "code_switching",
+      "char_count": 63,
+      "outcome": "ran",
+      "generation_ms": 753.3,
+      "waveform_len_samples": 87888,
+      "audio_seconds": 3.662,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st08",
+      "category": "code_switching",
+      "char_count": 61,
+      "outcome": "ran",
+      "generation_ms": 749.1,
+      "waveform_len_samples": 78720,
+      "audio_seconds": 3.28,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st09",
+      "category": "vien_tat",
+      "char_count": 54,
+      "outcome": "ran",
+      "generation_ms": 856.2,
+      "waveform_len_samples": 95040,
+      "audio_seconds": 3.96,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st10",
+      "category": "so_thap_phan_gio",
+      "char_count": 76,
+      "outcome": "ran",
+      "generation_ms": 780.7,
+      "waveform_len_samples": 96960,
+      "audio_seconds": 4.04,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st11",
+      "category": "trich_dan_long",
+      "char_count": 65,
+      "outcome": "ran",
+      "generation_ms": 644.9,
+      "waveform_len_samples": 73200,
+      "audio_seconds": 3.05,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st12",
+      "category": "dau_cau_lap",
+      "char_count": 52,
+      "outcome": "ran",
+      "generation_ms": 577.6,
+      "waveform_len_samples": 63600,
+      "audio_seconds": 2.65,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st13",
+      "category": "robustness_rong",
+      "char_count": 0,
+      "outcome": "ran",
+      "generation_ms": 629.6,
+      "waveform_len_samples": 78912,
+      "audio_seconds": 3.288,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st14",
+      "category": "robustness_whitespace",
+      "char_count": 3,
+      "outcome": "ran",
+      "generation_ms": 664.0,
+      "waveform_len_samples": 78000,
+      "audio_seconds": 3.25,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st15",
+      "category": "robustness_cau_cuc_ngan",
+      "char_count": 2,
+      "outcome": "ran",
+      "generation_ms": 315.1,
+      "waveform_len_samples": 9600,
+      "audio_seconds": 0.4,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st16",
+      "category": "robustness_emoji",
+      "char_count": 49,
+      "outcome": "ran",
+      "generation_ms": 520.5,
+      "waveform_len_samples": 52800,
+      "audio_seconds": 2.2,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st17",
+      "category": "robustness_cau_dai_vuot_chunk",
+      "char_count": 392,
+      "outcome": "ran",
+      "generation_ms": 2397.4,
+      "waveform_len_samples": 357840,
+      "audio_seconds": 14.91,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st18",
+      "category": "oov_tu_hiem",
+      "char_count": 63,
+      "outcome": "ran",
+      "generation_ms": 698.6,
+      "waveform_len_samples": 76080,
+      "audio_seconds": 3.17,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st19",
+      "category": "ten_rieng_nuoc_ngoai",
+      "char_count": 65,
+      "outcome": "ran",
+      "generation_ms": 819.6,
+      "waveform_len_samples": 94512,
+      "audio_seconds": 3.938,
+      "nan_or_inf": false,
+      "hard_fail": false
+    },
+    {
+      "id": "st20",
+      "category": "url_email",
+      "char_count": 93,
+      "outcome": "ran",
+      "generation_ms": 1050.6,
+      "waveform_len_samples": 145200,
+      "audio_seconds": 6.05,
+      "nan_or_inf": false,
+      "hard_fail": false
+    }
+  ],
+  "notable_observation": "Câu rỗng ('') và whitespace-only ('   ') KHÔNG trả về waveform rỗng — engine vẫn sinh ~3.2s audio (không NaN/Inf, không crash — không phải hard fail theo §9, nhưng là hành vi đáng chú ý). encode_phones() với input rỗng vẫn tạo ids=[bos, eos], nên duration_predictor + flow model vẫn chạy và tạo ra audio babble/silence-like thay vì được chặn sớm ở tầng gọi. Không sửa src/vieneu/v3nano.py trong vòng validation này — chỉ ghi nhận để cân nhắc thêm input validation ở tầng SDK mobile (Phase 6) nếu cần.",
+  "what_this_proves": "Xác nhận không có crash/exception/NaN/Inf (protocol 002 §9 'Hard fail') trên 20 câu edge-case cơ bản (số, ngày tháng, tiền tệ, tên riêng, code-switching, robustness: rỗng/whitespace/emoji/câu dài) chạy qua OnnxV3NanoEngine thật trên macOS CPU FP32.",
+  "what_this_does_NOT_prove": "KHÔNG phải quality/pronunciation score (H9 đầy đủ cần ASR/CER/WER và listening test theo protocol 002 — chưa làm). Không kiểm tra text có ĐỌC ĐÚNG hay không, chỉ kiểm tra không NaN/Inf/crash. Không phải thiết bị Android/iOS thật."
+}
