@@ -1,0 +1,1841 @@
+{
+  "device": "OnePlus PHP110 (Android 16, real device — not emulator\/simulator)",
+  "smoke_runs_per_case": 12,
+  "voice": "Minh Quân",
+  "steps": 8,
+  "cfg": 3,
+  "sway": -1,
+  "any_hard_fail": false,
+  "providers": {
+    "CPU": {
+      "provider_requested": "CPU",
+      "provider_actual": "CPU",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1053,
+      "smoke_cases": [
+        {
+          "case_id": "s01",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2309,
+            2251,
+            2362,
+            2471,
+            2399,
+            2415,
+            2372,
+            2372,
+            2259,
+            2295,
+            2455,
+            2427
+          ],
+          "audio_seconds": 1.216,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s02",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2659,
+            2448,
+            2629,
+            2664,
+            2634,
+            2653,
+            2552,
+            2627,
+            2526,
+            2195,
+            2550,
+            2747
+          ],
+          "audio_seconds": 1.6,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s03",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2491,
+            2636,
+            2621,
+            2625,
+            2612,
+            2608,
+            2648,
+            2436,
+            2748,
+            2822,
+            2624,
+            2538
+          ],
+          "audio_seconds": 1.6,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s04",
+          "category": "cau_cam_than",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2603,
+            2499,
+            2609,
+            2665,
+            2571,
+            2516,
+            2550,
+            2662,
+            2548,
+            2505,
+            2456,
+            2617
+          ],
+          "audio_seconds": 1.536,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s05",
+          "category": "cau_phay",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3276,
+            3391,
+            3317,
+            3225,
+            3290,
+            3280,
+            3129,
+            3281,
+            3143,
+            3119,
+            3307,
+            3270
+          ],
+          "audio_seconds": 2.752,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s06",
+          "category": "cau_dai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            5160,
+            5215,
+            5165,
+            5089,
+            5078,
+            5282,
+            5018,
+            5121,
+            5189,
+            5124,
+            5127,
+            5101
+          ],
+          "audio_seconds": 6.976,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s07",
+          "category": "doan_ke_chuyen",
+          "n_chunks": 2,
+          "generation_ms_per_run": [
+            9032,
+            9173,
+            9140,
+            9308,
+            8805,
+            8796,
+            8960,
+            8668,
+            8786,
+            8894,
+            8883,
+            8962
+          ],
+          "audio_seconds": 11.696,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s08",
+          "category": "doan_hoi_thoai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4171,
+            4051,
+            4057,
+            4153,
+            4071,
+            4097,
+            4266,
+            4018,
+            4322,
+            4139,
+            4059,
+            4159
+          ],
+          "audio_seconds": 5.056,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s09",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2082,
+            1817,
+            2328,
+            2058,
+            2051,
+            2008,
+            2046,
+            1814,
+            1876,
+            2010,
+            2009,
+            1925
+          ],
+          "audio_seconds": 1.088,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s10",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2253,
+            2374,
+            2443,
+            2336,
+            2455,
+            2405,
+            2210,
+            2444,
+            2251,
+            2485,
+            2415,
+            2319
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref01",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2692,
+            2577,
+            2774,
+            2656,
+            2685,
+            2770,
+            2760,
+            2898,
+            2692,
+            2595,
+            2876,
+            2776
+          ],
+          "audio_seconds": 2.24,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref02",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3018,
+            2911,
+            2736,
+            2816,
+            2846,
+            2871,
+            2857,
+            2956,
+            2847,
+            2927,
+            2959,
+            2909
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref03",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2530,
+            2354,
+            2262,
+            2410,
+            2383,
+            2453,
+            2453,
+            2326,
+            2218,
+            2118,
+            2389,
+            2425
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref04",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3670,
+            3798,
+            3732,
+            3687,
+            3642,
+            3679,
+            3746,
+            3797,
+            3702,
+            3507,
+            3648,
+            3675
+          ],
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice01",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2880,
+            2881,
+            2829,
+            2808,
+            2960,
+            3035,
+            2924,
+            2822,
+            2936,
+            2816,
+            2802,
+            3038
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice02",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2944,
+            3021,
+            3049,
+            2966,
+            3181,
+            2960,
+            3011,
+            2992,
+            3124,
+            3014,
+            2956,
+            2861
+          ],
+          "audio_seconds": 2.816,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice03",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3023,
+            3065,
+            2931,
+            3089,
+            3098,
+            2981,
+            3119,
+            3183,
+            3009,
+            3066,
+            3198,
+            3008
+          ],
+          "audio_seconds": 2.944,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice04",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3616,
+            3410,
+            3597,
+            3510,
+            3335,
+            3585,
+            3223,
+            3494,
+            3591,
+            3457,
+            3533,
+            3504
+          ],
+          "audio_seconds": 3.904,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice05",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3325,
+            3234,
+            3173,
+            3195,
+            2937,
+            3197,
+            3226,
+            3193,
+            3224,
+            3286,
+            3161,
+            3129
+          ],
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice06",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4256,
+            4240,
+            4403,
+            4314,
+            4244,
+            4328,
+            4333,
+            4371,
+            4374,
+            4413,
+            4320,
+            4306
+          ],
+          "audio_seconds": 5.376,
+          "nan_or_inf": false
+        }
+      ],
+      "stress_cases": [
+        {
+          "case_id": "st01",
+          "category": "so_dem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2808,
+          "audio_seconds": 2.432,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st02",
+          "category": "ngay_thang",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3782,
+          "audio_seconds": 4.224,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st03",
+          "category": "tien_te",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3946,
+          "audio_seconds": 4.672,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st04",
+          "category": "phan_tram",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3227,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st05",
+          "category": "ten_rieng_dia_danh",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3474,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st06",
+          "category": "han_viet",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3849,
+          "audio_seconds": 4.352,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st07",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3479,
+          "audio_seconds": 3.712,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st08",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3500,
+          "audio_seconds": 3.392,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st09",
+          "category": "vien_tat",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3529,
+          "audio_seconds": 4.032,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st10",
+          "category": "so_thap_phan_gio",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3678,
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st11",
+          "category": "trich_dan_long",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3224,
+          "audio_seconds": 3.136,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st12",
+          "category": "dau_cau_lap",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2886,
+          "audio_seconds": 2.688,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st13",
+          "category": "robustness_rong",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3267,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st14",
+          "category": "robustness_whitespace",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3200,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st15",
+          "category": "robustness_cau_cuc_ngan",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 1575,
+          "audio_seconds": 0.704,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st16",
+          "category": "robustness_emoji",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2845,
+          "audio_seconds": 2.304,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st17",
+          "category": "robustness_cau_dai_vuot_chunk",
+          "outcome": "ran",
+          "n_chunks": 4,
+          "generation_ms": 16374,
+          "audio_seconds": 21.002,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st18",
+          "category": "oov_tu_hiem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3213,
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st19",
+          "category": "ten_rieng_nuoc_ngoai",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3455,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st20",
+          "category": "url_email",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 4567,
+          "audio_seconds": 6.208,
+          "nan_or_inf": false
+        }
+      ]
+    },
+    "XNNPACK": {
+      "provider_requested": "XNNPACK",
+      "provider_actual": "XNNPACK",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1612,
+      "smoke_cases": [
+        {
+          "case_id": "s01",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2394,
+            2184,
+            2143,
+            2021,
+            2169,
+            2325,
+            2207,
+            2127,
+            2184,
+            2228,
+            2302,
+            2177
+          ],
+          "audio_seconds": 1.216,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s02",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2456,
+            2477,
+            2379,
+            2369,
+            2326,
+            2374,
+            2298,
+            2437,
+            2359,
+            2386,
+            2219,
+            2367
+          ],
+          "audio_seconds": 1.6,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s03",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2349,
+            2241,
+            2629,
+            2456,
+            3153,
+            2450,
+            2587,
+            2333,
+            2625,
+            2426,
+            2465,
+            2655
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s04",
+          "category": "cau_cam_than",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2480,
+            2479,
+            2474,
+            2412,
+            2489,
+            2347,
+            2365,
+            2442,
+            2527,
+            2333,
+            2377,
+            2201
+          ],
+          "audio_seconds": 1.536,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s05",
+          "category": "cau_phay",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3127,
+            3000,
+            3134,
+            3225,
+            3017,
+            3091,
+            3019,
+            3046,
+            2923,
+            3053,
+            3142,
+            3057
+          ],
+          "audio_seconds": 2.752,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s06",
+          "category": "cau_dai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            5181,
+            4930,
+            5186,
+            5253,
+            5086,
+            5006,
+            5110,
+            5071,
+            4954,
+            4995,
+            5083,
+            5043
+          ],
+          "audio_seconds": 6.976,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s07",
+          "category": "doan_ke_chuyen",
+          "n_chunks": 2,
+          "generation_ms_per_run": [
+            9011,
+            9001,
+            8920,
+            9078,
+            8651,
+            8758,
+            8731,
+            8990,
+            8831,
+            8865,
+            9329,
+            8835
+          ],
+          "audio_seconds": 11.76,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s08",
+          "category": "doan_hoi_thoai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4205,
+            4028,
+            4110,
+            4011,
+            4277,
+            4050,
+            4338,
+            4166,
+            4122,
+            4034,
+            4204,
+            4129
+          ],
+          "audio_seconds": 5.056,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s09",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            1981,
+            2089,
+            2113,
+            1982,
+            2188,
+            2056,
+            2070,
+            2067,
+            2108,
+            1985,
+            2176,
+            2001
+          ],
+          "audio_seconds": 1.088,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s10",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2315,
+            2527,
+            2363,
+            2451,
+            2446,
+            2621,
+            2315,
+            2539,
+            2459,
+            2423,
+            2544,
+            2506
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref01",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2575,
+            2792,
+            2709,
+            2836,
+            2752,
+            2808,
+            2784,
+            2704,
+            2979,
+            2947,
+            2549,
+            2770
+          ],
+          "audio_seconds": 2.24,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref02",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2801,
+            2859,
+            2772,
+            2899,
+            2981,
+            2853,
+            2913,
+            2990,
+            2878,
+            2734,
+            2978,
+            2891
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref03",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2280,
+            2407,
+            2550,
+            2383,
+            2373,
+            2297,
+            2440,
+            2539,
+            2499,
+            2514,
+            2282,
+            2550
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref04",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3880,
+            3697,
+            3601,
+            3553,
+            3746,
+            3753,
+            3612,
+            3743,
+            3701,
+            3544,
+            3854,
+            3568
+          ],
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice01",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2940,
+            2827,
+            2923,
+            3022,
+            3097,
+            2961,
+            3044,
+            3003,
+            3027,
+            2849,
+            2908,
+            3082
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice02",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3092,
+            3059,
+            3132,
+            3146,
+            3072,
+            3110,
+            3033,
+            3093,
+            2852,
+            3106,
+            3046,
+            2994
+          ],
+          "audio_seconds": 2.816,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice03",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3144,
+            3375,
+            3267,
+            2943,
+            3130,
+            2973,
+            3063,
+            3297,
+            3110,
+            3105,
+            2961,
+            3120
+          ],
+          "audio_seconds": 2.944,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice04",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3447,
+            3442,
+            3453,
+            3525,
+            3523,
+            3415,
+            3447,
+            3691,
+            3482,
+            3470,
+            3411,
+            3556
+          ],
+          "audio_seconds": 3.904,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice05",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3289,
+            3274,
+            3145,
+            3154,
+            3174,
+            3134,
+            3309,
+            3338,
+            3172,
+            3121,
+            3192,
+            3154
+          ],
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice06",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4307,
+            4306,
+            4372,
+            4120,
+            4164,
+            4152,
+            4397,
+            4291,
+            4284,
+            4307,
+            4114,
+            4264
+          ],
+          "audio_seconds": 5.376,
+          "nan_or_inf": false
+        }
+      ],
+      "stress_cases": [
+        {
+          "case_id": "st01",
+          "category": "so_dem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2991,
+          "audio_seconds": 2.432,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st02",
+          "category": "ngay_thang",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3860,
+          "audio_seconds": 4.224,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st03",
+          "category": "tien_te",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3923,
+          "audio_seconds": 4.672,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st04",
+          "category": "phan_tram",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3301,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st05",
+          "category": "ten_rieng_dia_danh",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3607,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st06",
+          "category": "han_viet",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3775,
+          "audio_seconds": 4.352,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st07",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3493,
+          "audio_seconds": 3.712,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st08",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3337,
+          "audio_seconds": 3.392,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st09",
+          "category": "vien_tat",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3639,
+          "audio_seconds": 4.032,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st10",
+          "category": "so_thap_phan_gio",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3592,
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st11",
+          "category": "trich_dan_long",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3189,
+          "audio_seconds": 3.136,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st12",
+          "category": "dau_cau_lap",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2805,
+          "audio_seconds": 2.688,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st13",
+          "category": "robustness_rong",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3190,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st14",
+          "category": "robustness_whitespace",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3173,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st15",
+          "category": "robustness_cau_cuc_ngan",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 1737,
+          "audio_seconds": 0.704,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st16",
+          "category": "robustness_emoji",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2751,
+          "audio_seconds": 2.304,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st17",
+          "category": "robustness_cau_dai_vuot_chunk",
+          "outcome": "ran",
+          "n_chunks": 4,
+          "generation_ms": 16761,
+          "audio_seconds": 21.062,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st18",
+          "category": "oov_tu_hiem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3212,
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st19",
+          "category": "ten_rieng_nuoc_ngoai",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3527,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st20",
+          "category": "url_email",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 4631,
+          "audio_seconds": 6.208,
+          "nan_or_inf": false
+        }
+      ]
+    },
+    "NNAPI": {
+      "provider_requested": "NNAPI",
+      "provider_actual": "NNAPI",
+      "fallback_to_cpu": false,
+      "graph_load_ms": 1465,
+      "smoke_cases": [
+        {
+          "case_id": "s01",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2357,
+            2328,
+            2335,
+            2194,
+            2103,
+            2303,
+            2072,
+            2253,
+            2355,
+            2115,
+            2274,
+            2208
+          ],
+          "audio_seconds": 1.216,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s02",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2356,
+            2364,
+            2427,
+            2293,
+            2461,
+            2501,
+            2415,
+            2498,
+            2450,
+            2357,
+            2341,
+            2404
+          ],
+          "audio_seconds": 1.6,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s03",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2470,
+            2303,
+            2406,
+            2315,
+            2377,
+            2370,
+            2514,
+            2357,
+            2446,
+            2328,
+            2418,
+            2404
+          ],
+          "audio_seconds": 1.6,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s04",
+          "category": "cau_cam_than",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2326,
+            2487,
+            2517,
+            2256,
+            2251,
+            2557,
+            2378,
+            2394,
+            2382,
+            2375,
+            2371,
+            2335
+          ],
+          "audio_seconds": 1.536,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s05",
+          "category": "cau_phay",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3008,
+            3015,
+            3154,
+            3063,
+            3210,
+            3187,
+            3135,
+            3234,
+            3184,
+            3133,
+            3848,
+            3240
+          ],
+          "audio_seconds": 2.752,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s06",
+          "category": "cau_dai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            5011,
+            4993,
+            5136,
+            5051,
+            5036,
+            4960,
+            5070,
+            5006,
+            5391,
+            5172,
+            5159,
+            5227
+          ],
+          "audio_seconds": 6.976,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s07",
+          "category": "doan_ke_chuyen",
+          "n_chunks": 2,
+          "generation_ms_per_run": [
+            8912,
+            9034,
+            8954,
+            9197,
+            8918,
+            9002,
+            8727,
+            9020,
+            8882,
+            8923,
+            9062,
+            9103
+          ],
+          "audio_seconds": 11.696,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s08",
+          "category": "doan_hoi_thoai",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4147,
+            4195,
+            4184,
+            4114,
+            4165,
+            4282,
+            4197,
+            4592,
+            4349,
+            4157,
+            4285,
+            4210
+          ],
+          "audio_seconds": 5.056,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s09",
+          "category": "cau_ngan",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2147,
+            2306,
+            2176,
+            2217,
+            2200,
+            2081,
+            2188,
+            2129,
+            2229,
+            2140,
+            2121,
+            2119
+          ],
+          "audio_seconds": 1.088,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "s10",
+          "category": "cau_hoi",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2506,
+            2413,
+            2483,
+            2405,
+            2504,
+            2423,
+            2530,
+            2479,
+            2415,
+            2429,
+            2449,
+            2476
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref01",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2865,
+            2857,
+            2735,
+            2675,
+            3040,
+            2692,
+            2888,
+            2733,
+            2757,
+            2854,
+            2936,
+            2803
+          ],
+          "audio_seconds": 2.24,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref02",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2947,
+            3020,
+            2990,
+            2935,
+            2968,
+            2818,
+            2871,
+            3000,
+            2819,
+            2854,
+            2977,
+            2837
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref03",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            2420,
+            2422,
+            2652,
+            2410,
+            2547,
+            2623,
+            2416,
+            2323,
+            2548,
+            2450,
+            2470,
+            2531
+          ],
+          "audio_seconds": 1.664,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "ref04",
+          "category": "audio_ref_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3935,
+            3853,
+            3710,
+            3673,
+            3740,
+            3848,
+            3899,
+            3799,
+            3822,
+            3746,
+            3645,
+            3735
+          ],
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice01",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3123,
+            3094,
+            3067,
+            2985,
+            2846,
+            2929,
+            2948,
+            2913,
+            3024,
+            2881,
+            3006,
+            3086
+          ],
+          "audio_seconds": 2.496,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice02",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3158,
+            3321,
+            3268,
+            3061,
+            2981,
+            3108,
+            3077,
+            3097,
+            3077,
+            3065,
+            3199,
+            3159
+          ],
+          "audio_seconds": 2.816,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice03",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3129,
+            3090,
+            3030,
+            3131,
+            3288,
+            3198,
+            2980,
+            3210,
+            3240,
+            3082,
+            3086,
+            3195
+          ],
+          "audio_seconds": 2.944,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice04",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3477,
+            3542,
+            3746,
+            3493,
+            3599,
+            3761,
+            3821,
+            3695,
+            3598,
+            3647,
+            3582,
+            3563
+          ],
+          "audio_seconds": 3.904,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice05",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            3221,
+            3417,
+            3369,
+            3268,
+            3284,
+            3177,
+            3321,
+            3193,
+            3345,
+            3354,
+            3361,
+            3359
+          ],
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "voice06",
+          "category": "preset_voice_caption_reused",
+          "n_chunks": 1,
+          "generation_ms_per_run": [
+            4308,
+            4268,
+            4400,
+            4419,
+            4231,
+            4315,
+            4671,
+            4445,
+            4265,
+            4432,
+            4352,
+            4538
+          ],
+          "audio_seconds": 5.376,
+          "nan_or_inf": false
+        }
+      ],
+      "stress_cases": [
+        {
+          "case_id": "st01",
+          "category": "so_dem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3029,
+          "audio_seconds": 2.432,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st02",
+          "category": "ngay_thang",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3972,
+          "audio_seconds": 4.224,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st03",
+          "category": "tien_te",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 4046,
+          "audio_seconds": 4.672,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st04",
+          "category": "phan_tram",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3296,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st05",
+          "category": "ten_rieng_dia_danh",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3624,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st06",
+          "category": "han_viet",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3853,
+          "audio_seconds": 4.352,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st07",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3551,
+          "audio_seconds": 3.712,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st08",
+          "category": "code_switching",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3137,
+          "audio_seconds": 3.392,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st09",
+          "category": "vien_tat",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3688,
+          "audio_seconds": 4.032,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st10",
+          "category": "so_thap_phan_gio",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3846,
+          "audio_seconds": 4.096,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st11",
+          "category": "trich_dan_long",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3278,
+          "audio_seconds": 3.136,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st12",
+          "category": "dau_cau_lap",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3306,
+          "audio_seconds": 2.688,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st13",
+          "category": "robustness_rong",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3178,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st14",
+          "category": "robustness_whitespace",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3187,
+          "audio_seconds": 3.328,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st15",
+          "category": "robustness_cau_cuc_ngan",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 1833,
+          "audio_seconds": 0.704,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st16",
+          "category": "robustness_emoji",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 2745,
+          "audio_seconds": 2.304,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st17",
+          "category": "robustness_cau_dai_vuot_chunk",
+          "outcome": "ran",
+          "n_chunks": 4,
+          "generation_ms": 16915,
+          "audio_seconds": 21.002,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st18",
+          "category": "oov_tu_hiem",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3278,
+          "audio_seconds": 3.2,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st19",
+          "category": "ten_rieng_nuoc_ngoai",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 3554,
+          "audio_seconds": 3.968,
+          "nan_or_inf": false
+        },
+        {
+          "case_id": "st20",
+          "category": "url_email",
+          "outcome": "ran",
+          "n_chunks": 1,
+          "generation_ms": 4694,
+          "audio_seconds": 6.208,
+          "nan_or_inf": false
+        }
+      ]
+    }
+  }
+}

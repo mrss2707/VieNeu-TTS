@@ -1940,3 +1940,27 @@ iOS FP16 vẫn RTF 0.332 ≈ baseline FP32 0.294 — vấn đề nằm ở **ORT
 Report: `v3nano-mobile/eval/reports/2026-09-29-android-real-device-fp16.json`, `.../2026-09-29-ios-real-device-fp16.json`.
 
 **S2 soak 30' / S3 Tier B:** xem report `2026-09-29-android-soak-tier-b.json` (S3 vẫn NOT RUN — máy đang có là MT6983 Tier A, không phải Snapdragon 4/6).
+
+
+### 15.6. Kết quả Spike S2 Soak 30 phút (2026-09-29)
+
+Cửa sổ monitor `2026-09-29T15:14:05Z → 15:44:04Z` (118 sample × 15s) trên OnePlus PHP110, **FP16**, `--ei loops 12`, foreground.
+
+| Gate | Actual | Verdict |
+|---|---|---|
+| Không CRITICAL/EMERGENCY/SHUTDOWN | none (có **SEVERE** kéo dài) | **PASS** (kỹ thuật) |
+| Không hard-fail / NaN trong 30' | none | **PASS** |
+| RTF cuối ≤0.5 | FP16 CPU median **1.16** (S1) | **FAIL** — soak không cứu |
+| Pin / nhiệt | 41.8→45.3°C, level 87→88 | ổn định |
+| PSS | min 496 / median 632 / peak **1037** MB (pha NNAPI) | khớp peak ~1.09GB trước đó |
+
+**Nhận xét:** 30 phút inference liên tục không sập; thermal leo **MODERATE → SEVERE** dưới load sustained của FP16. Gate plan “không CRITICAL” đạt, nhưng SEVERE là tín hiệu không nên bỏ qua khi chọn default precision.
+
+**S3 Tier B:** `NOT_RUN` — máy đang có là MT6983 Tier A, không phải Snapdragon 4/6.
+
+**Full loop 120/120** (12× smoke × 3 provider) hoàn tất 22:58 — `any_hard_fail=false`, 0 NaN.
+RTF median smoke: CPU **1.143** / XNNPACK **1.137** / NNAPI **1.158** (p95 ≈ 1.84–1.94) — đều **FAIL** gate ≤0.5.
+
+Report: `v3nano-mobile/eval/reports/2026-09-29-android-soak-tier-b.json`, raw `.../2026-09-29-android-real-device-soak-monitor.json`.
+
+**Kết luận spike (S1+S2):** FP16 **không** làm default trên Android CPU (RTF fail + thermal SEVERE + RSS chỉ −3%). iOS FP16 OK (RTF 0.332). Hành động D4: mixed FP16/FP32 (`convert_fp16.py --only`) hoặc INT8; giữ FP32 cho tới khi có số mới.

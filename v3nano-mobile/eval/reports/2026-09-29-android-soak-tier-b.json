@@ -1,21 +1,395 @@
 {
   "report_date": "2026-09-29",
-  "report_kind": "android-soak-and-tier-b",
-  "soak_s2": {
-    "status": "NOT_RUN",
-    "reason": "Requires a connected Android real device for 30 minutes with tools/mobile/device_soak_monitor.py polling dumpsys meminfo/thermalservice/battery every 15s. No Android device remained connected (OnePlus YH7LX4VWSSXOAQOJ disconnected mid-session). Emulator thermal numbers are not representative — soak on emulator would fabricate a thermal-tier conclusion.",
-    "tooling_ready": true,
-    "tooling": {
-      "monitor": "tools/mobile/device_soak_monitor.py",
-      "harness_loop_extra": "MainActivity intent extra 'loops' (default 3) -> smokeRunsPerCase",
-      "poll_interval_seconds": 15
-    }
+  "report_kind": "android-soak-s2-and-tier-b",
+  "spike": "S2",
+  "status": "S2 PASS (no hard-fail / no CRITICAL) — FAIL RTF target; S3 Tier B NOT_RUN",
+  "device": "OnePlus PHP110 (MT6983, Android 16, real device)",
+  "tier": "A (MediaTek flagship-class — NOT Tier B Snapdragon 4/6)",
+  "precision_on_device": "fp16",
+  "harness": {
+    "package": "com.vieneu.mobile.validation",
+    "activity": "MainActivity (foreground — OplusHansManager freezes background tests)",
+    "intent": "--ei loops 12 (smoke runs per case: 12)",
+    "monitor": "v3nano-mobile/host/device_soak_monitor.py --duration-min 30 --interval 15",
+    "monitor_samples": 118
+  },
+  "soak_s2_30min_window": {
+    "window_utc": [
+      "2026-09-29T15:14:05Z",
+      "2026-09-29T15:44:04Z"
+    ],
+    "thermal_buckets_seen": [
+      "MODERATE",
+      "SEVERE"
+    ],
+    "thermal_status_first_last": [
+      "MODERATE",
+      "SEVERE"
+    ],
+    "thermal_status_unique": [
+      "MODERATE",
+      "SEVERE"
+    ],
+    "thermal_gate_no_critical": {
+      "target": "không CRITICAL/EMERGENCY/SHUTDOWN",
+      "actual": "none",
+      "pass": true,
+      "note": "Có SEVERE (Thermal Status: 3) kéo dài — vượt MODERATE nhưng chưa tới CRITICAL. Plan gate kỹ thuật PASS, nhưng SEVERE là tín hiệu thermal mạnh trên FP16 sustained load."
+    },
+    "battery_temperature_c": [
+      41.8,
+      45.3
+    ],
+    "battery_level": [
+      87,
+      88
+    ],
+    "pss_mb_min_median_max": [
+      495.9,
+      632.0,
+      1037.0
+    ],
+    "rss_mb_min_max": [
+      467.5,
+      1007.9
+    ],
+    "pss_peak_note": "Peak PSS ~1037MB rơi vào pha NNAPI (giống peak 1089MB ở report RAM-thermal 2026-09-28). CPU/XNNPACK pha ~496–672MB.",
+    "hard_fail_in_window": "none observed in logcat (progress lines nan=false; no EngineError)"
+  },
+  "progress_at_monitor_end": {
+    "utc": "2026-09-29T15:44:20Z",
+    "last": "NNAPI smoke 81/120 case=s01 (CPU 40/40 done, XNNPACK 80/80 done)",
+    "full_loop_expected_minutes": "~40–45 for 12× smoke + stress × 3 providers on FP16",
+    "result_json": "nano_android_result_real_device.json — pending app DONE (see companion fields)"
   },
   "tier_b_android_s3": {
     "status": "NOT_RUN",
-    "reason": "Plan restricts Tier B to non-MediaTek Snapdragon 4/6-series. The only Android device seen this session was OnePlus PHP110 with MediaTek MT6983 — disqualified even if it had stayed connected. No Snapdragon 4/6-series device available.",
+    "reason": "Plan restricts Tier B to non-MediaTek Snapdragon 4/6-series. Only device this session: OnePlus PHP110 MT6983 (Tier A). Disqualified.",
     "qualifying_devices_seen": []
   },
-  "what_this_proves": "Nothing about 30-min thermal stability or Tier-B floor. Tools and harness plumbing are ready; both runs are device-gated.",
-  "rerun_gate": "A non-MediaTek Snapdragon 4/6-series Android device online for >=30 min with USB debugging."
+  "gates": {
+    "soak_30min_no_critical_thermal": {
+      "pass": true,
+      "note": "SEVERE present, not CRITICAL"
+    },
+    "soak_30min_no_hard_fail": {
+      "pass": true,
+      "note": "trong cửa sổ monitor"
+    },
+    "soak_30min_rtf_final_le_0_5": {
+      "target": 0.5,
+      "actual_cpu_median": 1.1434,
+      "actual_xnnpack_median": 1.1371,
+      "actual_nnapi_median": 1.1575,
+      "pass": false
+    },
+    "tier_b_rtf_le_0_5": {
+      "pass": null,
+      "status": "NOT_RUN"
+    },
+    "soak_full_loop_zero_hard_fail": {
+      "pass": true
+    }
+  },
+  "what_this_proves": "30 phút + full 120-case loop (12× smoke) trên OnePlus FP16: 0 hard-fail, 0 NaN, không CRITICAL. Thermal MODERATE→SEVERE, pin 41.8→45.3°C. PSS peak ~1037MB (NNAPI).",
+  "what_this_does_NOT_prove": "Không chứng minh 30' playback/underrun (AudioTrack chưa implement). Không có Tier B floor. Không cứu gate RTF ≤0.5 của FP16. Một số sample thiếu 'Thermal Status:' (status '?') — parser đời máy khác nhau.",
+  "samples_slim": [
+    {
+      "timestamp_utc": "2026-09-29T15:14:05Z",
+      "thermal_status": "MODERATE",
+      "battery_temperature_c": 41.8,
+      "battery_level": 87,
+      "pss_mb": 558.9,
+      "rss_mb": 529.2
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:15:06Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 42.2,
+      "battery_level": 87,
+      "pss_mb": 635.8,
+      "rss_mb": 607.2
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:16:07Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 42.7,
+      "battery_level": 87,
+      "pss_mb": 637.4,
+      "rss_mb": 608.7
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:17:08Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 43.1,
+      "battery_level": 88,
+      "pss_mb": 652.7,
+      "rss_mb": 624.0
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:18:10Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 43.5,
+      "battery_level": 88,
+      "pss_mb": 654.9,
+      "rss_mb": 626.2
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:19:11Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 43.8,
+      "battery_level": 88,
+      "pss_mb": 653.1,
+      "rss_mb": 624.4
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:20:13Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.0,
+      "battery_level": 88,
+      "pss_mb": 655.5,
+      "rss_mb": 626.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:21:14Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.2,
+      "battery_level": 88,
+      "pss_mb": 656.3,
+      "rss_mb": 627.7
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:22:16Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.3,
+      "battery_level": 88,
+      "pss_mb": 655.5,
+      "rss_mb": 626.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:23:17Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.5,
+      "battery_level": 88,
+      "pss_mb": 655.3,
+      "rss_mb": 626.6
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:24:19Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88,
+      "pss_mb": 654.9,
+      "rss_mb": 626.3
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:25:21Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.7,
+      "battery_level": 88,
+      "pss_mb": 655.5,
+      "rss_mb": 626.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:26:22Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88,
+      "pss_mb": 656.0,
+      "rss_mb": 627.3
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:27:24Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88,
+      "pss_mb": 657.1,
+      "rss_mb": 628.5
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:28:25Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88,
+      "pss_mb": 657.4,
+      "rss_mb": 628.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:29:27Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88,
+      "pss_mb": 497.9,
+      "rss_mb": 469.0
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:30:28Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88,
+      "pss_mb": 495.9,
+      "rss_mb": 467.6
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:31:30Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88,
+      "pss_mb": 498.9,
+      "rss_mb": 470.5
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:32:31Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88,
+      "pss_mb": 499.9,
+      "rss_mb": 471.6
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:33:33Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88,
+      "pss_mb": 500.7,
+      "rss_mb": 472.4
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:34:35Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88,
+      "pss_mb": 500.2,
+      "rss_mb": 471.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:35:36Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.0,
+      "rss_mb": 470.7
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:36:38Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.5,
+      "rss_mb": 471.1
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:37:39Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.0,
+      "rss_mb": 470.7
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:38:41Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.8,
+      "rss_mb": 471.5
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:39:42Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 498.8,
+      "rss_mb": 470.5
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:40:44Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.1,
+      "rss_mb": 470.8
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:41:45Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 499.9,
+      "rss_mb": 471.6
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:42:47Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 501.3,
+      "rss_mb": 472.9
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:43:48Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 869.8,
+      "rss_mb": 840.7
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:44:04Z",
+      "thermal_status": "SEVERE",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88,
+      "pss_mb": 1037.0,
+      "rss_mb": 1007.9
+    }
+  ],
+  "raw_monitor_report": "v3nano-mobile/eval/reports/2026-09-29-android-real-device-soak-monitor.json",
+  "full_loop_completed": {
+    "done_utc_local": "2026-09-29 22:58:50 +0700",
+    "any_hard_fail": false,
+    "smoke_runs_per_case": 12,
+    "total_progress": "120/120 (CPU + XNNPACK + NNAPI)",
+    "per_provider": {
+      "CPU": {
+        "graph_load_ms": 1053,
+        "smoke_rtf": {
+          "n": 240,
+          "median": 1.1434,
+          "p95": 1.8873,
+          "min": 0.7193,
+          "max": 2.1397
+        },
+        "nan": false,
+        "n_smoke": 20,
+        "n_stress": 20
+      },
+      "XNNPACK": {
+        "graph_load_ms": 1612,
+        "smoke_rtf": {
+          "n": 240,
+          "median": 1.1371,
+          "p95": 1.8392,
+          "min": 0.7067,
+          "max": 2.011
+        },
+        "nan": false,
+        "n_smoke": 20,
+        "n_stress": 20
+      },
+      "NNAPI": {
+        "graph_load_ms": 1465,
+        "smoke_rtf": {
+          "n": 240,
+          "median": 1.1575,
+          "p95": 1.9367,
+          "min": 0.711,
+          "max": 2.1195
+        },
+        "nan": false,
+        "n_smoke": 20,
+        "n_stress": 20
+      }
+    },
+    "raw_result": "pulled nano_android_result_real_device.json"
+  }
 }

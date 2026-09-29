@@ -1,0 +1,1311 @@
+{
+  "report_date": "2026-09-29",
+  "tool": "v3nano-mobile/host/device_soak_monitor.py",
+  "package": "com.vieneu.mobile.validation",
+  "interval_seconds": 15.0,
+  "duration_minutes_requested": 30.0,
+  "n_samples": 118,
+  "thermal_buckets_seen": [],
+  "thermal_pass_no_critical": true,
+  "samples": [
+    {
+      "timestamp_utc": "2026-09-29T15:14:05Z",
+      "meminfo": {
+        "pss_kb": 572310,
+        "rss_kb": 541892
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 2; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=45.55, mType=3, mName=SKIN, mStatus=0}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTem",
+      "battery_temperature_c": 41.8,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:14:20Z",
+      "meminfo": {
+        "pss_kb": 650019,
+        "rss_kb": 620124
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=47.068, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 41.8,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:14:35Z",
+      "meminfo": {
+        "pss_kb": 650658,
+        "rss_kb": 621296
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=47.691, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 41.9,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:14:51Z",
+      "meminfo": {
+        "pss_kb": 650914,
+        "rss_kb": 621552
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "",
+      "battery_temperature_c": null,
+      "battery_level": null
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:15:06Z",
+      "meminfo": {
+        "pss_kb": 651099,
+        "rss_kb": 621744
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.112, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.2,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:15:21Z",
+      "meminfo": {
+        "pss_kb": 651563,
+        "rss_kb": 622208
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.284, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.4,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:15:37Z",
+      "meminfo": {
+        "pss_kb": 651669,
+        "rss_kb": 622288
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.425, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.5,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:15:52Z",
+      "meminfo": {
+        "pss_kb": 651385,
+        "rss_kb": 622000
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.544, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.6,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:16:07Z",
+      "meminfo": {
+        "pss_kb": 652665,
+        "rss_kb": 623280
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.73, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTem",
+      "battery_temperature_c": 42.7,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:16:22Z",
+      "meminfo": {
+        "pss_kb": 653773,
+        "rss_kb": 624388
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=48.829, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.8,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:16:38Z",
+      "meminfo": {
+        "pss_kb": 654277,
+        "rss_kb": 624892
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.072, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 42.9,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:16:53Z",
+      "meminfo": {
+        "pss_kb": 669452,
+        "rss_kb": 640076
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.202, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.0,
+      "battery_level": 87
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:17:08Z",
+      "meminfo": {
+        "pss_kb": 668396,
+        "rss_kb": 639020
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.391, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:17:24Z",
+      "meminfo": {
+        "pss_kb": 668384,
+        "rss_kb": 639008
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.477, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:17:39Z",
+      "meminfo": {
+        "pss_kb": 668900,
+        "rss_kb": 639524
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.551, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:17:54Z",
+      "meminfo": {
+        "pss_kb": 670588,
+        "rss_kb": 641208
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.652, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.4,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:18:10Z",
+      "meminfo": {
+        "pss_kb": 670662,
+        "rss_kb": 641240
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.707, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=42.0, mType=3, mName=shell_skin, mStatus=2}; \tTe",
+      "battery_temperature_c": 43.5,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:18:25Z",
+      "meminfo": {
+        "pss_kb": 671414,
+        "rss_kb": 641972
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.792, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 43.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:18:40Z",
+      "meminfo": {
+        "pss_kb": 671486,
+        "rss_kb": 642060
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.847, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 43.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:18:56Z",
+      "meminfo": {
+        "pss_kb": 668870,
+        "rss_kb": 639444
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.809, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 43.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:19:11Z",
+      "meminfo": {
+        "pss_kb": 668782,
+        "rss_kb": 639356
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.82, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 43.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:19:26Z",
+      "meminfo": {
+        "pss_kb": 672700,
+        "rss_kb": 643408
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.975, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 43.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:19:42Z",
+      "meminfo": {
+        "pss_kb": 671689,
+        "rss_kb": 642388
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.987, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 43.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:19:57Z",
+      "meminfo": {
+        "pss_kb": 671289,
+        "rss_kb": 641988
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.963, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:20:13Z",
+      "meminfo": {
+        "pss_kb": 671189,
+        "rss_kb": 641888
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=49.991, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:20:28Z",
+      "meminfo": {
+        "pss_kb": 671537,
+        "rss_kb": 642216
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.031, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:20:44Z",
+      "meminfo": {
+        "pss_kb": 671163,
+        "rss_kb": 641840
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.208, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:20:59Z",
+      "meminfo": {
+        "pss_kb": 670187,
+        "rss_kb": 640872
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.095, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:21:14Z",
+      "meminfo": {
+        "pss_kb": 672091,
+        "rss_kb": 642764
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.128, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:21:30Z",
+      "meminfo": {
+        "pss_kb": 670407,
+        "rss_kb": 641088
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.208, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:21:45Z",
+      "meminfo": {
+        "pss_kb": 671055,
+        "rss_kb": 641724
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.204, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:22:00Z",
+      "meminfo": {
+        "pss_kb": 671739,
+        "rss_kb": 642408
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.224, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:22:16Z",
+      "meminfo": {
+        "pss_kb": 671211,
+        "rss_kb": 641880
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.297, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:22:31Z",
+      "meminfo": {
+        "pss_kb": 670227,
+        "rss_kb": 640892
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.241, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.4,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:22:47Z",
+      "meminfo": {
+        "pss_kb": 671387,
+        "rss_kb": 642052
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.413, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.4,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:23:02Z",
+      "meminfo": {
+        "pss_kb": 671339,
+        "rss_kb": 642004
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.418, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.5,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:23:17Z",
+      "meminfo": {
+        "pss_kb": 670987,
+        "rss_kb": 641644
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.41, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 44.5,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:23:33Z",
+      "meminfo": {
+        "pss_kb": 671147,
+        "rss_kb": 641808
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.446, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.5,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:23:48Z",
+      "meminfo": {
+        "pss_kb": 672343,
+        "rss_kb": 643020
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.547, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:24:04Z",
+      "meminfo": {
+        "pss_kb": 671731,
+        "rss_kb": 642408
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.482, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:24:19Z",
+      "meminfo": {
+        "pss_kb": 670646,
+        "rss_kb": 641300
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.401, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:24:34Z",
+      "meminfo": {
+        "pss_kb": 670470,
+        "rss_kb": 641124
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.43, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:24:50Z",
+      "meminfo": {
+        "pss_kb": 670774,
+        "rss_kb": 641420
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.498, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.6,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:25:05Z",
+      "meminfo": {
+        "pss_kb": 671269,
+        "rss_kb": 641900
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.466, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.7,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:25:21Z",
+      "meminfo": {
+        "pss_kb": 671213,
+        "rss_kb": 641844
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.542, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.7,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:25:36Z",
+      "meminfo": {
+        "pss_kb": 673029,
+        "rss_kb": 643660
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.595, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.7,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:25:51Z",
+      "meminfo": {
+        "pss_kb": 671249,
+        "rss_kb": 641880
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.651, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:26:07Z",
+      "meminfo": {
+        "pss_kb": 670633,
+        "rss_kb": 641264
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.678, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:26:22Z",
+      "meminfo": {
+        "pss_kb": 671693,
+        "rss_kb": 642324
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.714, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:26:38Z",
+      "meminfo": {
+        "pss_kb": 671233,
+        "rss_kb": 641864
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.718, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:26:53Z",
+      "meminfo": {
+        "pss_kb": 672137,
+        "rss_kb": 642768
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.666, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.8,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:27:08Z",
+      "meminfo": {
+        "pss_kb": 672061,
+        "rss_kb": 642692
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.662, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:27:24Z",
+      "meminfo": {
+        "pss_kb": 672905,
+        "rss_kb": 643536
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.583, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:27:39Z",
+      "meminfo": {
+        "pss_kb": 671557,
+        "rss_kb": 642188
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.598, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:27:54Z",
+      "meminfo": {
+        "pss_kb": 672653,
+        "rss_kb": 643288
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.666, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:28:10Z",
+      "meminfo": {
+        "pss_kb": 673609,
+        "rss_kb": 644244
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.687, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:28:25Z",
+      "meminfo": {
+        "pss_kb": 673227,
+        "rss_kb": 643856
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.63, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:28:41Z",
+      "meminfo": {
+        "pss_kb": 673950,
+        "rss_kb": 644536
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.762, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:28:56Z",
+      "meminfo": {
+        "pss_kb": 644226,
+        "rss_kb": 614644
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.699, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:29:11Z",
+      "meminfo": {
+        "pss_kb": 508281,
+        "rss_kb": 478700
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.73, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:29:27Z",
+      "meminfo": {
+        "pss_kb": 509869,
+        "rss_kb": 480288
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.634, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 44.9,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:29:42Z",
+      "meminfo": {
+        "pss_kb": 510021,
+        "rss_kb": 480440
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.639, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:29:58Z",
+      "meminfo": {
+        "pss_kb": 509197,
+        "rss_kb": 479616
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.634, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:30:13Z",
+      "meminfo": {
+        "pss_kb": 509226,
+        "rss_kb": 480196
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.113, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:30:28Z",
+      "meminfo": {
+        "pss_kb": 507814,
+        "rss_kb": 478784
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.906, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:30:44Z",
+      "meminfo": {
+        "pss_kb": 509610,
+        "rss_kb": 480580
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.965, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.0,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:30:59Z",
+      "meminfo": {
+        "pss_kb": 509882,
+        "rss_kb": 480852
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.869, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:31:15Z",
+      "meminfo": {
+        "pss_kb": 508498,
+        "rss_kb": 479468
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.854, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:31:30Z",
+      "meminfo": {
+        "pss_kb": 510826,
+        "rss_kb": 481796
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.869, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:31:45Z",
+      "meminfo": {
+        "pss_kb": 511485,
+        "rss_kb": 482440
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.874, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:32:01Z",
+      "meminfo": {
+        "pss_kb": 510373,
+        "rss_kb": 481328
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.882, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:32:16Z",
+      "meminfo": {
+        "pss_kb": 511817,
+        "rss_kb": 482772
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.961, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:32:31Z",
+      "meminfo": {
+        "pss_kb": 511913,
+        "rss_kb": 482868
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.869, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.1,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:32:47Z",
+      "meminfo": {
+        "pss_kb": 511341,
+        "rss_kb": 482296
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.906, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:33:02Z",
+      "meminfo": {
+        "pss_kb": 511331,
+        "rss_kb": 482300
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.869, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:33:18Z",
+      "meminfo": {
+        "pss_kb": 513143,
+        "rss_kb": 484112
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.882, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:33:33Z",
+      "meminfo": {
+        "pss_kb": 512767,
+        "rss_kb": 483736
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.901, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:33:48Z",
+      "meminfo": {
+        "pss_kb": 512411,
+        "rss_kb": 483376
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.953, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:34:04Z",
+      "meminfo": {
+        "pss_kb": 511291,
+        "rss_kb": 482256
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.072, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:34:19Z",
+      "meminfo": {
+        "pss_kb": 510095,
+        "rss_kb": 481060
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.184, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:34:35Z",
+      "meminfo": {
+        "pss_kb": 512199,
+        "rss_kb": 483164
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.295, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.2,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:34:50Z",
+      "meminfo": {
+        "pss_kb": 510331,
+        "rss_kb": 481296
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.283, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:35:05Z",
+      "meminfo": {
+        "pss_kb": 512951,
+        "rss_kb": 483916
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.2, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTemp",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:35:21Z",
+      "meminfo": {
+        "pss_kb": 511783,
+        "rss_kb": 482748
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.113, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:35:36Z",
+      "meminfo": {
+        "pss_kb": 511003,
+        "rss_kb": 481968
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.043, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:35:52Z",
+      "meminfo": {
+        "pss_kb": 510683,
+        "rss_kb": 481648
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.014, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:36:07Z",
+      "meminfo": {
+        "pss_kb": 511071,
+        "rss_kb": 482036
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.949, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:36:22Z",
+      "meminfo": {
+        "pss_kb": 510399,
+        "rss_kb": 481364
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.001, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:36:38Z",
+      "meminfo": {
+        "pss_kb": 511439,
+        "rss_kb": 482404
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.977, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:36:53Z",
+      "meminfo": {
+        "pss_kb": 511855,
+        "rss_kb": 482820
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.08, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:37:08Z",
+      "meminfo": {
+        "pss_kb": 512043,
+        "rss_kb": 483008
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.035, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:37:24Z",
+      "meminfo": {
+        "pss_kb": 511091,
+        "rss_kb": 482056
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.005, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:37:39Z",
+      "meminfo": {
+        "pss_kb": 510983,
+        "rss_kb": 481956
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.961, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:37:55Z",
+      "meminfo": {
+        "pss_kb": 511567,
+        "rss_kb": 482540
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.047, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:38:10Z",
+      "meminfo": {
+        "pss_kb": 511543,
+        "rss_kb": 482516
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.005, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:38:25Z",
+      "meminfo": {
+        "pss_kb": 510539,
+        "rss_kb": 481504
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.022, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:38:41Z",
+      "meminfo": {
+        "pss_kb": 511843,
+        "rss_kb": 482808
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.076, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:38:56Z",
+      "meminfo": {
+        "pss_kb": 512007,
+        "rss_kb": 482972
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.035, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:39:11Z",
+      "meminfo": {
+        "pss_kb": 510955,
+        "rss_kb": 481920
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.97, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:39:27Z",
+      "meminfo": {
+        "pss_kb": 511075,
+        "rss_kb": 482040
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.982, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:39:42Z",
+      "meminfo": {
+        "pss_kb": 510783,
+        "rss_kb": 481756
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.001, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:39:58Z",
+      "meminfo": {
+        "pss_kb": 510536,
+        "rss_kb": 481548
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.084, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:40:13Z",
+      "meminfo": {
+        "pss_kb": 511044,
+        "rss_kb": 482064
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.043, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:40:28Z",
+      "meminfo": {
+        "pss_kb": 511596,
+        "rss_kb": 482608
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.064, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:40:44Z",
+      "meminfo": {
+        "pss_kb": 511088,
+        "rss_kb": 482100
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.143, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:40:59Z",
+      "meminfo": {
+        "pss_kb": 511504,
+        "rss_kb": 482516
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.051, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:41:14Z",
+      "meminfo": {
+        "pss_kb": 511068,
+        "rss_kb": 482080
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.026, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:41:30Z",
+      "meminfo": {
+        "pss_kb": 512620,
+        "rss_kb": 483632
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.084, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:41:45Z",
+      "meminfo": {
+        "pss_kb": 511876,
+        "rss_kb": 482880
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.072, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:42:01Z",
+      "meminfo": {
+        "pss_kb": 511384,
+        "rss_kb": 482388
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.097, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:42:16Z",
+      "meminfo": {
+        "pss_kb": 513084,
+        "rss_kb": 484088
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.109, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:42:31Z",
+      "meminfo": {
+        "pss_kb": 512868,
+        "rss_kb": 483860
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.035, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:42:47Z",
+      "meminfo": {
+        "pss_kb": 513300,
+        "rss_kb": 484292
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.03, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTem",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:43:02Z",
+      "meminfo": {
+        "pss_kb": 511660,
+        "rss_kb": 482648
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.097, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:43:18Z",
+      "meminfo": {
+        "pss_kb": 512824,
+        "rss_kb": 483828
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.043, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:43:33Z",
+      "meminfo": {
+        "pss_kb": 516476,
+        "rss_kb": 487472
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=51.122, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:43:48Z",
+      "meminfo": {
+        "pss_kb": 890683,
+        "rss_kb": 860880
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.862, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    },
+    {
+      "timestamp_utc": "2026-09-29T15:44:04Z",
+      "meminfo": {
+        "pss_kb": 1061839,
+        "rss_kb": 1032064
+      },
+      "thermal_buckets": [],
+      "thermal_summary": "IsStatusOverride: false; ThermalStatusListeners:; Thermal Status: 3; Cached temperatures:; \tTemperature{mValue=88.512, mType=0, mName=CPU, mStatus=0}; \tTemperature{mValue=88.471, mType=1, mName=GPU, mStatus=0}; \tTemperature{mValue=88.471, mType=9, mName=NPU, mStatus=0}; \tTemperature{mValue=50.965, mType=3, mName=SKIN, mStatus=3}; \tTemperature{mValue=45.0, mType=3, mName=shell_skin, mStatus=3}; \tTe",
+      "battery_temperature_c": 45.3,
+      "battery_level": 88
+    }
+  ],
+  "note": "soak app chạy qua intent extra loops (--ei loops 12); tool này chỉ poll ngoài, không điều khiển app."
+}
