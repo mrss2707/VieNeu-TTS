@@ -1,0 +1,71 @@
+name: DeviceValidation
+options:
+  bundleIdPrefix: com.vieneu.mobile.validation
+  deploymentTarget:
+    iOS: "16.0"
+
+targets:
+  DeviceValidation:
+    type: application
+    platform: iOS
+    sources:
+      - path: DeviceValidation/AppDelegate.swift
+      - path: DeviceValidation/nano_graphs
+        buildPhase: resources
+        type: folder
+      - path: DeviceValidation/nano_test_input
+        buildPhase: resources
+        type: folder
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vieneu.mobile.validation.app
+        SWIFT_VERSION: 5.0
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2SZYXGBDT5
+        ENABLE_BITCODE: false
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: false
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        FRAMEWORK_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(PROJECT_DIR)/Frameworks"
+        HEADER_SEARCH_PATHS:
+          - "$(inherited)"
+        CLANG_CXX_LANGUAGE_STANDARD: "c++17"
+        CLANG_ENABLE_MODULES: NO
+    dependencies:
+      - framework: Frameworks/onnxruntime.xcframework
+        embed: true
+
+  DeviceValidationTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: DeviceValidationTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.vieneu.mobile.validation.tests
+        SWIFT_VERSION: 5.0
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 2SZYXGBDT5
+        GENERATE_INFOPLIST_FILE: true
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/DeviceValidation.app/DeviceValidation"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        CLANG_CXX_LANGUAGE_STANDARD: "c++17"
+        FRAMEWORK_SEARCH_PATHS:
+          - "$(inherited)"
+          - "$(PROJECT_DIR)/Frameworks"
+    dependencies:
+      - target: DeviceValidation
+      - framework: Frameworks/onnxruntime.xcframework
+        embed: false
+
+schemes:
+  DeviceValidation:
+    build:
+      targets:
+        DeviceValidation: all
+        DeviceValidationTests: [test]
+    test:
+      targets:
+        - DeviceValidationTests

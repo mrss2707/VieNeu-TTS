@@ -1,0 +1,4 @@
+# Quy tắc ignore dùng chung cho cây v3nano-mobile nằm ở ../../.gitignore
+# (Frameworks/onnxruntime.xcframework/, *.xcodeproj/, DeviceValidation/nano_graphs/,
+#  DeviceValidation/nano_test_input/, evidence/, DerivedData/ …).
+# project.yml LÀ source (xcodegen sinh xcodeproj từ file này).
