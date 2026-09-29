@@ -67,7 +67,7 @@ class ChunkedSynthesisWorker(
                 queue.publishReady(ready)
                 onChunkReady(ready)
                 produced++
-            } catch (e: EngineError.Cancelled) {
+            } catch (e: EngineError.Canceled) {
                 break
             } catch (e: EngineError) {
                 metrics.recordError(e.code, hard = true)

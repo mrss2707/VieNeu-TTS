@@ -8,7 +8,10 @@ void main() {
     expect(EngineError.fromCode('E_MODEL_CHECKSUM', 'x'), isA<ChecksumError>());
     expect(EngineError.fromCode('E_MODEL_CORRUPT', 'x'), isA<CorruptError>());
     expect(EngineError.fromCode('E_COMPAT', 'x'), isA<CompatError>());
-    expect(EngineError.fromCode('E_CANCELLED', 'x'), isA<CancelledError>());
+    expect(EngineError.fromCode('E_CANCELED', 'x'), isA<CanceledError>());
+    expect(EngineError.fromCode('E_MODEL_MISSING', 'x'), isA<MissingError>());
+    expect(EngineError.fromCode('E_UNDERRUN', 'x'), isA<UnderrunError>());
+    expect(EngineError.fromCode('E_THERMAL_T3', 'x'), isA<ThermalT3Error>());
     expect(EngineError.fromCode('E_UNKNOWN', 'x'), isA<InternalError>());
   });
 

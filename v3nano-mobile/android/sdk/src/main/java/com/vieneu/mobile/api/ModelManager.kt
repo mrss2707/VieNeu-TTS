@@ -30,5 +30,5 @@ private fun com.vieneu.mobile.core.EngineError.toApiError(detail: String): Engin
     com.vieneu.mobile.core.EngineError.E_MODEL_CHECKSUM -> EngineError.Checksum(detail)
     com.vieneu.mobile.core.EngineError.E_MODEL_CORRUPT -> EngineError.Corrupt(detail)
     com.vieneu.mobile.core.EngineError.E_COMPAT -> EngineError.Compat(detail)
-    com.vieneu.mobile.core.EngineError.E_MODEL_NOT_FOUND -> EngineError.Corrupt(detail)
+    com.vieneu.mobile.core.EngineError.E_MODEL_NOT_FOUND -> EngineError.Missing(detail)
 }

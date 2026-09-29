@@ -26,7 +26,7 @@ class Reader internal constructor(
         seed: Long = 0L,
         onEvent: ((String) -> Unit)? = null,
     ): SynthesisPipeline.Result {
-        if (cancelled) throw EngineError.Cancelled()
+        if (cancelled) throw EngineError.Canceled()
         val result = pipeline.synthesizeText(text, speakerEmb, style, seed, onEvent = onEvent)
         last = result
         return result
@@ -41,7 +41,7 @@ class Reader internal constructor(
         seed: Long = 0L,
         onEvent: ((String) -> Unit)? = null,
     ): SynthesisPipeline.Result {
-        if (cancelled) throw EngineError.Cancelled()
+        if (cancelled) throw EngineError.Canceled()
         val result = pipeline.synthesizePhones(phoneChunks, gaps, speakerEmb, style, seed, onEvent = onEvent)
         last = result
         return result
