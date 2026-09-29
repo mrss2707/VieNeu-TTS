@@ -28,6 +28,33 @@
 static const double kEdgeThreshDb = -45.0;
 static const double kEdgeWinS = 0.01;
 
+// Treble post-process (D1 / §0.8): Butterworth order-2 low-pass @ 6 kHz, mix 0.5.
+// SOS khớp golden treble_sos.json + Android TrebleFilter.kt.
+static const double kB0 = 0.2928932188134525;
+static const double kB1 = 0.585786437626905;
+static const double kB2 = 0.2928932188134525;
+static const double kA1 = -1.8403695052228406e-16;
+static const double kA2 = 0.17157287525380993;
+static const float kTrebleMix = 0.5f;
+
+static std::vector<float> ApplyTrebleFilter(const std::vector<float> &wav) {
+    if (wav.empty()) return wav;
+    std::vector<float> filtered(wav.size());
+    double z1 = 0.0, z2 = 0.0;
+    for (size_t i = 0; i < wav.size(); i++) {
+        double x = wav[i];
+        double y = kB0 * x + z1;
+        z1 = kB1 * x + z2 - kA1 * y;
+        z2 = kB2 * x - kA2 * y;
+        filtered[i] = (float)y;
+    }
+    std::vector<float> out(wav.size());
+    for (size_t i = 0; i < wav.size(); i++) {
+        out[i] = (1.0f - kTrebleMix) * wav[i] + kTrebleMix * filtered[i];
+    }
+    return out;
+}
+
 static void EdgeSilence(const std::vector<float> &wav, int sr, size_t *outLead, size_t *outTail) {
     size_t nSamp = wav.size();
     size_t win = std::max((size_t)1, (size_t)(kEdgeWinS * sr));
@@ -164,8 +191,8 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
 
     NSString *voiceName = [[gm[@"voice"] stringByReplacingOccurrencesOfString:@" " withString:@"_"]
         stringByReplacingOccurrencesOfString:@"Đ" withString:@"D"];
-    // demo export uses voices/Duc_Tri
-    voiceName = @"Duc_Tri";
+    // demo export uses voices/Mai_Anh (young female preset)
+    voiceName = @"Mai_Anh";
     _spk = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/spk.bin", voiceName], error);
     _style = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/style.bin", voiceName], error);
     _nullSpk = LoadFloats(bundle, @"nano_test_input/demo/null_spk.bin", error);
@@ -362,6 +389,7 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
         if (nan) nanAny = YES;
     }
     std::vector<float> joined = JoinAudioChunks(wavs, _sampleRate, _demoGaps);
+    joined = ApplyTrebleFilter(joined);
     NanoTtsEngineResult *result = [NanoTtsEngineResult new];
     result.pcmFloat32 = [NSData dataWithBytes:joined.data() length:joined.size() * sizeof(float)];
     result.audioSeconds = (double)joined.size() / (double)_sampleRate;

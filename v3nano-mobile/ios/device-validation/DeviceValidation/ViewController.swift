@@ -13,9 +13,10 @@ final class ViewController: UIViewController {
     private var player: AVAudioPlayer?
 
     private let demoParagraph = """
-    Hôm nay trời đẹp. \
-    Chúng ta cùng nghe máy đọc một đoạn văn tiếng Việt bằng mô hình VieNeu Nano chạy ngay trên iPhone. \
-    Hy vọng giọng đọc đủ tự nhiên để bạn cảm nhận được chất lượng.
+    Ở đỉnh Côn Lôn, mây trắng cuồn cuộn như biển cả. \
+    Lục Vô Trần khoanh chân ngồi trên phiến đá cổ, linh khí quanh thân ngưng tụ thành từng sợi tơ vàng. \
+    Ba trăm năm tu luyện, hôm nay hắn sẽ độ kiếp. \
+    Trời đất đột nhiên tối sầm, lôi vân từ bốn phương kéo đến, sấm sét rạch ngang màn đêm.
     """
 
     override func viewDidLoad() {
@@ -77,7 +78,7 @@ final class ViewController: UIViewController {
                 if let engine {
                     self.engine = engine
                     self.speakButton.isEnabled = true
-                    self.statusLabel.text = "Sẵn sàng — ấn nút để đọc"
+                    self.statusLabel.text = "Sẵn sàng — giọng Mai Anh · treble 6kHz mix 0.5"
                 } else {
                     self.speakButton.isEnabled = false
                     self.statusLabel.text = "Lỗi nạp model: \(message)"
@@ -101,7 +102,7 @@ final class ViewController: UIViewController {
                     self.spinner.stopAnimating()
                     self.speakButton.isEnabled = true
                     self.statusLabel.text = String(
-                        format: "OK — %.1fs audio · %.0f ms sinh · %d chunk · RTF %.2f%@",
+                        format: "OK — %.1fs audio · %.0f ms sinh · %d chunk · RTF %.2f · treble ON%@",
                         result.audioSeconds,
                         result.generationMs,
                         result.nChunks,

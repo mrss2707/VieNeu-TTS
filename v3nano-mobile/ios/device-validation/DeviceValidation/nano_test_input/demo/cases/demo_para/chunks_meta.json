@@ -1,6 +1,7 @@
 {
-  "n_chunks": 2,
+  "n_chunks": 3,
   "gaps": [
+    "sentence",
     "sentence"
   ]
 }

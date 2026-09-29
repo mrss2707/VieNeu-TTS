@@ -23,12 +23,13 @@ MODEL_DIR = (
 )
 
 DEMO_TEXT = (
-    "Hôm nay trời đẹp. "
-    "Chúng ta cùng nghe máy đọc một đoạn văn tiếng Việt bằng mô hình VieNeu Nano chạy ngay trên iPhone. "
-    "Hy vọng giọng đọc đủ tự nhiên để bạn cảm nhận được chất lượng."
+    "Ở đỉnh Côn Lôn, mây trắng cuồn cuộn như biển cả. "
+    "Lục Vô Trần khoanh chân ngồi trên phiến đá cổ, linh khí quanh thân ngưng tụ thành từng sợi tơ vàng. "
+    "Ba trăm năm tu luyện, hôm nay hắn sẽ độ kiếp. "
+    "Trời đất đột nhiên tối sầm, lôi vân từ bốn phương kéo đến, sấm sét rạch ngang màn đêm."
 )
-VOICE_KEY = "Đức Trí"
-VOICE_DIR_NAME = "Duc_Tri"
+VOICE_KEY = "Mai Anh"
+VOICE_DIR_NAME = "Mai_Anh"
 
 
 def main() -> None:
