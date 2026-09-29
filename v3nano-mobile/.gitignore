@@ -15,6 +15,8 @@ build/
 *.ipa
 *.xcresult/
 DerivedData/
+# SwiftPM cache (ios/sdk/VieNeuTTS/.build)
+.build/
 # xcodegen sinh từ project.yml — không commit project sinh
 *.xcodeproj/
 
@@ -44,8 +46,10 @@ local.properties
 **/evidence/
 
 # ── Package build output (host/convert_fp16.py + build_mobile_package.py) ──
+#    include mixed-precision experiments (D4) — regenerate via convert_fp16.py --only
 package/fp16/
 package/pkg/
+package/mixed*/
 
 # ── Listening-test audio payload (base64 WAV ~50MB) ────────────────
 #    giữ html + manifest; kết luận ở docs/_supermeo/_summary/001 §0.10
