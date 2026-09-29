@@ -1,0 +1,3 @@
+# Quy tắc ignore dùng chung cho cây v3nano-mobile nằm ở ../../.gitignore
+# (build/, .gradle/, local.properties, *.iml, .idea/ …).
+# Golden fixtures trong src/test/resources/golden/ LÀ source — được commit.
