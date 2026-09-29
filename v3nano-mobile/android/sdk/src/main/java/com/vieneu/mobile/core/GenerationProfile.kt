@@ -4,6 +4,10 @@ package com.vieneu.mobile.core
  * Cấu hình sinh một lần (04-sdk-android.md §4.2): mọi thứ rẻ-để-sửa đi qua đây và có
  * [profileRevision] — khi đổi default, bump revision để integrator phát hiện cấu hình
  * cũ qua log/metrics (không âm thầm đổi hành vi).
+ *
+ * [comfortFilterEnabled] (rev 2, default ON): chuỗi [AudioComfortFilter] sau join —
+ * treble + presence dip + de-ess shelf + soft-clip. [trebleFilterEnabled] giữ lại để
+ * compat API cũ; khi comfort ON thì treble nằm trong chain.
  */
 data class GenerationProfile(
     val profileRevision: Int = PROFILE_REVISION,
@@ -14,6 +18,7 @@ data class GenerationProfile(
     val providerOrder: List<String> = listOf("CPU", "XNNPACK"),
     val maxCharsPerChunk: Int = 140,
     val trebleFilterEnabled: Boolean = true,
+    val comfortFilterEnabled: Boolean = true,
 ) {
     init {
         require(steps >= 1) { "steps must be >= 1, got $steps" }
@@ -22,6 +27,7 @@ data class GenerationProfile(
     }
 
     companion object {
-        const val PROFILE_REVISION = 1
+        /** rev 2: comfort DSP chain default ON (presence dip + shelf + soft-clip). */
+        const val PROFILE_REVISION = 2
     }
 }

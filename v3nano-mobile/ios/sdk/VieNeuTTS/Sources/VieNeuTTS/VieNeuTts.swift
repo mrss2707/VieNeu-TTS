@@ -8,6 +8,8 @@ public final class VieNeuTts {
         public var sway: Double
         public var cfg: Double
         public var trebleFilterEnabled: Bool
+        /// Comfort DSP chain (rev 2 default ON) — treble + presence dip + de-ess + soft-clip.
+        public var comfortFilterEnabled: Bool
         public var maxCharsPerChunk: Int
 
         public init(
@@ -15,12 +17,14 @@ public final class VieNeuTts {
             sway: Double = -1.0,
             cfg: Double = 3.0,
             trebleFilterEnabled: Bool = true,
+            comfortFilterEnabled: Bool = true,
             maxCharsPerChunk: Int = 140
         ) {
             self.steps = steps
             self.sway = sway
             self.cfg = cfg
             self.trebleFilterEnabled = trebleFilterEnabled
+            self.comfortFilterEnabled = comfortFilterEnabled
             self.maxCharsPerChunk = maxCharsPerChunk
         }
     }

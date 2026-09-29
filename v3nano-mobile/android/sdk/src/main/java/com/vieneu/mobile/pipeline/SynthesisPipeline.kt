@@ -2,11 +2,13 @@ package com.vieneu.mobile.pipeline
 
 import com.vieneu.mobile.api.EngineError
 import com.vieneu.mobile.api.Metrics
+import com.vieneu.mobile.core.AudioComfortFilter
 import com.vieneu.mobile.core.ChunkJoiner
 import com.vieneu.mobile.core.GenerationProfile
 import com.vieneu.mobile.core.PhoneEncoder
 import com.vieneu.mobile.core.TextNormalizer
 import com.vieneu.mobile.core.TextSegmenter
+import com.vieneu.mobile.core.TrebleFilter
 import com.vieneu.mobile.engine.SynthesisEngine
 
 /**
@@ -96,7 +98,13 @@ class SynthesisPipeline(
             chunkSeconds.add(sec)
             audioSec += sec
         }
-        val joined = ChunkJoiner.joinAudioChunks(pcmChunks, sr, gaps, onEvent)
+        var joined = ChunkJoiner.joinAudioChunks(pcmChunks, sr, gaps, onEvent)
+        // Comfort DSP (rev 2 default ON): treble + presence dip + shelf + soft-clip.
+        if (profile.comfortFilterEnabled) {
+            joined = AudioComfortFilter.apply(joined)
+        } else if (profile.trebleFilterEnabled) {
+            joined = TrebleFilter.apply(joined)
+        }
         val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else null
         val metrics = Metrics(
             rtf = rtf,

@@ -15,14 +15,16 @@ void main() {
     expect(EngineError.fromCode('E_UNKNOWN', 'x'), isA<InternalError>());
   });
 
-  test('GenerationProfile defaults match locked D1', () {
+  test('GenerationProfile defaults match locked D1 + comfort rev 2', () {
     const p = GenerationProfile();
     expect(p.steps, 8);
     expect(p.sway, -1.0);
     expect(p.cfg, 3.0);
     expect(p.trebleFilterEnabled, isTrue);
+    expect(p.comfortFilterEnabled, isTrue);
     expect(p.maxCharsPerChunk, 140);
-    expect(p.profileRevision, 1);
+    expect(p.profileRevision, 2);
+    expect(p.toMap()['comfortFilterEnabled'], isTrue);
   });
 
   test('Metrics.fromMap parses native JSON keys', () {
