@@ -1964,3 +1964,15 @@ RTF median smoke: CPU **1.143** / XNNPACK **1.137** / NNAPI **1.158** (p95 ≈ 1
 Report: `v3nano-mobile/eval/reports/2026-09-29-android-soak-tier-b.json`, raw `.../2026-09-29-android-real-device-soak-monitor.json`.
 
 **Kết luận spike (S1+S2):** FP16 **không** làm default trên Android CPU (RTF fail + thermal SEVERE + RSS chỉ −3%). iOS FP16 OK (RTF 0.332). Hành động D4: mixed FP16/FP32 (`convert_fp16.py --only`) hoặc INT8; giữ FP32 cho tới khi có số mới.
+
+### 15.7. D4 mixed-precision follow-up (2026-09-29)
+
+`convert_fp16.py --only text_encoder duration_predictor codec_decoder` (vector_estimator giữ FP32):
+
+| Package | raw | gzip | Gate ≤150MB gzip |
+|---|---|---|---|
+| all-FP16 | 141.2 MB | **130.6 MB** | PASS |
+| mixed ve=FP32 | 218.5 MB | **202.8 MB** | **FAIL** |
+| all-FP32 | 281.7 MB | (baseline) | FAIL |
+
+**Kết luận:** không thể đổi RTF lấy size bằng cách “nhả” FP16 cho `vector_estimator` — graph này 155MB nuốt ngân sách. D4 khả thi tiếp theo là **INT8 vector_estimator** (~78MB) + 3 graph FP16, hoặc tách package iOS-FP16 / Android-FP32, hoặc fix ORT Android FP16 path.

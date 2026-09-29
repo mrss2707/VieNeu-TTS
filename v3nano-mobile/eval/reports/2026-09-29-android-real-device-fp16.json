@@ -122,5 +122,30 @@
   "fail_action_per_plan": "02-lo-trinh-sprint Gđ0-S1: FAIL → quay lại D4: mixed FP16/FP32 (vector_estimator FP32?), hoặc INT8 thử sớm; đo lại gói. Không ship FP16-only trên Android CPU nếu chưa giải RTF.",
   "what_this_proves": "FP16 load + sinh được full corpus 3 provider, 0 NaN/hard-fail trên OnePlus thật",
   "what_this_does_NOT_prove": "Target RTF/RAM của spike S1 KHÔNG đạt ở Android; WER device-side chưa chạy; iOS FP16 lại đạt RTF 0.332 (xem report iOS cùng ngày) — vấn đề có thể là ORT Android CPU FP16 path, không phải contract sinh audio.",
-  "raw_result_file": "app external files nano_android_result_real_device.json (pulled)"
+  "raw_result_file": "app external files nano_android_result_real_device.json (pulled)",
+  "d4_followup": {
+    "date": "2026-09-29",
+    "action": "mixed FP16/FP32 — vector_estimator giữ FP32 (hot path ×8), 3 graph còn lại FP16",
+    "tool": "v3nano-mobile/host/convert_fp16.py --only text_encoder.onnx duration_predictor.onnx codec_decoder.onnx",
+    "raw_bytes": {
+      "all_fp32": 281700111,
+      "all_fp16": 141208855,
+      "mixed_ve_fp32": 218549023
+    },
+    "gzip_mb": {
+      "all_fp16": 130.6,
+      "mixed_ve_fp32": 202.8
+    },
+    "package_gate_le_150mb_gzip": {
+      "all_fp16": true,
+      "mixed_ve_fp32": false
+    },
+    "verdict": "D4 mixed (ve=FP32) KHÔNG đóng gói được trong budget ≤150MB gzip. Đổi RTF lấy size không có cửa với split này — vector_estimator FP32 155MB nuốt ngân sách.",
+    "not_run_on_device": "Không cài mixed package lên device: package gate đã FAIL từ host; RTF của ve-FP32 đã biết từ baseline (median ~0.32).",
+    "next_options": [
+      "INT8/quantize vector_estimator (kỳ vọng ~78MB) + 3 graph FP16 → gzip có thể ≤150MB và RTF gần FP32",
+      "Giữ all-FP16 cho iOS (RTF 0.332 PASS) — Android dùng FP32 package riêng hoặc accept RTF",
+      "Profile ORT Android FP16 kernels / ép XNNPACK fp16 accumulation — fix runtime thay vì package"
+    ]
+  }
 }
