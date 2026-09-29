@@ -1,0 +1,174 @@
+<meta charset="utf-8">
+<title>So sánh steps chuẩn</title>
+<meta name="description" content="So sánh 16, 8, 6, 4 bước Euler qua đúng pipeline chunking thật (V3NanoVieNeuTTS.infer), trên 4 đoạn văn đại diện gồm cả trích đoạn audiobook thật.">
+<style>
+  :root {
+    --ink: #1c1a17; --ink-soft: #5c5650; --paper: #faf7f2; --paper-raised: #ffffff;
+    --line: #e3ddd3; --accent: #b5562f; --accent-soft: #f3e3d8;
+    --good: #3f7d5c; --good-soft: #e3ede7; --warn: #a8791f; --warn-soft: #f4ecd9;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+      --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+      --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+    --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+    --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+    color-scheme: dark;
+  }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); padding: 32px 16px 80px; }
+  * { box-sizing: border-box; }
+  .wrap { max-width: 860px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-size: 27px; line-height: 1.25; margin: 0 0 12px; text-wrap: balance; letter-spacing: -0.01em; }
+  .lede { font-size: 15px; line-height: 1.6; color: var(--ink-soft); max-width: 68ch; margin: 0 0 20px; }
+
+  .fixed-note {
+    font-size: 13px; line-height: 1.55; color: var(--ink-soft); background: var(--paper-raised);
+    border: 1px solid var(--line); border-left: 3px solid var(--good); border-radius: 0 8px 8px 0;
+    padding: 12px 14px; margin: 0 0 28px;
+  }
+  .fixed-note b { color: var(--good); }
+
+  .rtf-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 13px;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .rtf-table th, .rtf-table td {
+    padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums;
+  }
+  .rtf-table th:first-child, .rtf-table td:first-child { text-align: left; font-family: var(--mono); }
+  .rtf-table th { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); background: var(--accent-soft); }
+  .rtf-table tr:last-child td { border-bottom: none; }
+  .rtf-table td.best { color: var(--good); font-weight: 600; }
+
+  .case { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 16px; }
+  .case-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .case-title { font-size: 13px; font-weight: 600; font-family: var(--mono); }
+  .case-len { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); }
+  .case-text { font-size: 15px; line-height: 1.55; margin: 0 0 16px; color: var(--ink); text-wrap: balance; }
+  .case-text.long { font-size: 14px; max-height: 5.4em; overflow-y: auto; padding-right: 6px; }
+
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  @media (max-width: 720px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px) { .steps-grid { grid-template-columns: 1fr; } }
+
+  .step-cell { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .step-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .step-name { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+  .step-rtf { font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft); }
+  audio { width: 100%; height: 30px; display: block; }
+
+  footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+  footer code { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <p class="eyebrow">VieNeu-TTS v3 Nano · So sánh chuẩn</p>
+  <h1>16, 8, 6, 4 bước — qua đúng pipeline thật</h1>
+  <p class="lede">
+    Bản demo trước dùng sai cách gọi engine (bỏ qua chia chunk) nên bị nuốt chữ giả — không phải
+    lỗi thật của model. Bản này gọi đúng <code>V3NanoVieNeuTTS.infer()</code>, tự chia câu dài
+    thành các đoạn ≤140 ký tự trước khi sinh, đúng như app thật sẽ làm. Bao gồm 1 trích đoạn
+    audiobook thật (546 ký tự, 3 chunk) để đánh giá đúng use-case đọc truyện/sách.
+  </p>
+  <p class="fixed-note">
+    <b>Đã sửa:</b> mọi audio dưới đây có độ dài nhất quán giữa các mức steps (chênh lệch &lt;1%) —
+    xác nhận không còn hiện tượng nén/nuốt chữ do thiếu chia chunk.
+  </p>
+
+  <table class="rtf-table">
+    <thead><tr><th>Cấu hình</th><th>Audiobook</th><th>Câu dài (st17)</th><th>Kể chuyện (s07)</th><th>Hội thoại (s08)</th></tr></thead>
+    <tbody id="rtf-body"></tbody>
+  </table>
+
+  <div id="cases"></div>
+
+  <footer>
+    Tất cả sinh bằng <code>V3NanoVieNeuTTS.infer(voice="Minh Quân", seed=0)</code> trên macOS
+    ARM64 (CPU, FP32) — pipeline có chia chunk theo <code>max_chars=140</code>, ghép lại bằng
+    <code>join_audio_chunks</code>. steps=16 dùng sway=0 (mặc định gốc); steps=8/6/4 dùng sway=−1
+    theo khuyến nghị trong docstring <code>src/vieneu/v3nano.py</code>. RTF đo trên host macOS,
+    không phải mobile — chỉ dùng để so sánh tương đối giữa các mức steps, không đại diện tốc độ
+    trên điện thoại thật.
+  </footer>
+</div>
+
+<script>
+(async function () {
+  const CONFIGS = [
+    { key: 'steps16', label: '16 bước', sub: 'sway=0 · gốc' },
+    { key: 'steps8', label: '8 bước', sub: 'sway=−1' },
+    { key: 'steps6', label: '6 bước', sub: 'sway=−1' },
+    { key: 'steps4', label: '4 bước', sub: 'sway=−1' },
+  ];
+  const CASE_TITLES = {
+    audiobook: 'Trích đoạn audiobook thật',
+    st17_long: 'Câu rất dài (stress)',
+    s07_story: 'Đoạn kể chuyện',
+    s08_dialogue: 'Hội thoại 2 nhân vật',
+  };
+
+  let manifest = [], audio = {};
+  try {
+    const [mRes, aRes] = await Promise.all([fetch('v2_manifest.json'), fetch('v2_audio_data.json')]);
+    manifest = await mRes.json();
+    audio = await aRes.json();
+  } catch (e) {
+    document.body.innerHTML = '<p style="padding:32px">Không tải được dữ liệu audio.</p>';
+    return;
+  }
+
+  // RTF table
+  const tbody = document.getElementById('rtf-body');
+  CONFIGS.forEach(function (cfg) {
+    const tr = document.createElement('tr');
+    let html = '<td>' + cfg.label + '</td>';
+    manifest.forEach(function (row) {
+      const rtf = row[cfg.key].rtf;
+      const isBest = cfg.key === 'steps4';
+      html += '<td' + (isBest ? ' class="best"' : '') + '>' + rtf.toFixed(3) + '</td>';
+    });
+    tr.innerHTML = html;
+    tbody.appendChild(tr);
+  });
+
+  // Case cards
+  const container = document.getElementById('cases');
+  manifest.forEach(function (row) {
+    const card = document.createElement('div');
+    card.className = 'case';
+    const isLong = row.text.length > 200;
+    let html =
+      '<div class="case-head">' +
+        '<span class="case-title">' + CASE_TITLES[row.id] + '</span>' +
+        '<span class="case-len">' + row.char_count + ' ký tự · ' + row.steps16.audio_seconds + 's audio</span>' +
+      '</div>' +
+      '<p class="case-text' + (isLong ? ' long' : '') + '">' + row.text.replace(/</g, '&lt;') + '</p>' +
+      '<div class="steps-grid">';
+    CONFIGS.forEach(function (cfg) {
+      const key = row.id + '_' + cfg.key;
+      html +=
+        '<div class="step-cell">' +
+          '<div class="step-head"><span class="step-name">' + cfg.label + '</span>' +
+          '<span class="step-rtf">RTF ' + row[cfg.key].rtf.toFixed(3) + '</span></div>' +
+          '<audio controls preload="none" src="data:audio/wav;base64,' + audio[key] + '"></audio>' +
+        '</div>';
+    });
+    html += '</div>';
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+})();
+</script>

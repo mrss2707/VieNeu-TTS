@@ -1,0 +1,122 @@
+<meta charset="utf-8">
+<title>Nguyên nhân thật: thiếu chia chunk</title>
+<meta name="description" content="Root cause của hiện tượng nuốt chữ: harness kiểm thử gọi thẳng engine.infer() với cả câu dài, bỏ qua bước chia chunk max_chars=140 mà pipeline thật luôn làm.">
+<style>
+  :root {
+    --ink: #1c1a17; --ink-soft: #5c5650; --paper: #faf7f2; --paper-raised: #ffffff;
+    --line: #e3ddd3; --accent: #b5562f; --accent-soft: #f3e3d8;
+    --good: #3f7d5c; --good-soft: #e3ede7; --bad: #b23b3b; --bad-soft: #f5e2e0;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+      --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+      --good: #7bbd97; --good-soft: #1c2b21; --bad: #e08585; --bad-soft: #341c1c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+    --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+    --good: #7bbd97; --good-soft: #1c2b21; --bad: #e08585; --bad-soft: #341c1c;
+    color-scheme: dark;
+  }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); padding: 32px 16px 64px; }
+  * { box-sizing: border-box; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-size: 25px; line-height: 1.3; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 20px; }
+  .finding {
+    font-size: 14.5px; line-height: 1.65; background: var(--good-soft); border: 1px solid var(--good);
+    border-radius: 10px; padding: 16px 18px; margin: 0 0 28px; color: var(--ink);
+  }
+  .finding b { color: var(--good); }
+  .players { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .player { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+  .player.bad { border-color: var(--bad); }
+  .player.good { border-color: var(--good); }
+  .player-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+  .player-title { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .player.bad .player-title { color: var(--bad); }
+  .player.good .player-title { color: var(--good); }
+  .player-len { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+  .player-desc { font-size: 13px; color: var(--ink-soft); margin: 0 0 12px; line-height: 1.5; }
+  audio { width: 100%; height: 32px; display: block; }
+  .code-block {
+    font-family: var(--mono); font-size: 12px; background: var(--paper-raised); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 12px; margin: 8px 0 0; overflow-x: auto; white-space: pre; color: var(--ink-soft);
+  }
+  footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+  footer code { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <p class="eyebrow">Root cause tìm thấy</p>
+  <h1>Không phải steps, không phải sway — thiếu chia chunk</h1>
+  <p class="lede">
+    Ma trận 2×2 (steps × sway) cho kết quả nuốt chữ giống nhau ở cả 4 ô — nghĩa là thủ phạm nằm
+    ở nơi khác. Harness kiểm thử (và toàn bộ báo cáo RTF/WER trước đó) gọi thẳng
+    <code>OnnxV3NanoEngine.infer()</code> với nguyên câu 90 từ trong một lần, bỏ qua bước
+    <b>chia câu thành chunk ≤140 ký tự</b> mà pipeline thật (<code>V3NanoVieNeuTTS.infer()</code>)
+    luôn làm trước khi gọi engine bên dưới.
+  </p>
+
+  <div class="players">
+    <div class="player bad">
+      <div class="player-head">
+        <span class="player-title">Cách đã test (sai)</span>
+        <span class="player-len">14.89s</span>
+      </div>
+      <p class="player-desc">Gọi thẳng <code>engine.infer()</code> với cả câu — cách mọi harness
+      benchmark (Android, iOS, script ASR) đã dùng cho đến giờ.</p>
+      <audio controls preload="none" id="audio-bad"></audio>
+    </div>
+    <div class="player good">
+      <div class="player-head">
+        <span class="player-title">Pipeline thật của sản phẩm</span>
+        <span class="player-len">20.99s</span>
+      </div>
+      <p class="player-desc">Gọi <code>V3NanoVieNeuTTS.infer()</code> — tự động chia câu thành
+      4 chunk (≤140 ký tự mỗi chunk) rồi ghép lại, đúng như app thật sẽ làm.</p>
+      <audio controls preload="none" id="audio-good"></audio>
+    </div>
+  </div>
+
+  <p class="finding">
+    <b>Nếu ô dưới đọc đầy đủ không nuốt chữ</b>, toàn bộ số liệu RTF/WER đã đo trong các vòng
+    validation trước cho câu dài (kể cả steps=16 gốc) đều dùng sai cách gọi engine — cần chạy lại
+    qua đúng pipeline có chia chunk trước khi kết luận bất cứ điều gì về chất lượng câu dài.
+  </p>
+
+  <footer>
+    4 chunk mà pipeline thật chia ra: <code>"trong suốt hơn ba mươi năm qua, kể từ khi thành phố
+    bắt đầu công cuộc đổi mới và mở cửa nền kinh tế,"</code> (100 ký tự) · <code>"đời sống của
+    người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày,"</code> (93) ·
+    <code>"cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế,"</code> (65) ·
+    <code>"và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia
+    đình lao động bình thường trong khu vực này."</code> (131). Xem
+    <code>src/vieneu/v3nano.py::V3NanoVieNeuTTS.infer()</code> và
+    <code>normalize_to_chunks_v3_with_gaps(max_chars=140)</code>.
+  </footer>
+</div>
+
+<script>
+(async function () {
+  let data = {};
+  try {
+    const res = await fetch('rootcause_data.json');
+    data = await res.json();
+  } catch (e) {
+    document.body.innerHTML = '<p style="padding:32px">Không tải được dữ liệu audio.</p>';
+    return;
+  }
+  document.getElementById('audio-bad').src = 'data:audio/wav;base64,' + data.wrong_single_chunk;
+  document.getElementById('audio-good').src = 'data:audio/wav;base64,' + data.correct_real_pipeline;
+})();
+</script>

@@ -1,0 +1,329 @@
+<meta charset="utf-8">
+<title>Nghe thử steps=16 vs 8</title>
+<meta name="description" content="So sánh trực tiếp chất lượng giọng đọc VieNeu-TTS v3 Nano ở 16 bước Euler (mặc định) và 8 bước (candidate nhanh hơn 2x) trên 7 câu đại diện.">
+<style>
+  :root {
+    --ink: #1c1a17;
+    --ink-soft: #5c5650;
+    --paper: #faf7f2;
+    --paper-raised: #ffffff;
+    --line: #e3ddd3;
+    --accent: #b5562f;
+    --accent-soft: #f3e3d8;
+    --good: #3f7d5c;
+    --good-soft: #e3ede7;
+    --warn: #a8791f;
+    --warn-soft: #f4ecd9;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ede8e0;
+      --ink-soft: #b3aa9c;
+      --paper: #17140f;
+      --paper-raised: #211d17;
+      --line: #362f26;
+      --accent: #e08052;
+      --accent-soft: #3a2418;
+      --good: #7bbd97;
+      --good-soft: #1c2b21;
+      --warn: #d9ac4f;
+      --warn-soft: #2e2717;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede8e0;
+    --ink-soft: #b3aa9c;
+    --paper: #17140f;
+    --paper-raised: #211d17;
+    --line: #362f26;
+    --accent: #e08052;
+    --accent-soft: #3a2418;
+    --good: #7bbd97;
+    --good-soft: #1c2b21;
+    --warn: #d9ac4f;
+    --warn-soft: #2e2717;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    padding: 32px 16px 64px;
+  }
+  * { box-sizing: border-box; }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  header { margin-bottom: 36px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-size: 27px;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 20px;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .stat {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 14px;
+    flex: 1 1 140px;
+    min-width: 130px;
+  }
+  .stat .k {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .stat .v {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .v.warn { color: var(--warn); }
+  .stat .v.good { color: var(--good); }
+
+  .note {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+    margin: 20px 0 0;
+  }
+
+  .cases { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+
+  .case {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+
+  .case-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .case-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .case-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  .case-text {
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0 0 16px;
+    text-wrap: balance;
+  }
+
+  .players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 480px) {
+    .players { grid-template-columns: 1fr; }
+  }
+
+  .player {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .player-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .player-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .player-name.a { color: var(--ink); }
+  .player-name.b { color: var(--accent); }
+  .player-len {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  audio {
+    width: 100%;
+    height: 32px;
+    display: block;
+  }
+  audio::-webkit-media-controls-panel {
+    background: transparent;
+  }
+
+  .wer-row {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-soft);
+  }
+  .wer-row b {
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  footer code {
+    font-family: var(--mono);
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 11.5px;
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">VieNeu-TTS v3 Nano · Validation H4</p>
+    <h1>Nghe thử: 16 bước Euler so với 8 bước</h1>
+    <p class="lede">
+      Giảm số bước lấy mẫu (Euler steps) từ 16 xuống 8 giúp tốc độ sinh giọng nói nhanh gấp
+      ~2 lần trên cả Android và iPhone thật — đủ để đạt mục tiêu tốc độ đề ra. Nhưng ASR đo được
+      tỷ lệ lỗi từ (WER) tăng khoảng 27%. Đây là 7 câu để tự nghe và đánh giá xem mức giảm chất
+      lượng đó có chấp nhận được cho việc đọc truyện hay không.
+    </p>
+    <div class="stat-row">
+      <div class="stat"><div class="k">RTF · Android CPU</div><div class="v"><span class="warn">0.61</span> → <span class="good">0.32</span></div></div>
+      <div class="stat"><div class="k">RTF · iPhone CPU</div><div class="v"><span class="warn">0.70</span> → <span class="good">0.29</span></div></div>
+      <div class="stat"><div class="k">WER trung bình</div><div class="v"><span class="good">7.9%</span> → <span class="warn">10.1%</span></div></div>
+    </div>
+    <p class="note">
+      Mỗi cặp: cột trái là <b>16 bước</b> (mặc định hiện tại), cột phải là <b>8 bước + sway&nbsp;=&nbsp;−1</b>
+      (candidate nhanh hơn). Cùng giọng "Minh Quân", cùng văn bản, chỉ khác số bước lấy mẫu.
+    </p>
+  </header>
+
+  <div class="cases" id="cases"></div>
+
+  <footer>
+    Sinh bằng <code>OnnxV3NanoEngine.infer()</code> trên macOS ARM64 (CPU, FP32) —
+    xem <code>docs/_supermeo/_summary/001-v3-nano-mobile.md</code> mục 0.6–0.7 và
+    <code>benchmarks/mobile/reports/2026-09-28-macos-arm64-asr-quality-steps8.json</code> để biết
+    toàn bộ số liệu. WER hiển thị dưới mỗi cặp (khi có) đến từ faster-whisper trên đúng câu đó,
+    không phải đánh giá chủ quan.
+  </footer>
+</div>
+
+<script>
+(async function () {
+  const container = document.getElementById('cases');
+  let cases = [];
+  try {
+    const res = await fetch('cases_data.json');
+    cases = await res.json();
+  } catch (e) {
+    container.innerHTML = '<p style="color:var(--ink-soft)">Không tải được dữ liệu audio.</p>';
+    return;
+  }
+
+  function wavSrc(b64) {
+    return 'data:audio/wav;base64,' + b64;
+  }
+
+  cases.forEach(function (c) {
+    const card = document.createElement('div');
+    card.className = 'case';
+
+    const werHtml = c.wer
+      ? '<div class="wer-row"><span>WER (ASR proxy)</span><span>16 bước: <b>' +
+        (c.wer.wer16 * 100).toFixed(1) + '%</b> &nbsp;·&nbsp; 8 bước: <b>' +
+        (c.wer.wer8 * 100).toFixed(1) + '%</b></span></div>'
+      : '';
+
+    card.innerHTML =
+      '<div class="case-head">' +
+        '<span class="case-tag">' + c.category + '</span>' +
+        '<span class="case-id">' + c.id + '</span>' +
+      '</div>' +
+      '<p class="case-text">' + c.text.replace(/</g, '&lt;') + '</p>' +
+      '<div class="players">' +
+        '<div class="player">' +
+          '<div class="player-label"><span class="player-name a">16 bước</span><span class="player-len">' + c.steps16_len.toFixed(2) + 's</span></div>' +
+          '<audio controls preload="none" src="' + wavSrc(c.audio16) + '"></audio>' +
+        '</div>' +
+        '<div class="player">' +
+          '<div class="player-label"><span class="player-name b">8 bước</span><span class="player-len">' + c.steps8_len.toFixed(2) + 's</span></div>' +
+          '<audio controls preload="none" src="' + wavSrc(c.audio8) + '"></audio>' +
+        '</div>' +
+      '</div>' +
+      werHtml;
+
+    container.appendChild(card);
+  });
+})();
+</script>

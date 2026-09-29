@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<title>Ma trận steps × sway</title>
+<meta name="description" content="Xác nhận nguyên nhân nuốt chữ: 2x2 ma trận steps ∈ {16,8} × sway ∈ {0,-1} trên cùng một câu dài.">
+<style>
+  :root {
+    --ink: #1c1a17; --ink-soft: #5c5650; --paper: #faf7f2; --paper-raised: #ffffff;
+    --line: #e3ddd3; --accent: #b5562f; --accent-soft: #f3e3d8;
+    --good: #3f7d5c; --good-soft: #e3ede7; --warn: #a8791f; --warn-soft: #f4ecd9;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+      --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+      --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+    --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+    --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+    color-scheme: dark;
+  }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); padding: 32px 16px 64px; }
+  * { box-sizing: border-box; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-size: 25px; line-height: 1.3; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 14.5px; line-height: 1.6; color: var(--ink-soft); margin: 0 0 20px; }
+  .finding {
+    font-size: 14px; line-height: 1.6; background: var(--good-soft); border: 1px solid var(--good);
+    border-radius: 10px; padding: 14px 16px; margin: 0 0 24px; color: var(--ink);
+  }
+  .finding b { color: var(--good); }
+  .quote-text {
+    font-size: 15px; line-height: 1.6; background: var(--paper-raised); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 16px; margin: 0 0 24px;
+  }
+  .grid2 {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  }
+  @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; } }
+  .cell { background: var(--paper-raised); padding: 16px; }
+  .cell-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .cell-title { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .cell-badge { font-family: var(--mono); font-size: 10.5px; padding: 2px 8px; border-radius: 999px; }
+  .badge-sway0 { background: var(--good-soft); color: var(--good); }
+  .badge-swaym1 { background: var(--warn-soft); color: var(--warn); }
+  audio { width: 100%; height: 32px; display: block; }
+  .col-labels { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 4px; }
+  @media (max-width: 560px) { .col-labels { display: none; } }
+  .col-label { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); text-align: center; padding-bottom: 4px; }
+  footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+  footer code { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <p class="eyebrow">Xác nhận nguyên nhân</p>
+  <h1>Ma trận đầy đủ: steps × sway</h1>
+  <p class="lede">
+    Vòng trước cho thấy cả 16 bước lẫn 8 bước đều nuốt chữ khi <code>sway=−1</code> — dấu hiệu cho
+    thấy thủ phạm là <b>sway</b>, không phải số bước. Ma trận 2×2 dưới đây xác nhận điều đó bằng
+    cách thêm ô còn thiếu: <code>steps=8, sway=0</code>.
+  </p>
+  <div class="quote-text">
+    "Trong suốt <b>hơn</b> ba mươi năm qua, ... <b>đời sống của</b> người dân đã có những thay đổi
+    <b>to</b> lớn, ..."
+  </div>
+
+  <div class="col-labels">
+    <div class="col-label">sway = 0</div>
+    <div class="col-label">sway = −1</div>
+  </div>
+  <div class="grid2" id="matrix"></div>
+
+  <p class="finding" id="finding-text">
+    Nếu hàng trên (16 bước) rõ ở cả 2 cột nhưng hàng dưới (8 bước) cũng rõ ở cột sway=0 —
+    thì <b>sway=−1 là nguyên nhân chính</b>, không phải số bước.
+  </p>
+
+  <footer>
+    Cùng câu, cùng giọng "Minh Quân", cfg=3.0, seed=0 cho toàn bộ 4 ô. Sinh bằng
+    <code>OnnxV3NanoEngine.infer()</code> trên macOS ARM64 (CPU, FP32).
+  </footer>
+</div>
+
+<script>
+(async function () {
+  let data = {};
+  try {
+    const res = await fetch('matrix_data.json');
+    data = await res.json();
+  } catch (e) {
+    document.body.innerHTML = '<p style="padding:32px">Không tải được dữ liệu audio.</p>';
+    return;
+  }
+  function src(key) { return 'data:audio/wav;base64,' + data[key]; }
+  function cell(title, badgeClass, badgeText, key) {
+    return '<div class="cell"><div class="cell-head"><span class="cell-title">' + title +
+      '</span><span class="cell-badge ' + badgeClass + '">' + badgeText + '</span></div>' +
+      '<audio controls preload="none" src="' + src(key) + '"></audio></div>';
+  }
+  document.getElementById('matrix').innerHTML =
+    cell('16 bước', 'badge-sway0', 'sway=0', 'st17_16_sway0') +
+    cell('16 bước', 'badge-swaym1', 'sway=−1', 'st17_16_swaym1') +
+    cell('8 bước', 'badge-sway0', 'sway=0', 'st17_8_sway0') +
+    cell('8 bước', 'badge-swaym1', 'sway=−1', 'st17_8_swaym1');
+})();
+</script>

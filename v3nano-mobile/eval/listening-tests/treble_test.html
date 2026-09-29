@@ -1,0 +1,137 @@
+<meta charset="utf-8">
+<title>Giảm treble steps=8</title>
+<meta name="description" content="So sánh 16 bước gốc, 8 bước thô, và 8 bước đã lọc bớt treble bằng gentle low-pass shelf filter — chi phí xử lý chỉ 8ms cho 32s audio.">
+<style>
+  :root {
+    --ink: #1c1a17; --ink-soft: #5c5650; --paper: #faf7f2; --paper-raised: #ffffff;
+    --line: #e3ddd3; --accent: #b5562f; --accent-soft: #f3e3d8;
+    --good: #3f7d5c; --good-soft: #e3ede7; --warn: #a8791f; --warn-soft: #f4ecd9;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+      --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+      --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #ede8e0; --ink-soft: #b3aa9c; --paper: #17140f; --paper-raised: #211d17;
+    --line: #362f26; --accent: #e08052; --accent-soft: #3a2418;
+    --good: #7bbd97; --good-soft: #1c2b21; --warn: #d9ac4f; --warn-soft: #2e2717;
+    color-scheme: dark;
+  }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); padding: 32px 16px 80px; }
+  * { box-sizing: border-box; }
+  .wrap { max-width: 800px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-size: 26px; line-height: 1.28; margin: 0 0 12px; text-wrap: balance; letter-spacing: -0.01em; }
+  .lede { font-size: 15px; line-height: 1.6; color: var(--ink-soft); max-width: 66ch; margin: 0 0 20px; }
+
+  .spec-table {
+    width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 12.5px;
+    background: var(--paper-raised); border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .spec-table th, .spec-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+  .spec-table th:first-child, .spec-table td:first-child { text-align: left; font-family: var(--mono); }
+  .spec-table th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-soft); background: var(--accent-soft); }
+  .spec-table tr:last-child td { border-bottom: none; }
+
+  .cost-note {
+    font-size: 13px; line-height: 1.55; color: var(--ink-soft); background: var(--good-soft);
+    border: 1px solid var(--good); border-radius: 10px; padding: 12px 14px; margin: 0 0 28px;
+  }
+  .cost-note b { color: var(--good); }
+
+  .case { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 16px; }
+  .case-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .case-title { font-size: 13px; font-weight: 600; font-family: var(--mono); }
+  .case-text { font-size: 14.5px; line-height: 1.55; margin: 0 0 16px; color: var(--ink-soft); max-height: 4.6em; overflow-y: auto; }
+
+  .players3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 620px) { .players3 { grid-template-columns: 1fr; } }
+  .player { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .player.c { border-color: var(--good); }
+  .player-name { font-family: var(--mono); font-size: 12px; font-weight: 600; display: block; margin-bottom: 8px; }
+  .player.a .player-name { color: var(--ink); }
+  .player.b .player-name { color: var(--warn); }
+  .player.c .player-name { color: var(--good); }
+  audio { width: 100%; height: 32px; display: block; }
+
+  footer { margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+  footer code { font-family: var(--mono); background: var(--accent-soft); color: var(--accent); padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<div class="wrap">
+  <p class="eyebrow">Khắc phục treble ở steps=8</p>
+  <h1>Gentle low-pass shelf — miễn phí về hiệu năng</h1>
+  <p class="lede">
+    Đo phổ tần cho thấy steps=8 không có nhiều treble hơn về tỷ trọng — tổng năng lượng audio
+    thấp hơn ~9,5% khiến dải trung-cao (1–3kHz, nơi tai nhạy với độ "chói") nổi bật tương đối hơn.
+    Một bộ lọc low-pass bậc 2 tại 6kHz, trộn 50% với bản gốc, đưa tỷ trọng phổ tần trở lại gần với
+    steps=16 mà không cần sinh lại audio.
+  </p>
+
+  <table class="spec-table">
+    <thead><tr><th>Dải tần</th><th>steps=16 (gốc)</th><th>steps=8 thô</th><th>steps=8 đã lọc</th></tr></thead>
+    <tbody>
+      <tr><td>0–1000 Hz</td><td>86.24%</td><td>85.50%</td><td>86.05%</td></tr>
+      <tr><td>1000–3000 Hz</td><td>12.56%</td><td>13.28%</td><td>13.07%</td></tr>
+      <tr><td>3000–6000 Hz</td><td>0.97%</td><td>0.99%</td><td>0.83%</td></tr>
+      <tr><td>6000–9000 Hz</td><td>0.19%</td><td>0.19%</td><td>0.05%</td></tr>
+      <tr><td>9000–12000 Hz</td><td>0.04%</td><td>0.04%</td><td>0.01%</td></tr>
+    </tbody>
+  </table>
+  <p class="cost-note">
+    <b>Chi phí xử lý: 8,3 ms cho 32,4 giây audio</b> — RTF cost chỉ 0,00026, tức nhỏ hơn 1/300 so
+    với RTF sinh audio (~0,09 ở steps=8). Filter là <code>scipy.signal.butter</code> bậc 2 chạy
+    trên CPU, không cần thêm bước inference, không đổi model.
+  </p>
+
+  <div id="cases"></div>
+
+  <footer>
+    Công thức: <code>filtered = sosfilt(butter(2, 6000, 'low', fs=24000), wav)</code>, sau đó
+    <code>out = 0.5*wav + 0.5*filtered</code> (mix 50%, giữ lại phụ âm rõ thay vì cắt cứng).
+    Trên thiết bị mobile thật, có thể triển khai tương đương bằng
+    <code>AVAudioUnitEQ</code> (iOS) hoặc <code>android.media.audiofx.Equalizer</code> (Android)
+    áp ngay trên luồng phát, không cần xử lý lại waveform trong app.
+  </footer>
+</div>
+
+<script>
+(async function () {
+  let manifest = [], data = {};
+  try {
+    const [mRes, dRes] = await Promise.all([fetch('treble_manifest.json'), fetch('treble_data.json')]);
+    manifest = await mRes.json();
+    data = await dRes.json();
+  } catch (e) {
+    document.body.innerHTML = '<p style="padding:32px">Không tải được dữ liệu audio.</p>';
+    return;
+  }
+  const container = document.getElementById('cases');
+  manifest.forEach(function (row) {
+    const card = document.createElement('div');
+    card.className = 'case';
+    card.innerHTML =
+      '<div class="case-head"><span class="case-title">' + row.title + '</span></div>' +
+      '<p class="case-text">' + row.text.replace(/</g, '&lt;') + '</p>' +
+      '<div class="players3">' +
+        '<div class="player a"><span class="player-name">16 bước (gốc)</span>' +
+          '<audio controls preload="none" src="data:audio/wav;base64,' + data[row.id + '_a'] + '"></audio></div>' +
+        '<div class="player b"><span class="player-name">8 bước, thô</span>' +
+          '<audio controls preload="none" src="data:audio/wav;base64,' + data[row.id + '_b'] + '"></audio></div>' +
+        '<div class="player c"><span class="player-name">8 bước, đã lọc treble</span>' +
+          '<audio controls preload="none" src="data:audio/wav;base64,' + data[row.id + '_c'] + '"></audio></div>' +
+      '</div>';
+    container.appendChild(card);
+  });
+})();
+</script>
