@@ -1,0 +1,86 @@
+{
+  "created": "2026-09-28",
+  "author": "validation session (Claude Code), nội dung tự viết cho mục đích test",
+  "license": "Nội dung mới viết (smoke/stress/audiobook_extra): tương đương CC0, chỉ dùng nội bộ cho validation. Phần tái sử dụng (audio_ref/*, assets/samples/*, examples/srt/*) giữ nguyên license của repo gốc (xem LICENSE ở root).",
+  "scale_note": "Corpus MVP cho vòng validation không-cần-device (protocol 002 §3). KHÔNG đạt quy mô production protocol 002 đề xuất (regression 300-1000 câu, audiobook 5/15/30 phút thật, corpus riêng cho calibration/quantization). Đủ dùng để: (a) đo RTF median/p95/stddev trên >1 câu, (b) xác nhận không NaN/Inf trên edge case cơ bản, (c) có voice matrix tối thiểu. Không đủ để mở bất kỳ quality/quantization gate nào.",
+  "files": {
+    "smoke.jsonl": {
+      "sha256": "31d59b14ae8a130afcf4020cd7b774d0ce6c423e7085fc60899c11db5d2ce1ed",
+      "size_bytes": 3327
+    },
+    "stress.jsonl": {
+      "sha256": "d92f66ecaca31477ad10306c3ac93960f6b22aa371f575d698dbf698e3137744",
+      "size_bytes": 3057
+    },
+    "audiobook_short.jsonl": {
+      "sha256": "47e3755f06a29fc5e29fdc506435a3fcedc1488164a93173f1e327be8eb4ff48",
+      "size_bytes": 3535
+    },
+    "voice_matrix.json": {
+      "sha256": "c4171a85201a21012d1deb6cb79772e01dd181b0058a2d3cb40c0436fa7d0801",
+      "size_bytes": 1143
+    }
+  },
+  "counts": {
+    "smoke": 20,
+    "stress": 20,
+    "audiobook_short": 1,
+    "audiobook_short_char_count": 2382,
+    "audiobook_short_estimated_seconds_from_srt_source": 173.435,
+    "voice_matrix": 5
+  },
+  "frozen": {
+    "frozen_as": "corpus-mvp-v1",
+    "frozen_date": "2026-09-29",
+    "frozen_for": "Sprint 1 golden contract + regression baseline (kế hoạch 001-mvp)",
+    "generation_defaults": {
+      "steps": 8,
+      "sway": -1.0,
+      "cfg": 3.0,
+      "max_chars_per_chunk": 140
+    },
+    "note": "Đóng băng NỘI DUNG 40 case smoke+stress (sha256 canonical JSON từng case) + 4 file dạng jsonl. Mọi sửa đổi case sau ngày này phải bump frozen_as hoặc tách corpus mới — golden artifacts (benchmarks/mobile/golden/) sinh từ chính bản đóng băng này.",
+    "case_sha256": {
+      "smoke_s01": "63ee2264f1142c3e033612112c25bff1164d9718df1ef913a5717d00db9c58f2",
+      "smoke_s02": "5c4eb298fad240324613b64d47ccc7db7fb2abf691fff27280bee0cd67f0df0f",
+      "smoke_s03": "5ed1c8ad9dfe5d8d229232837bb2fd0ae89321300ee7d276478282a0eb88cb8b",
+      "smoke_s04": "252e8f275539bab9c6046da66a71fc3df37a0dc324aa796bf08885df13953055",
+      "smoke_s05": "567998f109d2db5c793d14c0eab293a499a1e4efd11c5f121811da24b773ba3d",
+      "smoke_s06": "6884ee3eb320911e87eaa7574e9454ce1ddaea15324c0d4b63337c92d2dc2858",
+      "smoke_s07": "8b07ea227bb789c6f786f7a36b6d0ea4ec95bebd9ef6f2ba1687b3f702768491",
+      "smoke_s08": "34d802127283e1ec00cf559d209507771a4f805af4772adcbd9fdf1e3274ca5f",
+      "smoke_s09": "bc8bdb32335ea0fc04b89939b29c02f617ee9acaf29a794772cc7ba9cb502211",
+      "smoke_s10": "e1829886f2e61b0e3c4742737c3724037104248658b7639cae8208df117d98dc",
+      "smoke_ref01": "884a71f3de71357c0fdacded570978ed2a988a6a3df9744470c054bbcfa82db0",
+      "smoke_ref02": "2a747397331690d5388708300e92685279153d6fb278b4c1d42c5f197287c281",
+      "smoke_ref03": "8e44f99faba31485050b2507845f8c33aa5a04aa128eb0ea0cc6612280bd24dd",
+      "smoke_ref04": "f6ff1b25e1dd2de2982f6a068483211a58f5823f03a3f949a71a097390866162",
+      "smoke_voice01": "a87d773bd9e5162943ca7800bce03fab6161f2f022a9a5d230f614f381cdb1e1",
+      "smoke_voice02": "40207a47aaaf63f141f69642ef138303a81da13733adedfb38d8d38a16b104af",
+      "smoke_voice03": "1b608b3e1f3bf2a84d1e06565377dfe9cdc100e3b9d172cb5158cb34cde23a38",
+      "smoke_voice04": "064da30d8b99746dbcf8720b4918ac63a4c24bda5903006dc5b9d425d20c355e",
+      "smoke_voice05": "f3502722b6761b033ab7d1f46e7d7fb2e000c7883e323a9c9ffab79c1728e4cd",
+      "smoke_voice06": "2b121335942ed2ff1fd4bd87db0220d1a23ff6bdf4ed07e9dfd892a9b6de235f",
+      "stress_st01": "7f2fe3c5296a54aaf75576d959bd643ae8854463ff2ea7bc5bd3e1a4a18496df",
+      "stress_st02": "c7c653b1d9d492d4beb2ce3a54aebb6d7b562ab21820b9ff141209ee64d7438c",
+      "stress_st03": "64a25f0b947bb86aa0e526ea33c33454ee4e83f2e5372447de93e4a62f46b160",
+      "stress_st04": "cd7902ef5a4c24054c1d4a644e85dd4a48e0aac1d800eb704bff86da80348e7f",
+      "stress_st05": "bdf0dba288cf80d5ae2240aaf26f6d3d6d019dcdc7dc44305fd90ef39adc3964",
+      "stress_st06": "3d803089443d093bd1d98128c38a1231dd406856a9332722f14261aad2c91410",
+      "stress_st07": "02c17426e63a2dc4639e14e5d47fe1d02f0ae9b851834b4a5b5523fb38ed7310",
+      "stress_st08": "0ed52dd3536baca74167fe9524bcc8ea8a3a4e335cdb02f442cf94f1133de020",
+      "stress_st09": "9d159022352c5b2865af1b4e8f4029139155ff69b6066a8d3d86a393b2609694",
+      "stress_st10": "c0f681d881df60adb95885aa6b31b86ca6faa7759c945c5c5ea9a9161acad1b2",
+      "stress_st11": "5b00032b83039141e20a3aeb02cd9a838a05353c96c82fcb24560647c6886849",
+      "stress_st12": "8a081a4df296b0df971b01634e00b22c61cda621e81fd89d7b5f3c8f68ea2c20",
+      "stress_st13": "92c49750797f72450e245dd377a9d7a71bc073aae28b08a408ca1c2ebbe19394",
+      "stress_st14": "93107d93adb462415af2b2fb09a18c8d69de399b54f78f0f27ccfdc56bbd942d",
+      "stress_st15": "4aff1e79a1d7b811627d82bc0054558c4e4dde59370d581322e857716d27a573",
+      "stress_st16": "cd6173e43e814654dd2098b3030a2c17218f8f85d9eb46e79e71947314b2f180",
+      "stress_st17": "45dc6f237f8fb30702d09b08aa0503fcc9f93b29d6c1ef8a458f3d51b69ac72a",
+      "stress_st18": "fc2f9c3abd8e3b1a454a45e2a3cd299a1a1e8099bbab23ba7bc0d5d953ce7531",
+      "stress_st19": "b149736b95c72eff4df907a527df28f53e8c54393ba4cb03801dd2050c9a6f05",
+      "stress_st20": "b2ccf84a7ec482d3e3d3454b246a7a89b3a1807f9c01d3fe64686af4a2dc8650"
+    }
+  }
+}

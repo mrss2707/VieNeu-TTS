@@ -1,0 +1,375 @@
+{
+  "schema_version": "1",
+  "source": "benchmarks/mobile/corpus/{smoke,stress}.jsonl (frozen corpus-mvp-v1)",
+  "function": "vieneu_utils.phonemize_text.normalize_to_chunks_v3_with_gaps",
+  "max_chars": 140,
+  "model_revision": "pnnbao-ump/VieNeu-TTS-v3-Nano@aba295eb96a6fa6003ebe417cc1f2802a7adc1dc",
+  "cases": [
+    {
+      "case_id": "smoke_s01",
+      "text": "Xin chào.",
+      "n_chunks": 1,
+      "chunks": [
+        "xin chào."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s02",
+      "text": "Trời hôm nay đẹp quá.",
+      "n_chunks": 1,
+      "chunks": [
+        "trời hôm nay đẹp quá."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s03",
+      "text": "Bạn đã ăn cơm chưa?",
+      "n_chunks": 1,
+      "chunks": [
+        "bạn đã ăn cơm chưa?"
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s04",
+      "text": "Ôi, thật tuyệt vời!",
+      "n_chunks": 1,
+      "chunks": [
+        "ôi, thật tuyệt vời."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s05",
+      "text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+      "n_chunks": 1,
+      "chunks": [
+        "sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s06",
+      "text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+      "n_chunks": 1,
+      "chunks": [
+        "buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s07",
+      "text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+      "n_chunks": 2,
+      "chunks": [
+        "ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ.",
+        "mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."
+      ],
+      "gaps": [
+        "sentence"
+      ]
+    },
+    {
+      "case_id": "smoke_s08",
+      "text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+      "n_chunks": 1,
+      "chunks": [
+        "anh có chắc là đường này đúng không? cô hỏi. chắc chắn rồi, anh đáp, mình đã đi qua đây nhiều lần."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s09",
+      "text": "Được rồi.",
+      "n_chunks": 1,
+      "chunks": [
+        "được rồi."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_s10",
+      "text": "Sao lại như vậy?",
+      "n_chunks": 1,
+      "chunks": [
+        "sao lại như vậy."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_ref01",
+      "text": "ví dụ 2. tính trung bình của dãy số.",
+      "n_chunks": 1,
+      "chunks": [
+        "ví dụ hai. tính trung bình của dãy số."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_ref02",
+      "text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+      "n_chunks": 1,
+      "chunks": [
+        "trên thực tế, các nghi ngờ đã bắt đầu xuất hiện."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_ref03",
+      "text": "Cậu có nhìn thấy không?",
+      "n_chunks": 1,
+      "chunks": [
+        "cậu có nhìn thấy không?"
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_ref04",
+      "text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+      "n_chunks": 1,
+      "chunks": [
+        "tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice01",
+      "text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+      "n_chunks": 1,
+      "chunks": [
+        "anh chỉ muốn được nhìn nhận như là một huấn luyện viên."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice02",
+      "text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+      "n_chunks": 1,
+      "chunks": [
+        "chúng ta có thể áp dụng logic tương tự với người khác."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice03",
+      "text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+      "n_chunks": 1,
+      "chunks": [
+        "trong phòng rất tù mù, nên có thể dễ dàng che dấu nó."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice04",
+      "text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+      "n_chunks": 1,
+      "chunks": [
+        "bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice05",
+      "text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+      "n_chunks": 1,
+      "chunks": [
+        "đến cuối thế kỷ mười chín, ngành đánh bắt cá được thương mại hóa."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "smoke_voice06",
+      "text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+      "n_chunks": 1,
+      "chunks": [
+        "nuôi con theo phong cách do thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st01",
+      "text": "Tôi có ba trăm hai mươi lăm nghìn đồng trong ví.",
+      "n_chunks": 1,
+      "chunks": [
+        "tôi có ba trăm hai mươi lăm nghìn đồng trong ví."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st02",
+      "text": "Cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu.",
+      "n_chunks": 1,
+      "chunks": [
+        "cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st03",
+      "text": "Sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước.",
+      "n_chunks": 1,
+      "chunks": [
+        "sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st04",
+      "text": "Tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua.",
+      "n_chunks": 1,
+      "chunks": [
+        "tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st05",
+      "text": "Nguyễn Thị Minh Khai sinh ra tại Vinh, Nghệ An, sau đó chuyển đến Sài Gòn.",
+      "n_chunks": 1,
+      "chunks": [
+        "nguyễn thị minh khai sinh ra tại vinh, nghệ an, sau đó chuyển đến sài gòn."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st06",
+      "text": "Sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia.",
+      "n_chunks": 1,
+      "chunks": [
+        "sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st07",
+      "text": "Chúng tôi vừa deploy xong bản update mới lên production server.",
+      "n_chunks": 1,
+      "chunks": [
+        "chúng tôi vừa deploy xong bản update mới lên production server."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st08",
+      "text": "Anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng.",
+      "n_chunks": 1,
+      "chunks": [
+        "anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st09",
+      "text": "Ông làm việc tại UBND TP.HCM từ năm hai nghìn lẻ chín.",
+      "n_chunks": 1,
+      "chunks": [
+        "ông làm việc tại uỷ ban nhân dân thành phố hồ chí minh từ năm hai nghìn lẻ chín."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st10",
+      "text": "Cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng.",
+      "n_chunks": 1,
+      "chunks": [
+        "cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st11",
+      "text": "Cô hỏi: \"Anh có chắc là, kiểu như \\\"đến giờ chưa?\\\", đúng không?\"",
+      "n_chunks": 1,
+      "chunks": [
+        "cô hỏi, anh có chắc là, kiểu như đến giờ chưa? đúng không?"
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st12",
+      "text": "Thật à... Không thể nào?! Chuyện gì đã xảy ra vậy???",
+      "n_chunks": 1,
+      "chunks": [
+        "thật à, không thể nào? chuyện gì đã xảy ra vậy?"
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st13",
+      "text": "",
+      "n_chunks": 0,
+      "chunks": [],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st14",
+      "text": "   ",
+      "n_chunks": 0,
+      "chunks": [],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st15",
+      "text": "À.",
+      "n_chunks": 1,
+      "chunks": [
+        "à."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st16",
+      "text": "Hôm nay vui quá 😄🎉, mình rất thích buổi tiệc này!",
+      "n_chunks": 1,
+      "chunks": [
+        "hôm nay vui quá, mình rất thích buổi tiệc này!"
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st17",
+      "text": "Trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế, đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày, cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế, và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này.",
+      "n_chunks": 4,
+      "chunks": [
+        "trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế,",
+        "đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày,",
+        "cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế,",
+        "và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này."
+      ],
+      "gaps": [
+        "minor",
+        "minor",
+        "minor"
+      ]
+    },
+    {
+      "case_id": "stress_st18",
+      "text": "Bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu.",
+      "n_chunks": 1,
+      "chunks": [
+        "bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st19",
+      "text": "Albert Einstein và Isaac Newton đều là những nhà khoa học vĩ đại.",
+      "n_chunks": 1,
+      "chunks": [
+        "albert einstein và isaac newton đều là những nhà khoa học vĩ đại."
+      ],
+      "gaps": []
+    },
+    {
+      "case_id": "stress_st20",
+      "text": "Vui lòng liên hệ qua email support@example.com hoặc truy cập trang web để biết thêm chi tiết.",
+      "n_chunks": 1,
+      "chunks": [
+        "vui lòng liên hệ qua email support a còng example chấm com hoặc truy cập trang web để biết thêm chi tiết."
+      ],
+      "gaps": []
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "note": "5/11 preset voice có sẵn trong src/vieneu/assets/voices_v3_nano.json, chọn theo protocol 002 §3.3 (đa dạng gender/character, 1 voice tự nhiên, 1 khác biệt, 1 dùng kiểm tra speaker consistency).",
+  "voices": [
+    {
+      "voice_id": "Minh Quân",
+      "purpose": "default_voice_giong_doc_chuan",
+      "description": "Nam · Bắc · Phong cách tự nhiên",
+      "gender": "male"
+    },
+    {
+      "voice_id": "Ái Hân",
+      "purpose": "phong_cach_tin_tuc_nu",
+      "description": "Nữ · Nam · Phong cách tin tức",
+      "gender": "female"
+    },
+    {
+      "voice_id": "Mỹ Duyên",
+      "purpose": "phong_cach_doc_truyen_nu",
+      "description": "Nữ · Bắc · Phong cách đọc truyện",
+      "gender": "female"
+    },
+    {
+      "voice_id": "Đức Trí",
+      "purpose": "giong_nam_khac_biet",
+      "description": "Nam · Bắc · Phong cách đọc truyện",
+      "gender": "male"
+    },
+    {
+      "voice_id": "Xuân Tiên",
+      "purpose": "kiem_tra_speaker_consistency",
+      "description": "Nữ · Bắc · Phong cách tin tức",
+      "gender": "female"
+    }
+  ]
+}

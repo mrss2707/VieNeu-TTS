@@ -1,0 +1,20 @@
+{"id": "s01", "category": "cau_ngan", "text": "Xin chào."}
+{"id": "s02", "category": "cau_ngan", "text": "Trời hôm nay đẹp quá."}
+{"id": "s03", "category": "cau_hoi", "text": "Bạn đã ăn cơm chưa?"}
+{"id": "s04", "category": "cau_cam_than", "text": "Ôi, thật tuyệt vời!"}
+{"id": "s05", "category": "cau_phay", "text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."}
+{"id": "s06", "category": "cau_dai", "text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."}
+{"id": "s07", "category": "doan_ke_chuyen", "text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."}
+{"id": "s08", "category": "doan_hoi_thoai", "text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\""}
+{"id": "s09", "category": "cau_ngan", "text": "Được rồi."}
+{"id": "s10", "category": "cau_hoi", "text": "Sao lại như vậy?"}
+{"id": "ref01", "category": "audio_ref_reused", "text": "ví dụ 2. tính trung bình của dãy số.", "source": "examples/audio_ref/example.txt"}
+{"id": "ref02", "category": "audio_ref_reused", "text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.", "source": "examples/audio_ref/example_2.txt"}
+{"id": "ref03", "category": "audio_ref_reused", "text": "Cậu có nhìn thấy không?", "source": "examples/audio_ref/example_3.txt"}
+{"id": "ref04", "category": "audio_ref_reused", "text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.", "source": "examples/audio_ref/example_4.txt"}
+{"id": "voice01", "category": "preset_voice_caption_reused", "text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.", "source": "src/vieneu/assets/samples/Bình (nam miền Bắc).txt"}
+{"id": "voice02", "category": "preset_voice_caption_reused", "text": "Chúng ta có thể áp dụng logic tương tự với người khác.", "source": "src/vieneu/assets/samples/Ly (nữ miền Bắc).txt"}
+{"id": "voice03", "category": "preset_voice_caption_reused", "text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.", "source": "src/vieneu/assets/samples/Ngọc (nữ miền Bắc).txt"}
+{"id": "voice04", "category": "preset_voice_caption_reused", "text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.", "source": "src/vieneu/assets/samples/Tuyên (nam miền Bắc).txt"}
+{"id": "voice05", "category": "preset_voice_caption_reused", "text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.", "source": "src/vieneu/assets/samples/Vĩnh (nam miền Nam).txt"}
+{"id": "voice06", "category": "preset_voice_caption_reused", "text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.", "source": "src/vieneu/assets/samples/Đoan (nữ miền Nam).txt"}
