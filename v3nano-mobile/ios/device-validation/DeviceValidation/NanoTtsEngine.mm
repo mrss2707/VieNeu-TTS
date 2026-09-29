@@ -37,22 +37,64 @@ static const double kA1 = -1.8403695052228406e-16;
 static const double kA2 = 0.17157287525380993;
 static const float kTrebleMix = 0.5f;
 
-static std::vector<float> ApplyTrebleFilter(const std::vector<float> &wav) {
-    if (wav.empty()) return wav;
-    std::vector<float> filtered(wav.size());
+static std::vector<float> ApplyBiquad(const std::vector<float> &wav, double b0, double b1, double b2,
+                                      double a1, double a2) {
+    std::vector<float> out(wav.size());
     double z1 = 0.0, z2 = 0.0;
     for (size_t i = 0; i < wav.size(); i++) {
         double x = wav[i];
-        double y = kB0 * x + z1;
-        z1 = kB1 * x + z2 - kA1 * y;
-        z2 = kB2 * x - kA2 * y;
-        filtered[i] = (float)y;
+        double y = b0 * x + z1;
+        z1 = b1 * x + z2 - a1 * y;
+        z2 = b2 * x - a2 * y;
+        out[i] = (float)y;
     }
+    return out;
+}
+
+static std::vector<float> ApplyTrebleFilter(const std::vector<float> &wav) {
+    if (wav.empty()) return wav;
+    std::vector<float> filtered = ApplyBiquad(wav, kB0, kB1, kB2, kA1, kA2);
     std::vector<float> out(wav.size());
     for (size_t i = 0; i < wav.size(); i++) {
         out[i] = (1.0f - kTrebleMix) * wav[i] + kTrebleMix * filtered[i];
     }
     return out;
+}
+
+// Presence dip 3 kHz −3 dB Q=1 — cắt dải “gắt” 2.5–3.5 kHz (loa phone bơm band này).
+static const double kPresB0 = 0.9135889493293752;
+static const double kPresB1 = -0.9957854991465043;
+static const double kPresB2 = 0.49466440877807316;
+static const double kPresA1 = -0.9957854991465043;
+static const double kPresA2 = 0.4082533581074483;
+
+// High-shelf −2.5 dB @ 5.5 kHz — de-ess / bớt “xé” phụ âm.
+static const double kShelfB0 = 0.8564610806506162;
+static const double kShelfB1 = -0.05949127659576462;
+static const double kShelfB2 = 0.14761344731755777;
+static const double kShelfA1 = -0.23685227176481605;
+static const double kShelfA2 = 0.18143552313722544;
+
+static std::vector<float> ApplyComfortChain(const std::vector<float> &wav) {
+    if (wav.empty()) return wav;
+    std::vector<float> x = ApplyTrebleFilter(wav);
+    x = ApplyBiquad(x, kPresB0, kPresB1, kPresB2, kPresA1, kPresA2);
+    x = ApplyBiquad(x, kShelfB0, kShelfB1, kShelfB2, kShelfA1, kShelfA2);
+
+    // Soft-clip tanh chống “xé” peak, rồi normalize peak −1 dBFS.
+    const float drive = 1.15f;
+    const float norm = 1.0f / std::tanh((double)drive);
+    float peak = 0.0f;
+    for (size_t i = 0; i < x.size(); i++) {
+        x[i] = std::tanh((double)(drive * x[i])) * norm;
+        peak = std::max(peak, std::fabs(x[i]));
+    }
+    const float targetPeak = 0.8912509381337456f;  // 10^(-1/20) ≈ −1 dBFS
+    if (peak > 1e-8f) {
+        const float g = targetPeak / peak;
+        for (float &v : x) v *= g;
+    }
+    return x;
 }
 
 static void EdgeSilence(const std::vector<float> &wav, int sr, size_t *outLead, size_t *outTail) {
@@ -389,7 +431,7 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
         if (nan) nanAny = YES;
     }
     std::vector<float> joined = JoinAudioChunks(wavs, _sampleRate, _demoGaps);
-    joined = ApplyTrebleFilter(joined);
+    joined = ApplyComfortChain(joined);
     NanoTtsEngineResult *result = [NanoTtsEngineResult new];
     result.pcmFloat32 = [NSData dataWithBytes:joined.data() length:joined.size() * sizeof(float)];
     result.audioSeconds = (double)joined.size() / (double)_sampleRate;

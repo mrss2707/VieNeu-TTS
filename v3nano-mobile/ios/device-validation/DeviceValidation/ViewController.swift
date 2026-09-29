@@ -79,7 +79,7 @@ final class ViewController: UIViewController {
                 if let engine {
                     self.engine = engine
                     self.speakButton.isEnabled = true
-                    self.statusLabel.text = "Sẵn sàng — giọng Anh Khôi · treble 6kHz mix 0.5"
+                    self.statusLabel.text = "Sẵn sàng — Anh Khôi · comfort DSP (treble+dip 3k+shelf+limit)"
                 } else {
                     self.speakButton.isEnabled = false
                     self.statusLabel.text = "Lỗi nạp model: \(message)"
@@ -103,7 +103,7 @@ final class ViewController: UIViewController {
                     self.spinner.stopAnimating()
                     self.speakButton.isEnabled = true
                     self.statusLabel.text = String(
-                        format: "OK — %.1fs audio · %.0f ms sinh · %d chunk · RTF %.2f · treble ON%@",
+                        format: "OK — %.1fs audio · %.0f ms sinh · %d chunk · RTF %.2f · comfort ON%@",
                         result.audioSeconds,
                         result.generationMs,
                         result.nChunks,
