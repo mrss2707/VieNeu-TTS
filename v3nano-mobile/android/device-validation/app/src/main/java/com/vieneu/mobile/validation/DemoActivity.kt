@@ -19,10 +19,11 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 
 /**
- * Supermeo Mobile TTS demo — A/B noise floor trên Android:
+ * Supermeo Mobile TTS demo — A/B nhiễu (giống iOS) trên Android:
  *  - INT8 · 12 steps (chốt) · giọng Mỹ Duyên · comfort DSP
- *  - Nút 1: comfort EQ + soft-clip, KHÔNG noise gate
- *  - Nút 2: cùng chain + downward expander −48 dBFS (chống “lạo xạo” nền)
+ *  1) chỉ comfort (EQ + soft-clip)
+ *  2) + noise gate (khoảng trống)
+ *  3) + gate + spectral STFT ★ (nhiễu TRONG lúc nói)
  *  - Graph từ external-files/nano_graphs_int8 (adb push)
  */
 class DemoActivity : Activity() {
@@ -31,8 +32,9 @@ class DemoActivity : Activity() {
     }
 
     private lateinit var status: TextView
-    private lateinit var btnNfOff: Button
-    private lateinit var btnNfOn: Button
+    private lateinit var btnComfort: Button
+    private lateinit var btnGate: Button
+    private lateinit var btnFull: Button
     private val io = Executors.newSingleThreadExecutor()
     private var playing: AudioTrack? = null
 
@@ -61,16 +63,20 @@ class DemoActivity : Activity() {
             text = paragraph
             textSize = 15f
         }
-        btnNfOff = Button(this).apply {
-            text = "INT8 · 12 — comfort (không NF)"
-            setOnClickListener { speak(noiseFloor = false) }
+        btnComfort = Button(this).apply {
+            text = "chỉ comfort"
+            setOnClickListener { speak(noiseFloor = false, spectral = false) }
         }
-        btnNfOn = Button(this).apply {
-            text = "INT8 · 12 — comfort + noise floor"
-            setOnClickListener { speak(noiseFloor = true) }
+        btnGate = Button(this).apply {
+            text = "+ noise gate"
+            setOnClickListener { speak(noiseFloor = true, spectral = false) }
+        }
+        btnFull = Button(this).apply {
+            text = "+ gate + spectral ★"
+            setOnClickListener { speak(noiseFloor = true, spectral = true) }
         }
         status = TextView(this).apply {
-            text = "A/B noise floor · INT8 12 steps · Mỹ Duyên · comfort DSP"
+            text = "A/B nhiễu · INT8 12 steps · Mỹ Duyên (giống iOS)"
             textSize = 13f
         }
 
@@ -80,30 +86,36 @@ class DemoActivity : Activity() {
             addView(title)
             addView(label)
             addView(body)
-            addView(btnNfOff)
-            addView(btnNfOn)
+            addView(btnComfort)
+            addView(btnGate)
+            addView(btnFull)
             addView(status)
         }
         setContentView(ScrollView(this).apply { addView(col) })
 
-        // Test hook: adb shell am start ... --es autoSpeak on|off|true|false|1|0
-        intent.getStringExtra("autoSpeak")?.let {
-            speak(noiseFloor = it.equals("on", true) || it == "true" || it == "1")
+        // Test hook: --es autoSpeak comfort|gate|full
+        intent.getStringExtra("autoSpeak")?.let { mode ->
+            when (mode.lowercase()) {
+                "comfort", "off", "0" -> speak(false, false)
+                "gate", "on", "1" -> speak(true, false)
+                else -> speak(true, true)
+            }
         }
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
-        btnNfOff.isEnabled = enabled
-        btnNfOn.isEnabled = enabled
+        btnComfort.isEnabled = enabled
+        btnGate.isEnabled = enabled
+        btnFull.isEnabled = enabled
     }
 
-    private fun speak(noiseFloor: Boolean) {
-        Log.i(TAG, "speak noiseFloor=$noiseFloor steps=12")
+    private fun speak(noiseFloor: Boolean, spectral: Boolean) {
+        Log.i(TAG, "speak noiseFloor=$noiseFloor spectral=$spectral steps=12")
         setButtonsEnabled(false)
-        status.text = "Đang sinh (INT8 · 12 · NF ${if (noiseFloor) "ON" else "OFF"})…"
+        status.text = "Đang sinh (NF=${if (noiseFloor) "ON" else "OFF"} · spec=${if (spectral) "ON" else "OFF"})…"
         io.execute {
             try {
-                val result = synthesize(noiseFloor)
+                val result = synthesize(noiseFloor, spectral)
                 Log.i(TAG, "speak done: $result")
                 runOnUiThread {
                     status.text = result
@@ -119,7 +131,7 @@ class DemoActivity : Activity() {
         }
     }
 
-    private fun synthesize(noiseFloor: Boolean): String {
+    private fun synthesize(noiseFloor: Boolean, spectral: Boolean): String {
         val steps = 12
         val dirName = "nano_graphs_int8"
         val graphDir = File(getExternalFilesDir(null), dirName)
@@ -159,7 +171,11 @@ class DemoActivity : Activity() {
         g.close()
 
         val comfortMs0 = System.currentTimeMillis()
-        val out = AudioComfortFilter.apply(raw, noiseFloorEnabled = noiseFloor)
+        val out = AudioComfortFilter.apply(
+            raw,
+            noiseFloorEnabled = noiseFloor,
+            spectralEnabled = spectral,
+        )
         val comfortMs = System.currentTimeMillis() - comfortMs0
 
         var peak = 0f
@@ -173,10 +189,11 @@ class DemoActivity : Activity() {
         val audioSec = out.size.toDouble() / sr
         val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else 0.0
         val nfTag = if (noiseFloor) "NF ON" else "NF OFF"
-        return "OK INT8 · $steps steps · $nfTag — " +
+        val spTag = if (spectral) "spec ON" else "spec OFF"
+        return "OK INT8 · $steps steps · $nfTag · $spTag — " +
             "%.1fs audio · %.0f ms sinh · %d chunk · load %.0f ms · dsp %d ms · RTF %.2f · peak %.3f".format(
                 audioSec, genMs.toDouble(), nChunks, loadMs.toDouble(), comfortMs, rtf, peak,
-            ) + if (nan) " · CÓ NaN!" else " · comfort ON · Mỹ Duyên"
+            ) + if (nan) " · CÓ NaN!" else " · Mỹ Duyên"
     }
 
     private fun playPcm(pcm: FloatArray, sampleRate: Int) {

@@ -9,6 +9,7 @@ package com.vieneu.mobile.core
  * treble + presence dip + de-ess shelf + soft-clip. [trebleFilterEnabled] giữ lại để
  * compat API cũ; khi comfort ON thì treble nằm trong chain.
  * [noiseFloorEnabled] (rev 3, default ON): downward expander −48 dBFS — hết “lạo xạo” nền.
+ * [spectralDenoiseEnabled] (rev 4, default ON): STFT spectral subtraction — nhiễu trộn khi nói.
  */
 data class GenerationProfile(
     val profileRevision: Int = PROFILE_REVISION,
@@ -21,6 +22,7 @@ data class GenerationProfile(
     val trebleFilterEnabled: Boolean = true,
     val comfortFilterEnabled: Boolean = true,
     val noiseFloorEnabled: Boolean = true,
+    val spectralDenoiseEnabled: Boolean = true,
 ) {
     init {
         require(steps >= 1) { "steps must be >= 1, got $steps" }
@@ -29,7 +31,7 @@ data class GenerationProfile(
     }
 
     companion object {
-        /** rev 3: noise-floor downward expander default ON (bỏ “lạo xạo” nền INT8). */
-        const val PROFILE_REVISION = 3
+        /** rev 4: spectral denoise default ON (nhiễu trộn trong lúc nói). */
+        const val PROFILE_REVISION = 4
     }
 }

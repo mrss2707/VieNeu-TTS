@@ -73,4 +73,40 @@ class AudioComfortFilterTest {
         for (v in out) if (abs(v) > peak) peak = abs(v)
         assertEquals(AudioComfortFilter.TARGET_PEAK, peak, 1e-3f)
     }
+
+    @Test
+    fun spectralDenoiseAttenuatesRustleUnderSpeech() {
+        // speech 200 Hz + rustle noise floor trộn liên tục — spectral phải hạ rustle
+        val sr = AudioComfortFilter.SAMPLE_RATE
+        val n = sr * 2
+        val wav = FloatArray(n) { i ->
+            val speech = 0.5 * Math.sin(2 * Math.PI * 200.0 * i / sr)
+            val rustle = 0.01 * Math.sin(2 * Math.PI * 3700.0 * i / sr) +
+                0.01 * Math.sin(2 * Math.PI * 5100.0 * i / sr)
+            (speech + rustle).toFloat()
+        }
+        val on = AudioComfortFilter.applySpectralDenoise(wav.copyOf())
+        // dải rustle 3.5–5.3 kHz RMS phải giảm so với gốc
+        fun bandRms(a: FloatArray, lo: Double, hi: Double): Double {
+            // crude: RMS của high-pass residual (a - mean) không đủ — dùng energy ước lượng
+            // qua band-pass 1-pole đơn giản: y = x - LP(x)
+            var lp = 0.0
+            val cut = 2.0 * Math.PI * lo / sr
+            val alpha = cut / (1.0 + cut)
+            var acc = 0.0
+            var cnt = 0
+            for (v in a) {
+                lp += alpha * (v - lp)
+                val hp = v - lp
+                if (hp > 1e-6 || hp < -1e-6) {
+                    acc += hp * hp
+                    cnt++
+                }
+            }
+            return if (cnt == 0) 0.0 else Math.sqrt(acc / cnt)
+        }
+        val rOn = bandRms(on, 3500.0, 8000.0)
+        val rOff = bandRms(wav, 3500.0, 8000.0)
+        assertTrue("spectral should cut HF rustle on=$rOn off=$rOff", rOn < rOff * 0.7)
+    }
 }

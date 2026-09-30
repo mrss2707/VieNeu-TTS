@@ -102,7 +102,11 @@ class SynthesisPipeline(
         // Comfort DSP (rev 2): treble + presence dip + shelf + soft-clip.
         // rev 3: optional noise-floor downward expander (default ON).
         if (profile.comfortFilterEnabled) {
-            joined = AudioComfortFilter.apply(joined, profile.noiseFloorEnabled)
+            joined = AudioComfortFilter.apply(
+                joined,
+                noiseFloorEnabled = profile.noiseFloorEnabled,
+                spectralEnabled = profile.spectralDenoiseEnabled,
+            )
         } else if (profile.trebleFilterEnabled) {
             joined = TrebleFilter.apply(joined)
         }

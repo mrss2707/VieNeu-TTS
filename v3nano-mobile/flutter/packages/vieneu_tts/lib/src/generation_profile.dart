@@ -11,16 +11,18 @@ class GenerationProfile {
   final bool trebleFilterEnabled;
   final bool comfortFilterEnabled;
   final bool noiseFloorEnabled;
+  final bool spectralDenoiseEnabled;
   final int maxCharsPerChunk;
 
   const GenerationProfile({
-    this.profileRevision = 3,
+    this.profileRevision = 4,
     this.steps = 8,
     this.sway = -1.0,
     this.cfg = 3.0,
     this.trebleFilterEnabled = true,
     this.comfortFilterEnabled = true,
     this.noiseFloorEnabled = true,
+    this.spectralDenoiseEnabled = true,
     this.maxCharsPerChunk = 140,
   });
 
@@ -32,6 +34,7 @@ class GenerationProfile {
         'trebleFilterEnabled': trebleFilterEnabled,
         'comfortFilterEnabled': comfortFilterEnabled,
         'noiseFloorEnabled': noiseFloorEnabled,
+        'spectralDenoiseEnabled': spectralDenoiseEnabled,
         'maxCharsPerChunk': maxCharsPerChunk,
       };
 }
