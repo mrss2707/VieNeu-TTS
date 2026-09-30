@@ -19,12 +19,12 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 
 /**
- * Supermeo Mobile TTS demo — A/B nhiễu (giống iOS) trên Android:
- *  - INT8 · 12 steps (chốt) · giọng Mỹ Duyên · comfort DSP
- *  1) chỉ comfort (EQ + soft-clip)
- *  2) + noise gate (khoảng trống)
- *  3) + gate + spectral STFT ★ (nhiễu TRONG lúc nói)
- *  - Graph từ external-files/nano_graphs_int8 (adb push)
+ * Supermeo Mobile TTS demo — A/B nhiễu (giống iOS) trên Android.
+ *
+ * CHỐT production (khớp iOS): INT8 · 12 steps · Mỹ Duyên · comfort EQ
+ *   + noise gate + spectral STFT (GenerationProfile rev 4, default ON).
+ * Nút dưới đây chỉ để A/B nghe; path chốt = nút ★.
+ * Graph từ external-files/nano_graphs_int8 (adb push).
  */
 class DemoActivity : Activity() {
     companion object {
@@ -63,20 +63,20 @@ class DemoActivity : Activity() {
             text = paragraph
             textSize = 15f
         }
-        btnComfort = Button(this).apply {
-            text = "chỉ comfort"
-            setOnClickListener { speak(noiseFloor = false, spectral = false) }
-        }
-        btnGate = Button(this).apply {
-            text = "+ noise gate"
-            setOnClickListener { speak(noiseFloor = true, spectral = false) }
-        }
         btnFull = Button(this).apply {
-            text = "+ gate + spectral ★"
+            text = "★ chốt — gate + spectral"
             setOnClickListener { speak(noiseFloor = true, spectral = true) }
         }
+        btnGate = Button(this).apply {
+            text = "A/B — chỉ noise gate"
+            setOnClickListener { speak(noiseFloor = true, spectral = false) }
+        }
+        btnComfort = Button(this).apply {
+            text = "A/B — chỉ comfort"
+            setOnClickListener { speak(noiseFloor = false, spectral = false) }
+        }
         status = TextView(this).apply {
-            text = "A/B nhiễu · INT8 12 steps · Mỹ Duyên (giống iOS)"
+            text = "Chốt (khớp iOS): INT8 · 12 · comfort + gate + spectral · Mỹ Duyên"
             textSize = 13f
         }
 
@@ -86,9 +86,9 @@ class DemoActivity : Activity() {
             addView(title)
             addView(label)
             addView(body)
-            addView(btnComfort)
-            addView(btnGate)
             addView(btnFull)
+            addView(btnGate)
+            addView(btnComfort)
             addView(status)
         }
         setContentView(ScrollView(this).apply { addView(col) })

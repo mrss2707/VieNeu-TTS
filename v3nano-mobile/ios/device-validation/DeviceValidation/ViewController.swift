@@ -13,9 +13,9 @@ final class ViewController: UIViewController {
 
         var title: String {
             switch self {
-            case .comfortOnly: return "chỉ comfort"
-            case .gate: return "+ noise gate"
-            case .gateSpectral: return "+ gate + spectral ★"
+            case .comfortOnly: return "A/B — chỉ comfort"
+            case .gate: return "A/B — chỉ noise gate"
+            case .gateSpectral: return "★ chốt — gate + spectral"
             }
         }
 
@@ -60,11 +60,13 @@ final class ViewController: UIViewController {
         textView.layer.cornerRadius = 8
         textView.textContainerInset = UIEdgeInsets(top: 12, left: 8, bottom: 12, right: 8)
 
-        for (idx, button) in buttons.enumerated() {
-            guard let mode = Mode(rawValue: idx) else { continue }
+        // ★ chốt lên trước, A/B sau
+        let order: [Mode] = [.gateSpectral, .gate, .comfortOnly]
+        for (slot, mode) in order.enumerated() {
+            let button = buttons[slot]
             button.setTitle("Đọc — \(mode.title)", for: .normal)
             button.titleLabel?.font = .preferredFont(forTextStyle: .title2)
-            button.tag = idx
+            button.tag = mode.rawValue
             button.addTarget(self, action: #selector(onSpeak(_:)), for: .touchUpInside)
         }
 
@@ -99,7 +101,7 @@ final class ViewController: UIViewController {
                 eng = try NanoTtsEngine(
                     bundle: .main, graphDirName: "nano_graphs_int8", steps: 12)
                 message = String(
-                    format: "Sẵn sàng · INT8 · 12 steps · graph %.0f MB · Mỹ Duyên",
+                    format: "Chốt (khớp Android): INT8 · 12 · gate + spectral · graph %.0f MB · Mỹ Duyên",
                     onDisk / (1024 * 1024)
                 )
             } catch {
