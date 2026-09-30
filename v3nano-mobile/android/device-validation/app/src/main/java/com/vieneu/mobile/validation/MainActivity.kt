@@ -34,6 +34,11 @@ class MainActivity : Activity() {
         // Soak mode (Spike S2): `adb shell am start ... --ei loops 12` chạy 4x số lần
         // smoke mặc định để kéo dài ~30 phút; mặc định 3 = hành vi cũ.
         val loops = intent.getIntExtra("loops", 3)
+        // Precision compare: --es providers CPU --ez smokeOnly true --es tag int8
+        val providersCsv = intent.getStringExtra("providers")?.split(",")?.map { it.trim() }?.filter { it.isNotEmpty() }
+            ?: listOf("CPU", "XNNPACK", "NNAPI")
+        val smokeOnly = intent.getBooleanExtra("smokeOnly", false)
+        val tag = intent.getStringExtra("tag") ?: "real_device"
 
         logView = TextView(this).apply {
             textSize = 12f
@@ -44,7 +49,7 @@ class MainActivity : Activity() {
 
         appendLog("DeviceValidation — real-device validation")
         appendLog("device: ${android.os.Build.MANUFACTURER} ${android.os.Build.MODEL}, Android ${android.os.Build.VERSION.RELEASE}")
-        appendLog("starting full corpus x CPU/XNNPACK/NNAPI... (smoke runs per case: $loops)")
+        appendLog("starting ${if (smokeOnly) "smoke" else "smoke+stress"} x $providersCsv (smoke runs per case: $loops) tag=$tag")
 
         Thread {
             try {
@@ -54,11 +59,13 @@ class MainActivity : Activity() {
                     applicationContext,
                     deviceLabel,
                     smokeRunsPerCase = loops,
+                    providers = providersCsv,
+                    smokeOnly = smokeOnly,
                 ) { line -> runOnUiThread { appendLog(line) } }
 
                 NanoBenchmarkCore.logResultInChunks(result)
 
-                val outFile = File(getExternalFilesDir(null), "nano_android_result_real_device.json")
+                val outFile = File(getExternalFilesDir(null), "nano_android_result_$tag.json")
                 outFile.writeText(result.toString(2))
                 Log.i(NanoBenchmarkCore.TAG, "wrote result to ${outFile.absolutePath}")
 

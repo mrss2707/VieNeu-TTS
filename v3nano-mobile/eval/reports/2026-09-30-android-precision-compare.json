@@ -1,0 +1,130 @@
+{
+  "report_date": "2026-09-30",
+  "report_kind": "android-precision-compare-fp32-fp16-int8",
+  "device": "OnePlus PHP110 (MT6983, Android 16)",
+  "harness": "device-validation MainActivity --es providers CPU --ez smokeOnly true --ei loops 3",
+  "graphs": {
+    "fp32": "HF snapshot FP32",
+    "fp16": "package/fp16 (onnxruntime.transformers.float16 keep_io_types)",
+    "int8": "package/int8 (onnxruntime.quantization.quantize_dynamic QUInt8 per-channel)"
+  },
+  "per_precision": {
+    "fp32": {
+      "n": 60,
+      "rtf_median": 0.3296,
+      "rtf_p95": 0.4309,
+      "rtf_min": 0.2846,
+      "rtf_max": 0.4632,
+      "gen_ms_median": 862.5,
+      "graph_load_ms": 927,
+      "any_hard_fail": false,
+      "nan": false,
+      "n_cases": 20,
+      "raw_mb": 281.7,
+      "gzip_mb": 261.7,
+      "gzip_pass_150": false,
+      "s01_ms": [
+        449,
+        391,
+        524
+      ],
+      "s01_audio_s": 1.216
+    },
+    "fp16": {
+      "n": 60,
+      "rtf_median": 1.2308,
+      "rtf_p95": 2.009,
+      "rtf_min": 0.6918,
+      "rtf_max": 2.1976,
+      "gen_ms_median": 3256.5,
+      "graph_load_ms": 815,
+      "any_hard_fail": false,
+      "nan": false,
+      "n_cases": 20,
+      "raw_mb": 141.2,
+      "gzip_mb": 130.6,
+      "gzip_pass_150": true,
+      "s01_ms": [
+        2141,
+        2385,
+        2443
+      ],
+      "s01_audio_s": 1.216
+    },
+    "int8": {
+      "n": 60,
+      "rtf_median": 0.3155,
+      "rtf_p95": 0.4095,
+      "rtf_min": 0.2338,
+      "rtf_max": 0.5777,
+      "gen_ms_median": 847.0,
+      "graph_load_ms": 753,
+      "any_hard_fail": false,
+      "nan": false,
+      "n_cases": 20,
+      "raw_mb": 72.4,
+      "gzip_mb": 62.7,
+      "gzip_pass_150": true,
+      "s01_ms": [
+        508,
+        403,
+        498
+      ],
+      "s01_audio_s": 1.216
+    }
+  },
+  "gates": {
+    "rtf_le_0_5_cpu": {
+      "fp32": {
+        "actual": 0.3296,
+        "pass": true
+      },
+      "fp16": {
+        "actual": 1.2308,
+        "pass": false
+      },
+      "int8": {
+        "actual": 0.3155,
+        "pass": true
+      }
+    },
+    "gzip_le_150": {
+      "fp32": {
+        "actual": 261.7,
+        "pass": false
+      },
+      "fp16": {
+        "actual": 130.6,
+        "pass": true
+      },
+      "int8": {
+        "actual": 62.7,
+        "pass": true
+      }
+    },
+    "zero_hard_fail": {
+      "fp32": true,
+      "fp16": true,
+      "int8": true
+    }
+  },
+  "s01_spot_ms": {
+    "fp32": [
+      449,
+      391,
+      524
+    ],
+    "fp16": [
+      2141,
+      2385,
+      2443
+    ],
+    "int8": [
+      508,
+      403,
+      498
+    ]
+  },
+  "verdict": "INT8 (dynamic) chạy ~FP32 trên CPU OnePlus (RTF median ~0.37 vs 0.32), nhanh hơn FP16 ~5×, gói 72MB raw / gzip nhỏ, 0 NaN. FP16 FAIL RTF như đã biết. Khuyến nghị Android: INT8 (cần nghe quality/WER trước khi ship) hoặc FP32 nếu quality INT8 không đạt.",
+  "quality_note": "Chưa ASR/listening INT8 — chỉ số học (NaN/RTF/size). Dynamic quant có thể đổi giọng nhẹ."
+}

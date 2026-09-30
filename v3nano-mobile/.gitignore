@@ -50,6 +50,7 @@ local.properties
 package/fp16/
 package/pkg/
 package/mixed*/
+package/int8/
 
 # ── Listening-test audio payload (base64 WAV ~50MB) ────────────────
 #    giữ html + manifest; kết luận ở docs/_supermeo/_summary/001 §0.10

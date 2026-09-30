@@ -28,21 +28,40 @@ object NanoBenchmarkCore {
     const val SMOKE_RUNS_PER_CASE = 3
     val PROVIDERS = listOf("CPU", "XNNPACK", "NNAPI")
 
+    /** Ưu tiên file push qua adb (external-files/nano_graphs/) hơn assets —
+     *  cho phép so FP32/FP16/INT8 không phải build lại APK. */
+    fun resolveModelFile(context: Context, name: String): File {
+        val base = name.substringAfterLast('/')
+        val candidates = listOf(
+            File(context.getExternalFilesDir(null), "nano_graphs/$base"),
+            File(context.filesDir, "nano_graphs/$base"),
+            File(context.cacheDir, name.replace('/', '_')),
+        )
+        candidates.firstOrNull { it.isFile && it.length() > 0 }?.let { return it }
+        // fallback: extract asset → cache
+        val outFile = File(context.cacheDir, name.replace('/', '_'))
+        context.assets.open(name).use { input ->
+            outFile.outputStream().use { output -> input.copyTo(output, bufferSize = 1 shl 20) }
+        }
+        return outFile
+    }
+
     fun assetBytes(context: Context, name: String): ByteArray {
+        // Corpus tensors luôn từ APK assets; chỉ graph (.onnx) mới cho override qua
+        // external-files/nano_graphs (so FP32/FP16/INT8 không rebuild).
+        if (name.endsWith(".onnx") || name.startsWith("nano_graphs/")) {
+            return resolveModelFile(context, name).readBytes()
+        }
         context.assets.open(name).use { return it.readBytes() }
     }
 
     fun assetJson(context: Context, name: String): JSONObject = JSONObject(String(assetBytes(context, name)))
 
-    /** Copies an asset to the app's cache dir and returns its filesystem path — ORT's
+    /** Copies an asset (or on-disk graph) to the app's cache dir and returns its filesystem path — ORT's
      * native session loader reads straight off disk, avoiding a Java-heap byte[] copy
      * (large graphs like vector_estimator.onnx OOM the ~192MB Dalvik heap otherwise). */
     fun assetToFile(context: Context, name: String): String {
-        val outFile = File(context.cacheDir, name.replace('/', '_'))
-        context.assets.open(name).use { input ->
-            outFile.outputStream().use { output -> input.copyTo(output, bufferSize = 1 shl 20) }
-        }
-        return outFile.absolutePath
+        return resolveModelFile(context, name).absolutePath
     }
 
     fun assetFloatArray(context: Context, name: String): FloatArray {
@@ -238,6 +257,8 @@ object NanoBenchmarkCore {
         context: Context,
         deviceLabel: String,
         smokeRunsPerCase: Int = SMOKE_RUNS_PER_CASE,
+        providers: List<String> = PROVIDERS,
+        smokeOnly: Boolean = false,
         onProgress: (String) -> Unit = {},
     ): JSONObject {
         val env = OrtEnvironment.getEnvironment()
@@ -263,13 +284,14 @@ object NanoBenchmarkCore {
             val key = casesIndex.getString(i)
             if (key.startsWith("smoke_")) smokeCaseKeys.add(key) else stressCaseKeys.add(key)
         }
-        val totalCases = PROVIDERS.size * (smokeCaseKeys.size + stressCaseKeys.size)
+        val stressKeysUsed = if (smokeOnly) emptyList() else stressCaseKeys
+        val totalCases = providers.size * (smokeCaseKeys.size + stressKeysUsed.size)
         var doneCases = 0
 
         val perProviderResults = JSONObject()
         var anyHardFail = false
 
-        for (providerRequested in PROVIDERS) {
+        for (providerRequested in providers) {
             val (so, actualProvider) = sessionOptionsForProvider(providerRequested)
             val t0 = System.currentTimeMillis()
             val g = Graphs(env, so) { assetToFile(context, it) }
@@ -308,7 +330,7 @@ object NanoBenchmarkCore {
 
             // stress corpus: 1 run each, hard-fail check only (no timing emphasis)
             val stressResults = JSONArray()
-            for (caseKey in stressCaseKeys) {
+            for (caseKey in stressKeysUsed) {
                 val caseDir = "nano_test_input/corpus/cases/$caseKey"
                 val meta = assetJson(context, "$caseDir/chunk0/meta.json")
                 val entry = JSONObject()
