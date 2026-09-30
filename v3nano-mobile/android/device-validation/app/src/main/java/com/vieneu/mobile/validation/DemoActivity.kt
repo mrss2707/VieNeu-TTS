@@ -19,11 +19,11 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 
 /**
- * Supermeo Mobile TTS demo (mirror iOS ViewController):
- * đoạn văn *Đấu phá thương khung* + nút FP32 / INT8 — cả hai chạy comfort DSP chain
- * (treble + presence dip + shelf + soft-clip) trước khi phát.
+ * Supermeo Mobile TTS demo (A/B quality trên Android):
+ *  - FP32: raw, KHÔNG hậu kỳ — baseline “giọng gốc”
+ *  - FP16 / INT8: + AudioComfortFilter (treble + dip + shelf + soft-clip) — production path
  *
- * Graph đọc từ external-files/nano_graphs_fp32 hoặc nano_graphs_int8 (adb push).
+ * Graph đọc từ external-files/nano_graphs_{fp32,fp16,int8} (adb push).
  */
 class DemoActivity : Activity() {
     companion object {
@@ -32,6 +32,7 @@ class DemoActivity : Activity() {
 
     private lateinit var status: TextView
     private lateinit var btnFp32: Button
+    private lateinit var btnFp16: Button
     private lateinit var btnInt8: Button
     private val io = Executors.newSingleThreadExecutor()
     private var playing: AudioTrack? = null
@@ -62,15 +63,19 @@ class DemoActivity : Activity() {
             textSize = 15f
         }
         btnFp32 = Button(this).apply {
-            text = "Đọc — FP32"
+            text = "FP32 — raw (không DSP)"
             setOnClickListener { speak("fp32") }
         }
+        btnFp16 = Button(this).apply {
+            text = "FP16 — + comfort DSP"
+            setOnClickListener { speak("fp16") }
+        }
         btnInt8 = Button(this).apply {
-            text = "Đọc — INT8"
+            text = "INT8 — + comfort DSP"
             setOnClickListener { speak("int8") }
         }
         status = TextView(this).apply {
-            text = "Chọn FP32 hoặc INT8 · comfort DSP ON · giọng Anh Khôi"
+            text = "So sánh: FP32 raw vs FP16/INT8 + comfort · giọng Anh Khôi"
             textSize = 13f
         }
 
@@ -81,19 +86,25 @@ class DemoActivity : Activity() {
             addView(label)
             addView(body)
             addView(btnFp32)
+            addView(btnFp16)
             addView(btnInt8)
             addView(status)
         }
         setContentView(ScrollView(this).apply { addView(col) })
 
-        // Test hook: adb shell am start ... --es autoSpeak fp32|int8
+        // Test hook: adb shell am start ... --es autoSpeak fp32|fp16|int8
         intent.getStringExtra("autoSpeak")?.let { speak(it) }
+    }
+
+    private fun setButtonsEnabled(enabled: Boolean) {
+        btnFp32.isEnabled = enabled
+        btnFp16.isEnabled = enabled
+        btnInt8.isEnabled = enabled
     }
 
     private fun speak(precision: String) {
         Log.i(TAG, "speak precision=$precision")
-        btnFp32.isEnabled = false
-        btnInt8.isEnabled = false
+        setButtonsEnabled(false)
         status.text = "Đang sinh ($precision)…"
         io.execute {
             try {
@@ -101,22 +112,25 @@ class DemoActivity : Activity() {
                 Log.i(TAG, "speak done: $result")
                 runOnUiThread {
                     status.text = result
-                    btnFp32.isEnabled = true
-                    btnInt8.isEnabled = true
+                    setButtonsEnabled(true)
                 }
             } catch (t: Throwable) {
                 Log.e(TAG, "speak failed", t)
                 runOnUiThread {
                     status.text = "Lỗi: ${t.message}"
-                    btnFp32.isEnabled = true
-                    btnInt8.isEnabled = true
+                    setButtonsEnabled(true)
                 }
             }
         }
     }
 
     private fun synthesize(precision: String): String {
-        val dirName = if (precision == "int8") "nano_graphs_int8" else "nano_graphs_fp32"
+        val useComfort = precision != "fp32"
+        val dirName = when (precision) {
+            "int8" -> "nano_graphs_int8"
+            "fp16" -> "nano_graphs_fp16"
+            else -> "nano_graphs_fp32"
+        }
         val graphDir = File(getExternalFilesDir(null), dirName)
         if (!graphDir.isDirectory || graphDir.listFiles { f -> f.name.endsWith(".onnx") }?.size != 4) {
             return "Thiếu graph $dirName — adb push 4 onnx vào ${graphDir.absolutePath}"
@@ -155,7 +169,7 @@ class DemoActivity : Activity() {
         g.close()
 
         val comfortMs0 = System.currentTimeMillis()
-        val out = AudioComfortFilter.apply(raw)
+        val out = if (useComfort) AudioComfortFilter.apply(raw) else raw
         val comfortMs = System.currentTimeMillis() - comfortMs0
 
         var peak = 0f
@@ -168,10 +182,11 @@ class DemoActivity : Activity() {
         playPcm(out, sr)
         val audioSec = out.size.toDouble() / sr
         val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else 0.0
+        val dspTag = if (useComfort) "comfort ON" else "raw / no DSP"
         return "OK $precision — " +
-            "%.1fs audio · %.0f ms sinh · %d chunk · load %.0f ms · comfort %d ms · RTF %.2f · peak %.3f".format(
+            "%.1fs audio · %.0f ms sinh · %d chunk · load %.0f ms · dsp %d ms · RTF %.2f · peak %.3f".format(
                 audioSec, genMs.toDouble(), nChunks, loadMs.toDouble(), comfortMs, rtf, peak,
-            ) + if (nan) " · CÓ NaN!" else " · comfort ON"
+            ) + if (nan) " · CÓ NaN!" else " · $dspTag"
     }
 
     private fun playPcm(pcm: FloatArray, sampleRate: Int) {
