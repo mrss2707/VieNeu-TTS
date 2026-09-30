@@ -1,0 +1,12 @@
+{
+  "voice": "Anh Khôi",
+  "bos_id": 1,
+  "eos_id": 2,
+  "pad_id": 0,
+  "flow_fps": 15.625,
+  "sample_rate": 24000,
+  "max_chunk_seconds": 15.0,
+  "steps": 8,
+  "cfg": 3.0,
+  "sway": -1.0
+}
