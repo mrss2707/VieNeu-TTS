@@ -7,13 +7,14 @@
 #import "NanoTtsEngine.h"
 #import <mach/mach.h>
 #import <onnxruntime/onnxruntime_cxx_api.h>
-#import <algorithm>
-#import <cmath>
-#import <map>
-#import <memory>
-#import <random>
-#import <string>
-#import <vector>
+#include <algorithm>
+#include <cmath>
+#include <complex>
+#include <map>
+#include <memory>
+#include <random>
+#include <string>
+#include <vector>
 
 @interface NanoTtsEngineResult ()
 @property(nonatomic, readwrite) NSData *pcmFloat32;
@@ -123,12 +124,110 @@ static std::vector<float> ApplyNoiseFloor(const std::vector<float> &wav, int sam
     return out;
 }
 
+// Spectral subtraction (rev 3b) — giảm “lạo xạo” TRỘN trong lúc nói.
+// STFT 512 / hop 256 @ 24 kHz, noise-track min-statistics, over-subtract 1.8,
+// gain floor 0.22 — vừa đủ diệt rustle nền, không “hát” musical noise.
+static const int kSpecNfft = 512;
+static const int kSpecHop = 256;
+static const float kSpecOverSub = 1.8f;
+static const float kSpecGainFloor = 0.22f;
+static const float kSpecNoiseDown = 0.92f;
+static const float kSpecNoiseUp = 0.997f;
+static const float kSpecGainSmooth = 0.65f;
+
+// In-place iterative radix-2 FFT. inverse=true → inverse transform (không scale).
+static void FftRadix2(std::vector<std::complex<float>> &a, bool inverse) {
+    const int n = (int)a.size();
+    for (int i = 1, j = 0; i < n; i++) {
+        int bit = n >> 1;
+        for (; j & bit; bit >>= 1) j ^= bit;
+        j ^= bit;
+        if (i < j) std::swap(a[i], a[j]);
+    }
+    for (int len = 2; len <= n; len <<= 1) {
+        const float ang = 2.0f * (float)M_PI / len * (inverse ? 1.0f : -1.0f);
+        const std::complex<float> wlen(std::cos(ang), std::sin(ang));
+        for (int i = 0; i < n; i += len) {
+            std::complex<float> w(1.0f, 0.0f);
+            for (int j = 0; j < len / 2; j++) {
+                const std::complex<float> u = a[i + j];
+                const std::complex<float> v = a[i + j + len / 2] * w;
+                a[i + j] = u + v;
+                a[i + j + len / 2] = u - v;
+                w *= wlen;
+            }
+        }
+    }
+}
+
+static std::vector<float> ApplySpectralDenoise(const std::vector<float> &wav) {
+    if (wav.size() < (size_t)kSpecNfft) return wav;
+    const int nfft = kSpecNfft;
+    const int hop = kSpecHop;
+    const int bins = nfft / 2 + 1;
+    const int nFrames = 1 + (int)((wav.size() - nfft) / hop);
+
+    std::vector<float> hann(nfft);
+    for (int i = 0; i < nfft; i++) {
+        hann[i] = 0.5f - 0.5f * std::cos(2.0 * M_PI * i / (double)nfft);
+    }
+
+    std::vector<float> out(wav.size() + nfft, 0.0f);
+    std::vector<float> olaWeight(wav.size() + nfft, 0.0f);
+    std::vector<float> noise(bins, 0.0f);
+    std::vector<float> gainSm(bins, 1.0f);
+    std::vector<std::complex<float>> spec(nfft);
+
+    for (int f = 0; f < nFrames; f++) {
+        const size_t off = (size_t)f * hop;
+        for (int i = 0; i < nfft; i++) spec[i] = std::complex<float>(wav[off + i] * hann[i], 0.0f);
+        FftRadix2(spec, false);
+
+        for (int k = 0; k < bins; k++) {
+            const float p = std::norm(spec[k]);
+            if (f == 0) {
+                noise[k] = p;
+            } else if (p < noise[k]) {
+                noise[k] = kSpecNoiseDown * noise[k] + (1.0f - kSpecNoiseDown) * p;
+            } else {
+                noise[k] = kSpecNoiseUp * noise[k] + (1.0f - kSpecNoiseUp) * p;
+            }
+            float diff = p - kSpecOverSub * noise[k];
+            if (diff < 0.0f) diff = 0.0f;
+            float g = std::sqrt(diff / (p + 1e-12f));
+            if (g < kSpecGainFloor) g = kSpecGainFloor;
+            if (g > 1.0f) g = 1.0f;
+            gainSm[k] = kSpecGainSmooth * gainSm[k] + (1.0f - kSpecGainSmooth) * g;
+            spec[k] *= gainSm[k];
+        }
+        // Hermitian mirror
+        for (int k = 1; k < nfft / 2; k++) {
+            spec[nfft - k] = std::conj(spec[k]);
+        }
+
+        FftRadix2(spec, true);
+        const float scale = 1.0f / (float)nfft;
+        for (int i = 0; i < nfft; i++) {
+            out[off + i] += spec[i].real() * scale * hann[i];
+            olaWeight[off + i] += hann[i] * hann[i];
+        }
+    }
+
+    std::vector<float> y(wav.size());
+    for (size_t i = 0; i < y.size(); i++) {
+        const float w = olaWeight[i];
+        y[i] = (w > 1e-8f) ? (out[i] / w) : out[i];
+    }
+    return y;
+}
+
 static std::vector<float> ApplyComfortChain(const std::vector<float> &wav, bool noiseFloorEnabled,
-                                            int sampleRate) {
+                                            bool spectralEnabled, int sampleRate) {
     if (wav.empty()) return wav;
     std::vector<float> x = ApplyTrebleFilter(wav);
     x = ApplyBiquad(x, kPresB0, kPresB1, kPresB2, kPresA1, kPresA2);
     x = ApplyBiquad(x, kShelfB0, kShelfB1, kShelfB2, kShelfA1, kShelfA2);
+    if (spectralEnabled) x = ApplySpectralDenoise(x);
     if (noiseFloorEnabled) x = ApplyNoiseFloor(x, sampleRate);
 
     // Soft-clip tanh chống “xé” peak, rồi normalize peak −1 dBFS.
@@ -498,11 +597,12 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
 }
 
 - (NanoTtsEngineResult *)synthesizeDemo:(NSError **)error {
-    return [self synthesizeDemoWithNoiseFloor:YES error:error];
+    return [self synthesizeDemoWithNoiseFloor:YES spectralDenoise:NO error:error];
 }
 
 - (NanoTtsEngineResult *)synthesizeDemoWithNoiseFloor:(BOOL)noiseFloorEnabled
-                                                error:(NSError **)error {
+                                        spectralDenoise:(BOOL)spectralEnabled
+                                                 error:(NSError **)error {
     if (_demoNChunks <= 0) {
         if (error) *error = MakeError(@"demo case empty");
         return nil;
@@ -528,7 +628,7 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
         if (nan) nanAny = YES;
     }
     std::vector<float> joined = JoinAudioChunks(wavs, _sampleRate, _demoGaps);
-    joined = ApplyComfortChain(joined, noiseFloorEnabled, _sampleRate);
+    joined = ApplyComfortChain(joined, noiseFloorEnabled, spectralEnabled, _sampleRate);
     NanoTtsEngineResult *result = [NanoTtsEngineResult new];
     result.pcmFloat32 = [NSData dataWithBytes:joined.data() length:joined.size() * sizeof(float)];
     result.audioSeconds = (double)joined.size() / (double)_sampleRate;

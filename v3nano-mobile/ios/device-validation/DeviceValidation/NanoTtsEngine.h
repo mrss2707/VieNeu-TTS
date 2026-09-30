@@ -38,11 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) NSInteger steps;
 
 /// Synthesize the bundled demo paragraph. Blocking — call off the main thread.
-/// `noiseFloorEnabled` toggles the rev-3 downward expander (A/B with the same
-/// comfort EQ + soft-clip).
+/// `noiseFloorEnabled` — rev-3 downward expander (khoảng trống).
+/// `spectralEnabled` — STFT spectral subtraction (nhiễu trộn TRONG lúc nói).
 - (nullable NanoTtsEngineResult *)synthesizeDemo:(NSError **)error;
 - (nullable NanoTtsEngineResult *)synthesizeDemoWithNoiseFloor:(BOOL)noiseFloorEnabled
-                                                         error:(NSError **)error;
+                                                  spectralDenoise:(BOOL)spectralEnabled
+                                                           error:(NSError **)error;
 
 /// Write float32 PCM as 16-bit WAV at 24 kHz. Returns file URL.
 - (nullable NSURL *)writeWavFromResult:(NanoTtsEngineResult *)result

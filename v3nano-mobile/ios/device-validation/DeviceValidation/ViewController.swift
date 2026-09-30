@@ -1,29 +1,31 @@
 import AVFoundation
 import UIKit
 
-/// UI demo A/B: INT8·12 steps comfort DSP **có / không noise floor** (giọng Mỹ Duyên).
-/// Cùng EQ + soft-clip; chỉ toggle downward expander −48 dBFS (chống “lạo xạo” nền).
+/// UI demo A/B: INT8·12 steps comfort DSP — noise gate vs spectral denoise.
+/// 1) Chỉ comfort (EQ + soft-clip)
+/// 2) + noise gate (khoảng trống)
+/// 3) + gate + spectral STFT (nhiễu TRONG lúc nói) ← production path đề xuất
 final class ViewController: UIViewController {
     private enum Mode: Int {
-        case noNoiseFloor = 0
-        case withNoiseFloor = 1
+        case comfortOnly = 0
+        case gate = 1
+        case gateSpectral = 2
 
         var title: String {
             switch self {
-            case .noNoiseFloor: return "INT8 · 12 · không NF"
-            case .withNoiseFloor: return "INT8 · 12 · + noise floor"
+            case .comfortOnly: return "chỉ comfort"
+            case .gate: return "+ noise gate"
+            case .gateSpectral: return "+ gate + spectral ★"
             }
         }
 
-        var graphDir: String { "nano_graphs_int8" }
-        var steps: Int { 12 }
-        var noiseFloor: Bool { self == .withNoiseFloor }
+        var noiseFloor: Bool { self != .comfortOnly }
+        var spectral: Bool { self == .gateSpectral }
     }
 
     private let paragraphLabel = UILabel()
     private let textView = UITextView()
-    private let btnOff = UIButton(type: .system)
-    private let btnOn = UIButton(type: .system)
+    private let buttons: [UIButton] = (0..<3).map { _ in UIButton(type: .system) }
     private let statusLabel = UILabel()
     private let spinner = UIActivityIndicatorView(style: .large)
 
@@ -47,7 +49,7 @@ final class ViewController: UIViewController {
     }
 
     private func buildUI() {
-        paragraphLabel.text = "Đấu phá · Mỹ Duyên · INT8 12 steps · comfort DSP"
+        paragraphLabel.text = "Đấu phá · Mỹ Duyên · INT8 12 steps · A/B nhiễu"
         paragraphLabel.font = .preferredFont(forTextStyle: .headline)
 
         textView.text = demoParagraph
@@ -58,8 +60,13 @@ final class ViewController: UIViewController {
         textView.layer.cornerRadius = 8
         textView.textContainerInset = UIEdgeInsets(top: 12, left: 8, bottom: 12, right: 8)
 
-        configure(btnOff, mode: .noNoiseFloor)
-        configure(btnOn, mode: .withNoiseFloor)
+        for (idx, button) in buttons.enumerated() {
+            guard let mode = Mode(rawValue: idx) else { continue }
+            button.setTitle("Đọc — \(mode.title)", for: .normal)
+            button.titleLabel?.font = .preferredFont(forTextStyle: .title2)
+            button.tag = idx
+            button.addTarget(self, action: #selector(onSpeak(_:)), for: .touchUpInside)
+        }
 
         statusLabel.text = "Đang nạp graph INT8…"
         statusLabel.font = .preferredFont(forTextStyle: .footnote)
@@ -69,26 +76,17 @@ final class ViewController: UIViewController {
 
         spinner.hidesWhenStopped = true
 
-        let stack = UIStackView(arrangedSubviews: [
-            paragraphLabel, textView, btnOff, btnOn, spinner, statusLabel,
-        ])
+        let stack = UIStackView(arrangedSubviews: [paragraphLabel, textView] + buttons + [spinner, statusLabel])
         stack.axis = .vertical
-        stack.spacing = 16
+        stack.spacing = 14
         stack.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stack)
         NSLayoutConstraint.activate([
             stack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             stack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 160),
+            textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 140),
         ])
-    }
-
-    private func configure(_ button: UIButton, mode: Mode) {
-        button.setTitle("Đọc — \(mode.title)", for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .title2)
-        button.tag = mode.rawValue
-        button.addTarget(self, action: #selector(onSpeak(_:)), for: .touchUpInside)
     }
 
     private func preload() {
@@ -112,14 +110,13 @@ final class ViewController: UIViewController {
                 guard let self else { return }
                 self.engine = eng
                 self.setButtonsEnabled(eng != nil)
-                self.statusLabel.text = message + String(format: "\nRAM sau khi nạp: %.0f MB", ram)
+                self.statusLabel.text = message + String(format: "\nRAM: %.0f MB", ram)
             }
         }
     }
 
     private func setButtonsEnabled(_ enabled: Bool) {
-        btnOff.isEnabled = enabled
-        btnOn.isEnabled = enabled
+        for b in buttons { b.isEnabled = enabled }
     }
 
     @objc private func onSpeak(_ sender: UIButton) {
@@ -132,7 +129,10 @@ final class ViewController: UIViewController {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             do {
-                let result = try engine.synthesizeDemo(withNoiseFloor: mode.noiseFloor)
+                let result = try engine.synthesizeDemo(
+                    withNoiseFloor: mode.noiseFloor,
+                    spectralDenoise: mode.spectral
+                )
                 let wavURL = try engine.writeWav(from: result)
                 DispatchQueue.main.async {
                     guard let self else { return }
@@ -141,17 +141,15 @@ final class ViewController: UIViewController {
                     self.setButtonsEnabled(true)
                     let rtf = (result.generationMs / 1000.0) / max(result.audioSeconds, 0.001)
                     self.statusLabel.text = String(
-                        format: """
-                        OK %@ — %.1fs · %.0f ms · RTF %.2f · peak-normalized%@ \
-                        · NF %@ · RAM %.0f MB
-                        """,
+                        format: "OK %@ — %.1fs · %.0f ms · RTF %.2f · NF %@ · spec %@ · RAM %.0f MB%@",
                         mode.title,
                         result.audioSeconds,
                         result.generationMs,
                         rtf,
-                        result.hasNan ? " · CÓ NaN!" : "",
                         mode.noiseFloor ? "ON" : "OFF",
-                        result.physFootprintMb
+                        mode.spectral ? "ON" : "OFF",
+                        result.physFootprintMb,
+                        result.hasNan ? " · CÓ NaN!" : ""
                     )
                     do {
                         try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
