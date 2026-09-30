@@ -28,8 +28,8 @@ DEMO_TEXT = (
     "Bốn năm sau, thiếu niên năm nào đứng giữa quảng trường, mặc cho ánh mắt chế giễu của tộc nhân, "
     "hắn siết chặt nắm đấm — nhất định phải lấy lại tất cả những gì đã mất."
 )
-VOICE_KEY = "Anh Khôi"
-VOICE_DIR_NAME = "Anh_Khoi"
+VOICE_KEY = "Mỹ Duyên"
+VOICE_DIR_NAME = "My_Duyen"
 
 
 def main() -> None:

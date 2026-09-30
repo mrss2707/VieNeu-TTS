@@ -19,11 +19,10 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 
 /**
- * Supermeo Mobile TTS demo (A/B quality trên Android):
- *  - FP32: raw, KHÔNG hậu kỳ — baseline “giọng gốc”
- *  - FP16 / INT8: + AudioComfortFilter (treble + dip + shelf + soft-clip) — production path
- *
- * Graph đọc từ external-files/nano_graphs_{fp32,fp16,int8} (adb push).
+ * Supermeo Mobile TTS demo — INT8 quality ladder trên Android:
+ *  - Giọng nữ trẻ Mỹ Duyên (Nữ · Bắc · đọc truyện)
+ *  - INT8 8 / 12 / 16 Euler steps, đều + AudioComfortFilter (production path)
+ *  - Graph đọc từ external-files/nano_graphs_int8 (adb push)
  */
 class DemoActivity : Activity() {
     companion object {
@@ -31,9 +30,9 @@ class DemoActivity : Activity() {
     }
 
     private lateinit var status: TextView
-    private lateinit var btnFp32: Button
-    private lateinit var btnFp16: Button
-    private lateinit var btnInt8: Button
+    private lateinit var btnS8: Button
+    private lateinit var btnS12: Button
+    private lateinit var btnS16: Button
     private val io = Executors.newSingleThreadExecutor()
     private var playing: AudioTrack? = null
 
@@ -62,20 +61,20 @@ class DemoActivity : Activity() {
             text = paragraph
             textSize = 15f
         }
-        btnFp32 = Button(this).apply {
-            text = "FP32 — raw (không DSP)"
-            setOnClickListener { speak("fp32") }
+        btnS8 = Button(this).apply {
+            text = "INT8 · 8 steps"
+            setOnClickListener { speak(8) }
         }
-        btnFp16 = Button(this).apply {
-            text = "FP16 — + comfort DSP"
-            setOnClickListener { speak("fp16") }
+        btnS12 = Button(this).apply {
+            text = "INT8 · 12 steps"
+            setOnClickListener { speak(12) }
         }
-        btnInt8 = Button(this).apply {
-            text = "INT8 — + comfort DSP"
-            setOnClickListener { speak("int8") }
+        btnS16 = Button(this).apply {
+            text = "INT8 · 16 steps"
+            setOnClickListener { speak(16) }
         }
         status = TextView(this).apply {
-            text = "So sánh: FP32 raw vs FP16/INT8 + comfort · giọng Anh Khôi"
+            text = "INT8 + comfort · giọng nữ Mỹ Duyên · so sánh 8 / 12 / 16 steps"
             textSize = 13f
         }
 
@@ -85,30 +84,30 @@ class DemoActivity : Activity() {
             addView(title)
             addView(label)
             addView(body)
-            addView(btnFp32)
-            addView(btnFp16)
-            addView(btnInt8)
+            addView(btnS8)
+            addView(btnS12)
+            addView(btnS16)
             addView(status)
         }
         setContentView(ScrollView(this).apply { addView(col) })
 
-        // Test hook: adb shell am start ... --es autoSpeak fp32|fp16|int8
-        intent.getStringExtra("autoSpeak")?.let { speak(it) }
+        // Test hook: adb shell am start ... --es autoSpeak 8|12|16
+        intent.getStringExtra("autoSpeak")?.let { speak(it.toIntOrNull() ?: 8) }
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
-        btnFp32.isEnabled = enabled
-        btnFp16.isEnabled = enabled
-        btnInt8.isEnabled = enabled
+        btnS8.isEnabled = enabled
+        btnS12.isEnabled = enabled
+        btnS16.isEnabled = enabled
     }
 
-    private fun speak(precision: String) {
-        Log.i(TAG, "speak precision=$precision")
+    private fun speak(steps: Int) {
+        Log.i(TAG, "speak steps=$steps")
         setButtonsEnabled(false)
-        status.text = "Đang sinh ($precision)…"
+        status.text = "Đang sinh (INT8 · $steps steps)…"
         io.execute {
             try {
-                val result = synthesize(precision)
+                val result = synthesize(steps)
                 Log.i(TAG, "speak done: $result")
                 runOnUiThread {
                     status.text = result
@@ -124,13 +123,8 @@ class DemoActivity : Activity() {
         }
     }
 
-    private fun synthesize(precision: String): String {
-        val useComfort = precision != "fp32"
-        val dirName = when (precision) {
-            "int8" -> "nano_graphs_int8"
-            "fp16" -> "nano_graphs_fp16"
-            else -> "nano_graphs_fp32"
-        }
+    private fun synthesize(stepsOverride: Int): String {
+        val dirName = "nano_graphs_int8"
         val graphDir = File(getExternalFilesDir(null), dirName)
         if (!graphDir.isDirectory || graphDir.listFiles { f -> f.name.endsWith(".onnx") }?.size != 4) {
             return "Thiếu graph $dirName — adb push 4 onnx vào ${graphDir.absolutePath}"
@@ -150,13 +144,13 @@ class DemoActivity : Activity() {
         val bosId = meta.getLong("bos_id")
         val eosId = meta.getLong("eos_id")
         val fps = meta.getDouble("flow_fps")
-        val steps = meta.getInt("steps")
+        val steps = stepsOverride
         val cfg = meta.getDouble("cfg")
         val sway = meta.optDouble("sway", -1.0)
         val sr = meta.getInt("sample_rate")
 
-        val spk = NanoBenchmarkCore.assetFloatArray(this, "$demo/voices/Anh_Khoi/spk.bin")
-        val style = NanoBenchmarkCore.assetFloatArray(this, "$demo/voices/Anh_Khoi/style.bin")
+        val spk = NanoBenchmarkCore.assetFloatArray(this, "$demo/voices/My_Duyen/spk.bin")
+        val style = NanoBenchmarkCore.assetFloatArray(this, "$demo/voices/My_Duyen/style.bin")
         val nullSpk = NanoBenchmarkCore.assetFloatArray(this, "$demo/null_spk.bin")
         val nullStyle = NanoBenchmarkCore.assetFloatArray(this, "$demo/null_style.bin")
 
@@ -169,7 +163,7 @@ class DemoActivity : Activity() {
         g.close()
 
         val comfortMs0 = System.currentTimeMillis()
-        val out = if (useComfort) AudioComfortFilter.apply(raw) else raw
+        val out = AudioComfortFilter.apply(raw)
         val comfortMs = System.currentTimeMillis() - comfortMs0
 
         var peak = 0f
@@ -182,11 +176,10 @@ class DemoActivity : Activity() {
         playPcm(out, sr)
         val audioSec = out.size.toDouble() / sr
         val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else 0.0
-        val dspTag = if (useComfort) "comfort ON" else "raw / no DSP"
-        return "OK $precision — " +
+        return "OK INT8 · $steps steps — " +
             "%.1fs audio · %.0f ms sinh · %d chunk · load %.0f ms · dsp %d ms · RTF %.2f · peak %.3f".format(
                 audioSec, genMs.toDouble(), nChunks, loadMs.toDouble(), comfortMs, rtf, peak,
-            ) + if (nan) " · CÓ NaN!" else " · $dspTag"
+            ) + if (nan) " · CÓ NaN!" else " · comfort ON · Mỹ Duyên"
     }
 
     private fun playPcm(pcm: FloatArray, sampleRate: Int) {
