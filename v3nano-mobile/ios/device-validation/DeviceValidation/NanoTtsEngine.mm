@@ -5,6 +5,7 @@
 // Phone IDs are pre-exported (nano_test_input/demo) — on-device G2P is still a product gap.
 
 #import "NanoTtsEngine.h"
+#import <mach/mach.h>
 #import <onnxruntime/onnxruntime_cxx_api.h>
 #import <algorithm>
 #import <cmath>
@@ -20,6 +21,8 @@
 @property(nonatomic, readwrite) double generationMs;
 @property(nonatomic, readwrite) NSInteger nChunks;
 @property(nonatomic, readwrite) BOOL hasNan;
+@property(nonatomic, readwrite) double physFootprintMb;
+@property(nonatomic, readwrite) double graphBytesOnDisk;
 @end
 
 @implementation NanoTtsEngineResult
@@ -163,29 +166,32 @@ static std::vector<float> JoinAudioChunks(const std::vector<std::vector<float>> 
     return out;
 }
 
-@interface NanoTtsEngine () {
-    std::unique_ptr<Ort::Env> _env;
-    std::unique_ptr<Ort::Session> _sText;
-    std::unique_ptr<Ort::Session> _sDur;
-    std::unique_ptr<Ort::Session> _sVe;
-    std::unique_ptr<Ort::Session> _sDec;
-    Ort::MemoryInfo *_memInfo;
-    std::vector<float> _spk, _style, _nullSpk, _nullStyle;
-    int64_t _padId, _bosId, _eosId;
-    double _fps, _cfg, _sway;
-    int _steps, _sampleRate;
-    std::vector<int64_t> _demoIds;  // flattened per-chunk via _demoChunkOffsets
-    std::vector<size_t> _demoChunkOffsets;
-    std::vector<std::string> _demoGaps;
-    int _demoNChunks;
-}
-@end
-
-@implementation NanoTtsEngine
-
 static NSError *MakeError(NSString *msg) {
     return [NSError errorWithDomain:@"VieNeu.NanoTts" code:1
                            userInfo:@{NSLocalizedDescriptionKey : msg}];
+}
+
+/// Resident footprint in MB — same metric Instruments "Memory / phys_footprint" shows.
+static double PhysFootprintMb(void) {
+    task_vm_info_data_t info;
+    mach_msg_type_number_t count = TASK_VM_INFO_COUNT;
+    kern_return_t kr = task_info(mach_task_self(), TASK_VM_INFO, (task_info_t)&info, &count);
+    if (kr != KERN_SUCCESS) return -1;
+    return (double)info.phys_footprint / (1024.0 * 1024.0);
+}
+
+static double DirByteSize(NSString *path) {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *en = [fm enumeratorAtPath:path];
+    double total = 0;
+    for (NSString *rel in en) {
+        NSString *full = [path stringByAppendingPathComponent:rel];
+        NSDictionary *attrs = [fm attributesOfItemAtPath:full error:nil];
+        if ([attrs.fileType isEqualToString:NSFileTypeRegular]) {
+            total += (double)attrs.fileSize;
+        }
+    }
+    return total;
 }
 
 static std::vector<float> LoadFloats(NSBundle *bundle, NSString *rel, NSError **error) {
@@ -205,16 +211,54 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
     return std::vector<int64_t>(p, p + data.length / sizeof(int64_t));
 }
 
-- (instancetype)initWithBundle:(NSBundle *)bundle error:(NSError **)error {
+@interface NanoTtsEngine () {
+    std::unique_ptr<Ort::Env> _env;
+    std::unique_ptr<Ort::Session> _sText;
+    std::unique_ptr<Ort::Session> _sDur;
+    std::unique_ptr<Ort::Session> _sVe;
+    std::unique_ptr<Ort::Session> _sDec;
+    Ort::MemoryInfo *_memInfo;
+    std::vector<float> _spk, _style, _nullSpk, _nullStyle;
+    int64_t _padId, _bosId, _eosId;
+    double _fps, _cfg, _sway;
+    int _sampleRate;
+    double _graphBytesOnDiskIvar;
+    NSInteger _stepsIvar;
+    std::vector<int64_t> _demoIds;  // flattened per-chunk via _demoChunkOffsets
+    std::vector<size_t> _demoChunkOffsets;
+    std::vector<std::string> _demoGaps;
+    int _demoNChunks;
+}
+@end
+
+@implementation NanoTtsEngine
+
+@synthesize graphBytesOnDisk = _graphBytesOnDiskIvar;
+@synthesize steps = _stepsIvar;
+
++ (double)graphDirBytesOnDisk:(NSBundle *)bundle name:(NSString *)graphDirName {
+    NSString *path = [bundle.resourcePath stringByAppendingPathComponent:graphDirName];
+    return DirByteSize(path);
+}
+
++ (double)currentPhysFootprintMb {
+    return PhysFootprintMb();
+}
+
+- (instancetype)initWithBundle:(NSBundle *)bundle
+                  graphDirName:(NSString *)graphDirName
+                         steps:(NSInteger)steps
+                         error:(NSError **)error {
     self = [super init];
     if (!self) return nil;
 
-    NSString *graphs = [bundle.resourcePath stringByAppendingPathComponent:@"nano_graphs"];
+    NSString *graphs = [bundle.resourcePath stringByAppendingPathComponent:graphDirName];
     NSString *demo = [bundle.resourcePath stringByAppendingPathComponent:@"nano_test_input/demo"];
     if (![[NSFileManager defaultManager] fileExistsAtPath:graphs]) {
-        if (error) *error = MakeError(@"nano_graphs missing from bundle");
+        if (error) *error = MakeError([NSString stringWithFormat:@"%@ missing from bundle", graphDirName]);
         return nil;
     }
+    _graphBytesOnDiskIvar = DirByteSize(graphs);
 
     NSData *gmData = [NSData dataWithContentsOfFile:[demo stringByAppendingString:@"/global_meta.json"]];
     if (!gmData) {
@@ -226,17 +270,14 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
     _bosId = [gm[@"bos_id"] longLongValue];
     _eosId = [gm[@"eos_id"] longLongValue];
     _fps = [gm[@"flow_fps"] doubleValue];
-    _steps = [gm[@"steps"] intValue];
+    _stepsIvar = (steps > 0) ? steps : [gm[@"steps"] integerValue];
     _cfg = [gm[@"cfg"] doubleValue];
     _sway = gm[@"sway"] ? [gm[@"sway"] doubleValue] : 0.0;
     _sampleRate = [gm[@"sample_rate"] intValue];
 
-    NSString *voiceName = [[gm[@"voice"] stringByReplacingOccurrencesOfString:@" " withString:@"_"]
-        stringByReplacingOccurrencesOfString:@"Đ" withString:@"D"];
-    // demo export uses voices/Anh_Khoi (young male preset)
-    voiceName = @"Anh_Khoi";
-    _spk = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/spk.bin", voiceName], error);
-    _style = LoadFloats(bundle, [NSString stringWithFormat:@"nano_test_input/demo/voices/%@/style.bin", voiceName], error);
+    // Demo voice: Mỹ Duyên (Nữ · Bắc · đọc truyện) — export_demo_paragraph.py
+    _spk = LoadFloats(bundle, @"nano_test_input/demo/voices/My_Duyen/spk.bin", error);
+    _style = LoadFloats(bundle, @"nano_test_input/demo/voices/My_Duyen/style.bin", error);
     _nullSpk = LoadFloats(bundle, @"nano_test_input/demo/null_spk.bin", error);
     _nullStyle = LoadFloats(bundle, @"nano_test_input/demo/null_style.bin", error);
     if (_spk.empty() || error) {
@@ -272,6 +313,10 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
         return nil;
     }
     return self;
+}
+
+- (instancetype)initWithBundle:(NSBundle *)bundle error:(NSError **)error {
+    return [self initWithBundle:bundle graphDirName:@"nano_graphs" steps:0 error:error];
 }
 
 - (void)runOneChunk:(const std::vector<int64_t> &)ids
@@ -342,7 +387,7 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
     for (auto &v : x) v = gauss(rng);
     std::vector<int64_t> xShape = {1, C, T};
 
-    int n = _steps;
+    int n = (int)_stepsIvar;
     std::vector<double> tg(n + 1);
     for (int i = 0; i <= n; i++) {
         double u = (double)i / n;
@@ -438,6 +483,8 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
     result.generationMs = totalMs;
     result.nChunks = _demoNChunks;
     result.hasNan = nanAny;
+    result.physFootprintMb = PhysFootprintMb();
+    result.graphBytesOnDisk = _graphBytesOnDiskIvar;
     return result;
 }
 

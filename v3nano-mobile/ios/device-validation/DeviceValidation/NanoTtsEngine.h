@@ -10,14 +10,32 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) double generationMs;
 @property(nonatomic, readonly) NSInteger nChunks;
 @property(nonatomic, readonly) BOOL hasNan;
+@property(nonatomic, readonly) double physFootprintMb;  // after synth (task_vm_info.phys_footprint)
+@property(nonatomic, readonly) double graphBytesOnDisk;
 @end
 
 @interface NanoTtsEngine : NSObject
 
-/// Load 4 graphs + demo assets from the main bundle.
+/// On-disk size of `bundle/<graphDirName>` in bytes (0 if missing).
++ (double)graphDirBytesOnDisk:(NSBundle *)bundle name:(NSString *)graphDirName;
+
+/// Current process phys_footprint in MB (Instruments "Memory").
++ (double)currentPhysFootprintMb;
+
+/// Load 4 graphs from `bundle/<graphDirName>/` + demo assets (voice My_Duyen).
+/// `steps` overrides global_meta.json (use 8 for FP16, 12 for INT8 A/B).
 /// Returns nil and fills error on failure.
 - (nullable instancetype)initWithBundle:(NSBundle *)bundle
+                            graphDirName:(NSString *)graphDirName
+                                   steps:(NSInteger)steps
+                                   error:(NSError **)error;
+
+/// Load 4 graphs + demo assets from the main bundle (nano_graphs/, steps from meta).
+- (nullable instancetype)initWithBundle:(NSBundle *)bundle
                                   error:(NSError **)error;
+
+@property(nonatomic, readonly) double graphBytesOnDisk;
+@property(nonatomic, readonly) NSInteger steps;
 
 /// Synthesize the bundled demo paragraph. Blocking — call off the main thread.
 - (nullable NanoTtsEngineResult *)synthesizeDemo:(NSError **)error;

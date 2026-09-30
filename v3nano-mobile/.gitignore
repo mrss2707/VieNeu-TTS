@@ -39,6 +39,7 @@ local.properties
 # ── Harness runtime assets — regenerate bằng host/export_corpus_tensors.py
 #    + copy graph từ HF (xem README trong */device-validation/) ────
 **/nano_graphs/
+**/nano_graphs_*/
 **/nano_test_input/
 
 # ── Local run evidence (logcat, xcresult, junit xml) ───────────────

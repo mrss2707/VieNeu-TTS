@@ -17,6 +17,9 @@ targets:
       - path: DeviceValidation/nano_graphs
         buildPhase: resources
         type: folder
+      - path: DeviceValidation/nano_graphs_int8
+        buildPhase: resources
+        type: folder
       - path: DeviceValidation/nano_test_input
         buildPhase: resources
         type: folder

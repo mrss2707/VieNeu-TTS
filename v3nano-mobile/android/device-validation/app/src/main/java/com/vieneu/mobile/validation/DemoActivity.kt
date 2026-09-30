@@ -66,7 +66,7 @@ class DemoActivity : Activity() {
             setOnClickListener { speak(8) }
         }
         btnS12 = Button(this).apply {
-            text = "INT8 · 12 steps"
+            text = "INT8 · 12 steps ★ chốt"
             setOnClickListener { speak(12) }
         }
         btnS16 = Button(this).apply {
@@ -74,7 +74,7 @@ class DemoActivity : Activity() {
             setOnClickListener { speak(16) }
         }
         status = TextView(this).apply {
-            text = "INT8 + comfort · giọng nữ Mỹ Duyên · so sánh 8 / 12 / 16 steps"
+            text = "Chốt: INT8 · 12 steps · comfort · Mỹ Duyên (8/16 để A/B)"
             textSize = 13f
         }
 
