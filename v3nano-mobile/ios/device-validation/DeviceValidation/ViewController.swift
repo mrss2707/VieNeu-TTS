@@ -1,43 +1,33 @@
 import AVFoundation
 import UIKit
 
-/// UI demo A/B: FP16·8 steps vs INT8·12 steps (cùng comfort DSP, giọng Mỹ Duyên).
-/// So sánh chất lượng + build size (graph on disk) + RAM (phys_footprint).
+/// UI demo A/B: INT8·12 steps comfort DSP **có / không noise floor** (giọng Mỹ Duyên).
+/// Cùng EQ + soft-clip; chỉ toggle downward expander −48 dBFS (chống “lạo xạo” nền).
 final class ViewController: UIViewController {
     private enum Mode: Int {
-        case fp16 = 0
-        case int8 = 1
+        case noNoiseFloor = 0
+        case withNoiseFloor = 1
 
         var title: String {
             switch self {
-            case .fp16: return "FP16 · 8 steps"
-            case .int8: return "INT8 · 12 steps"
+            case .noNoiseFloor: return "INT8 · 12 · không NF"
+            case .withNoiseFloor: return "INT8 · 12 · + noise floor"
             }
         }
 
-        var graphDir: String {
-            switch self {
-            case .fp16: return "nano_graphs"
-            case .int8: return "nano_graphs_int8"
-            }
-        }
-
-        var steps: Int {
-            switch self {
-            case .fp16: return 8
-            case .int8: return 12
-            }
-        }
+        var graphDir: String { "nano_graphs_int8" }
+        var steps: Int { 12 }
+        var noiseFloor: Bool { self == .withNoiseFloor }
     }
 
     private let paragraphLabel = UILabel()
     private let textView = UITextView()
-    private let btnFp16 = UIButton(type: .system)
-    private let btnInt8 = UIButton(type: .system)
+    private let btnOff = UIButton(type: .system)
+    private let btnOn = UIButton(type: .system)
     private let statusLabel = UILabel()
     private let spinner = UIActivityIndicatorView(style: .large)
 
-    private var engines: [Mode: NanoTtsEngine] = [:]
+    private var engine: NanoTtsEngine?
     private var player: AVAudioPlayer?
     private var busy = false
 
@@ -57,7 +47,7 @@ final class ViewController: UIViewController {
     }
 
     private func buildUI() {
-        paragraphLabel.text = "Đấu phá · Mỹ Duyên · comfort DSP"
+        paragraphLabel.text = "Đấu phá · Mỹ Duyên · INT8 12 steps · comfort DSP"
         paragraphLabel.font = .preferredFont(forTextStyle: .headline)
 
         textView.text = demoParagraph
@@ -68,10 +58,10 @@ final class ViewController: UIViewController {
         textView.layer.cornerRadius = 8
         textView.textContainerInset = UIEdgeInsets(top: 12, left: 8, bottom: 12, right: 8)
 
-        configure(btnFp16, mode: .fp16)
-        configure(btnInt8, mode: .int8)
+        configure(btnOff, mode: .noNoiseFloor)
+        configure(btnOn, mode: .withNoiseFloor)
 
-        statusLabel.text = "Đang nạp graph…"
+        statusLabel.text = "Đang nạp graph INT8…"
         statusLabel.font = .preferredFont(forTextStyle: .footnote)
         statusLabel.textColor = .secondaryLabel
         statusLabel.numberOfLines = 0
@@ -80,7 +70,7 @@ final class ViewController: UIViewController {
         spinner.hidesWhenStopped = true
 
         let stack = UIStackView(arrangedSubviews: [
-            paragraphLabel, textView, btnFp16, btnInt8, spinner, statusLabel,
+            paragraphLabel, textView, btnOff, btnOn, spinner, statusLabel,
         ])
         stack.axis = .vertical
         stack.spacing = 16
@@ -104,42 +94,37 @@ final class ViewController: UIViewController {
     private func preload() {
         setButtonsEnabled(false)
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            var lines: [String] = []
-            var loaded: [Mode: NanoTtsEngine] = [:]
-            for mode in [Mode.fp16, Mode.int8] {
-                let onDisk = NanoTtsEngine.graphDirBytes(onDisk: .main, name: mode.graphDir)
-                do {
-                    let eng = try NanoTtsEngine(
-                        bundle: .main, graphDirName: mode.graphDir, steps: mode.steps)
-                    loaded[mode] = eng
-                    lines.append(String(
-                        format: "%@ · graph %.0f MB · steps %d",
-                        mode.title, onDisk / (1024 * 1024), mode.steps
-                    ))
-                } catch {
-                    lines.append("\(mode.title): LỖI \(error.localizedDescription)")
-                }
+            let onDisk = NanoTtsEngine.graphDirBytes(onDisk: .main, name: "nano_graphs_int8")
+            var message = ""
+            var eng: NanoTtsEngine?
+            do {
+                eng = try NanoTtsEngine(
+                    bundle: .main, graphDirName: "nano_graphs_int8", steps: 12)
+                message = String(
+                    format: "Sẵn sàng · INT8 · 12 steps · graph %.0f MB · Mỹ Duyên",
+                    onDisk / (1024 * 1024)
+                )
+            } catch {
+                message = "Lỗi nạp model: \(error.localizedDescription)"
             }
             let ram = NanoTtsEngine.currentPhysFootprintMb()
             DispatchQueue.main.async {
                 guard let self else { return }
-                self.engines = loaded
-                self.setButtonsEnabled(!loaded.isEmpty)
-                self.statusLabel.text = "Sẵn sàng · Mỹ Duyên · comfort ON\n"
-                    + lines.joined(separator: "\n")
-                    + String(format: "\nRAM sau khi nạp: %.0f MB", ram)
+                self.engine = eng
+                self.setButtonsEnabled(eng != nil)
+                self.statusLabel.text = message + String(format: "\nRAM sau khi nạp: %.0f MB", ram)
             }
         }
     }
 
     private func setButtonsEnabled(_ enabled: Bool) {
-        btnFp16.isEnabled = enabled
-        btnInt8.isEnabled = enabled
+        btnOff.isEnabled = enabled
+        btnOn.isEnabled = enabled
     }
 
     @objc private func onSpeak(_ sender: UIButton) {
         guard let mode = Mode(rawValue: sender.tag),
-              let engine = engines[mode], !busy else { return }
+              let engine, !busy else { return }
         busy = true
         setButtonsEnabled(false)
         spinner.startAnimating()
@@ -147,7 +132,7 @@ final class ViewController: UIViewController {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             do {
-                let result = try engine.synthesizeDemo()
+                let result = try engine.synthesizeDemo(withNoiseFloor: mode.noiseFloor)
                 let wavURL = try engine.writeWav(from: result)
                 DispatchQueue.main.async {
                     guard let self else { return }
@@ -157,16 +142,15 @@ final class ViewController: UIViewController {
                     let rtf = (result.generationMs / 1000.0) / max(result.audioSeconds, 0.001)
                     self.statusLabel.text = String(
                         format: """
-                        OK %@ · comfort ON — %.1fs · %.0f ms sinh · %d chunk · RTF %.2f%@ \
-                        · graph %.0f MB · RAM %.0f MB
+                        OK %@ — %.1fs · %.0f ms · RTF %.2f · peak-normalized%@ \
+                        · NF %@ · RAM %.0f MB
                         """,
                         mode.title,
                         result.audioSeconds,
                         result.generationMs,
-                        result.nChunks,
                         rtf,
                         result.hasNan ? " · CÓ NaN!" : "",
-                        result.graphBytesOnDisk / (1024 * 1024),
+                        mode.noiseFloor ? "ON" : "OFF",
                         result.physFootprintMb
                     )
                     do {

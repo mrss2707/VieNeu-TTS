@@ -8,6 +8,7 @@ package com.vieneu.mobile.core
  * [comfortFilterEnabled] (rev 2, default ON): chuỗi [AudioComfortFilter] sau join —
  * treble + presence dip + de-ess shelf + soft-clip. [trebleFilterEnabled] giữ lại để
  * compat API cũ; khi comfort ON thì treble nằm trong chain.
+ * [noiseFloorEnabled] (rev 3, default ON): downward expander −48 dBFS — hết “lạo xạo” nền.
  */
 data class GenerationProfile(
     val profileRevision: Int = PROFILE_REVISION,
@@ -19,6 +20,7 @@ data class GenerationProfile(
     val maxCharsPerChunk: Int = 140,
     val trebleFilterEnabled: Boolean = true,
     val comfortFilterEnabled: Boolean = true,
+    val noiseFloorEnabled: Boolean = true,
 ) {
     init {
         require(steps >= 1) { "steps must be >= 1, got $steps" }
@@ -27,7 +29,7 @@ data class GenerationProfile(
     }
 
     companion object {
-        /** rev 2: comfort DSP chain default ON (presence dip + shelf + soft-clip). */
-        const val PROFILE_REVISION = 2
+        /** rev 3: noise-floor downward expander default ON (bỏ “lạo xạo” nền INT8). */
+        const val PROFILE_REVISION = 3
     }
 }

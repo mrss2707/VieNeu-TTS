@@ -47,4 +47,30 @@ class AudioComfortFilterTest {
         assertTrue(rms(comfort) > 0f)
         assertTrue(rms(trebleOnly) > 0f)
     }
+
+    @Test
+    fun noiseFloorAttenuatesQuietTail() {
+        // 0.5 s speech-like + 0.4 s noise floor (−54 dBFS) — tail cuối phải êm hơn khi gate ON
+        val sr = AudioComfortFilter.SAMPLE_RATE
+        val speech = FloatArray(sr / 2) { i -> (0.4 * kotlin.math.sin(2 * Math.PI * 180.0 * i / sr)).toFloat() }
+        val floor = FloatArray((sr * 2) / 5) { i -> (0.002 * kotlin.math.sin(2 * Math.PI * 97.0 * i / sr)).toFloat() }
+        val wav = speech + floor
+        val on = AudioComfortFilter.apply(wav.copyOf(), noiseFloorEnabled = true)
+        val off = AudioComfortFilter.apply(wav.copyOf(), noiseFloorEnabled = false)
+        // đo 150 ms cuối — env + hold + close đã settle
+        val tailOn = on.copyOfRange(on.size - 3600, on.size)
+        val tailOff = off.copyOfRange(off.size - 3600, off.size)
+        fun rms(a: FloatArray) = kotlin.math.sqrt(a.map { it * it }.average())
+        assertTrue("gate ON tail RMS=${rms(tailOn)} OFF=${rms(tailOff)}", rms(tailOn) < rms(tailOff) * 0.5f)
+    }
+
+    @Test
+    fun noiseFloorKeepsSpeechPeak() {
+        val n = 2400
+        val speech = FloatArray(n) { i -> (0.5 * kotlin.math.sin(2 * Math.PI * 200.0 * i / 24000.0)).toFloat() }
+        val out = AudioComfortFilter.apply(speech, noiseFloorEnabled = true)
+        var peak = 0f
+        for (v in out) if (abs(v) > peak) peak = abs(v)
+        assertEquals(AudioComfortFilter.TARGET_PEAK, peak, 1e-3f)
+    }
 }

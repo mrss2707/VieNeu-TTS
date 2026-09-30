@@ -19,10 +19,11 @@ import java.nio.ByteOrder
 import java.util.concurrent.Executors
 
 /**
- * Supermeo Mobile TTS demo — INT8 quality ladder trên Android:
- *  - Giọng nữ trẻ Mỹ Duyên (Nữ · Bắc · đọc truyện)
- *  - INT8 8 / 12 / 16 Euler steps, đều + AudioComfortFilter (production path)
- *  - Graph đọc từ external-files/nano_graphs_int8 (adb push)
+ * Supermeo Mobile TTS demo — A/B noise floor trên Android:
+ *  - INT8 · 12 steps (chốt) · giọng Mỹ Duyên · comfort DSP
+ *  - Nút 1: comfort EQ + soft-clip, KHÔNG noise gate
+ *  - Nút 2: cùng chain + downward expander −48 dBFS (chống “lạo xạo” nền)
+ *  - Graph từ external-files/nano_graphs_int8 (adb push)
  */
 class DemoActivity : Activity() {
     companion object {
@@ -30,9 +31,8 @@ class DemoActivity : Activity() {
     }
 
     private lateinit var status: TextView
-    private lateinit var btnS8: Button
-    private lateinit var btnS12: Button
-    private lateinit var btnS16: Button
+    private lateinit var btnNfOff: Button
+    private lateinit var btnNfOn: Button
     private val io = Executors.newSingleThreadExecutor()
     private var playing: AudioTrack? = null
 
@@ -61,20 +61,16 @@ class DemoActivity : Activity() {
             text = paragraph
             textSize = 15f
         }
-        btnS8 = Button(this).apply {
-            text = "INT8 · 8 steps"
-            setOnClickListener { speak(8) }
+        btnNfOff = Button(this).apply {
+            text = "INT8 · 12 — comfort (không NF)"
+            setOnClickListener { speak(noiseFloor = false) }
         }
-        btnS12 = Button(this).apply {
-            text = "INT8 · 12 steps ★ chốt"
-            setOnClickListener { speak(12) }
-        }
-        btnS16 = Button(this).apply {
-            text = "INT8 · 16 steps"
-            setOnClickListener { speak(16) }
+        btnNfOn = Button(this).apply {
+            text = "INT8 · 12 — comfort + noise floor"
+            setOnClickListener { speak(noiseFloor = true) }
         }
         status = TextView(this).apply {
-            text = "Chốt: INT8 · 12 steps · comfort · Mỹ Duyên (8/16 để A/B)"
+            text = "A/B noise floor · INT8 12 steps · Mỹ Duyên · comfort DSP"
             textSize = 13f
         }
 
@@ -84,30 +80,30 @@ class DemoActivity : Activity() {
             addView(title)
             addView(label)
             addView(body)
-            addView(btnS8)
-            addView(btnS12)
-            addView(btnS16)
+            addView(btnNfOff)
+            addView(btnNfOn)
             addView(status)
         }
         setContentView(ScrollView(this).apply { addView(col) })
 
-        // Test hook: adb shell am start ... --es autoSpeak 8|12|16
-        intent.getStringExtra("autoSpeak")?.let { speak(it.toIntOrNull() ?: 8) }
+        // Test hook: adb shell am start ... --es autoSpeak on|off|true|false|1|0
+        intent.getStringExtra("autoSpeak")?.let {
+            speak(noiseFloor = it.equals("on", true) || it == "true" || it == "1")
+        }
     }
 
     private fun setButtonsEnabled(enabled: Boolean) {
-        btnS8.isEnabled = enabled
-        btnS12.isEnabled = enabled
-        btnS16.isEnabled = enabled
+        btnNfOff.isEnabled = enabled
+        btnNfOn.isEnabled = enabled
     }
 
-    private fun speak(steps: Int) {
-        Log.i(TAG, "speak steps=$steps")
+    private fun speak(noiseFloor: Boolean) {
+        Log.i(TAG, "speak noiseFloor=$noiseFloor steps=12")
         setButtonsEnabled(false)
-        status.text = "Đang sinh (INT8 · $steps steps)…"
+        status.text = "Đang sinh (INT8 · 12 · NF ${if (noiseFloor) "ON" else "OFF"})…"
         io.execute {
             try {
-                val result = synthesize(steps)
+                val result = synthesize(noiseFloor)
                 Log.i(TAG, "speak done: $result")
                 runOnUiThread {
                     status.text = result
@@ -123,7 +119,8 @@ class DemoActivity : Activity() {
         }
     }
 
-    private fun synthesize(stepsOverride: Int): String {
+    private fun synthesize(noiseFloor: Boolean): String {
+        val steps = 12
         val dirName = "nano_graphs_int8"
         val graphDir = File(getExternalFilesDir(null), dirName)
         if (!graphDir.isDirectory || graphDir.listFiles { f -> f.name.endsWith(".onnx") }?.size != 4) {
@@ -144,7 +141,6 @@ class DemoActivity : Activity() {
         val bosId = meta.getLong("bos_id")
         val eosId = meta.getLong("eos_id")
         val fps = meta.getDouble("flow_fps")
-        val steps = stepsOverride
         val cfg = meta.getDouble("cfg")
         val sway = meta.optDouble("sway", -1.0)
         val sr = meta.getInt("sample_rate")
@@ -163,7 +159,7 @@ class DemoActivity : Activity() {
         g.close()
 
         val comfortMs0 = System.currentTimeMillis()
-        val out = AudioComfortFilter.apply(raw)
+        val out = AudioComfortFilter.apply(raw, noiseFloorEnabled = noiseFloor)
         val comfortMs = System.currentTimeMillis() - comfortMs0
 
         var peak = 0f
@@ -176,7 +172,8 @@ class DemoActivity : Activity() {
         playPcm(out, sr)
         val audioSec = out.size.toDouble() / sr
         val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else 0.0
-        return "OK INT8 · $steps steps — " +
+        val nfTag = if (noiseFloor) "NF ON" else "NF OFF"
+        return "OK INT8 · $steps steps · $nfTag — " +
             "%.1fs audio · %.0f ms sinh · %d chunk · load %.0f ms · dsp %d ms · RTF %.2f · peak %.3f".format(
                 audioSec, genMs.toDouble(), nChunks, loadMs.toDouble(), comfortMs, rtf, peak,
             ) + if (nan) " · CÓ NaN!" else " · comfort ON · Mỹ Duyên"

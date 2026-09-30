@@ -99,9 +99,10 @@ class SynthesisPipeline(
             audioSec += sec
         }
         var joined = ChunkJoiner.joinAudioChunks(pcmChunks, sr, gaps, onEvent)
-        // Comfort DSP (rev 2 default ON): treble + presence dip + shelf + soft-clip.
+        // Comfort DSP (rev 2): treble + presence dip + shelf + soft-clip.
+        // rev 3: optional noise-floor downward expander (default ON).
         if (profile.comfortFilterEnabled) {
-            joined = AudioComfortFilter.apply(joined)
+            joined = AudioComfortFilter.apply(joined, profile.noiseFloorEnabled)
         } else if (profile.trebleFilterEnabled) {
             joined = TrebleFilter.apply(joined)
         }

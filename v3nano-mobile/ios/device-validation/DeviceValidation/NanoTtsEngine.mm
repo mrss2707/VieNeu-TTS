@@ -78,11 +78,58 @@ static const double kShelfB2 = 0.14761344731755777;
 static const double kShelfA1 = -0.23685227176481605;
 static const double kShelfA2 = 0.18143552313722544;
 
-static std::vector<float> ApplyComfortChain(const std::vector<float> &wav) {
+// Noise-floor downward expander (rev 3) — khớp AudioComfortFilter.kt.
+static const float kNfThreshold = 0.003981071705534973f;  // −48 dBFS
+static const float kNfFloorGain = 0.0f;
+static const double kNfEnvAttackSec = 0.001;
+static const double kNfEnvReleaseSec = 0.012;
+static const double kNfOpenSec = 0.005;
+static const double kNfCloseSec = 0.030;
+static const double kNfHoldSec = 0.020;
+
+static std::vector<float> ApplyNoiseFloor(const std::vector<float> &wav, int sampleRate) {
+    if (wav.empty()) return wav;
+    const double envAtk = std::exp(-1.0 / (kNfEnvAttackSec * sampleRate));
+    const double envRel = std::exp(-1.0 / (kNfEnvReleaseSec * sampleRate));
+    const double gOpen = std::exp(-1.0 / (kNfOpenSec * sampleRate));
+    const double gClose = std::exp(-1.0 / (kNfCloseSec * sampleRate));
+    const int holdSamples = std::max(1, (int)(kNfHoldSec * sampleRate));
+    std::vector<float> out(wav.size());
+    double env = 0.0, gain = 1.0;
+    int holdLeft = 0;
+    const double invThresh = 1.0 / (double)kNfThreshold;
+    for (size_t i = 0; i < wav.size(); i++) {
+        double x = wav[i];
+        double ax = std::fabs(x);
+        if (ax > env) env = envAtk * env + (1.0 - envAtk) * ax;
+        else env = envRel * env + (1.0 - envRel) * ax;
+
+        if (env >= (double)kNfThreshold) holdLeft = holdSamples;
+        else if (holdLeft > 0) holdLeft--;
+
+        double target;
+        if (holdLeft > 0) {
+            target = 1.0;
+        } else {
+            double r = env * invThresh;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            target = (double)kNfFloorGain + (1.0 - (double)kNfFloorGain) * (r * r);
+        }
+        if (target > gain) gain = gOpen * gain + (1.0 - gOpen) * target;
+        else gain = gClose * gain + (1.0 - gClose) * target;
+        out[i] = (float)(x * gain);
+    }
+    return out;
+}
+
+static std::vector<float> ApplyComfortChain(const std::vector<float> &wav, bool noiseFloorEnabled,
+                                            int sampleRate) {
     if (wav.empty()) return wav;
     std::vector<float> x = ApplyTrebleFilter(wav);
     x = ApplyBiquad(x, kPresB0, kPresB1, kPresB2, kPresA1, kPresA2);
     x = ApplyBiquad(x, kShelfB0, kShelfB1, kShelfB2, kShelfA1, kShelfA2);
+    if (noiseFloorEnabled) x = ApplyNoiseFloor(x, sampleRate);
 
     // Soft-clip tanh chống “xé” peak, rồi normalize peak −1 dBFS.
     const float drive = 1.15f;
@@ -451,6 +498,11 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
 }
 
 - (NanoTtsEngineResult *)synthesizeDemo:(NSError **)error {
+    return [self synthesizeDemoWithNoiseFloor:YES error:error];
+}
+
+- (NanoTtsEngineResult *)synthesizeDemoWithNoiseFloor:(BOOL)noiseFloorEnabled
+                                                error:(NSError **)error {
     if (_demoNChunks <= 0) {
         if (error) *error = MakeError(@"demo case empty");
         return nil;
@@ -476,7 +528,7 @@ static std::vector<int64_t> LoadInt64s(NSString *path) {
         if (nan) nanAny = YES;
     }
     std::vector<float> joined = JoinAudioChunks(wavs, _sampleRate, _demoGaps);
-    joined = ApplyComfortChain(joined);
+    joined = ApplyComfortChain(joined, noiseFloorEnabled, _sampleRate);
     NanoTtsEngineResult *result = [NanoTtsEngineResult new];
     result.pcmFloat32 = [NSData dataWithBytes:joined.data() length:joined.size() * sizeof(float)];
     result.audioSeconds = (double)joined.size() / (double)_sampleRate;
