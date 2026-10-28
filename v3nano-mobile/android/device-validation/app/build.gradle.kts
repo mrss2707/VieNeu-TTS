@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(project(":vieneu-mobile-sdk"))
+    implementation(project(":sdk-engine-ort"))
     implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")

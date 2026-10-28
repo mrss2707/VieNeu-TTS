@@ -1,4 +1,4 @@
-package com.vieneu.mobile.validation
+package com.vieneu.mobile.ort
 
 import ai.onnxruntime.OrtEnvironment
 import com.vieneu.mobile.api.EngineError
@@ -6,10 +6,14 @@ import com.vieneu.mobile.engine.SynthesisEngine
 import java.io.File
 
 /**
- * [SynthesisEngine] trên ORT Android — adapter Sprint 3.
+ * [SynthesisEngine] trên ORT Android — chuyển từ
+ * `android/device-validation/.../OrtSynthesisEngine.kt` sang module ORT này.
  *
- * Load 4 graph qua `createSession(path)` (asset đã copy ra cache — tránh OOM Dalvik).
- * Thân inference dùng [NanoBenchmarkCore.runInference] (đã lock parity vòng 2–8).
+ * Load 4 graph qua `createSession(path)` (file trên đĩa — tránh OOM Dalvik).
+ * Thân inference dùng [OrtInference.run] (đã lock parity vòng 2–8).
+ *
+ * Nhận [modelDir] trực tiếp trong [load] — việc resolve asset/thư mục nằm ở host,
+ * module này KHÔNG phụ thuộc `Context`.
  */
 class OrtSynthesisEngine(
     private val threads: Int = 4,
@@ -26,7 +30,7 @@ class OrtSynthesisEngine(
 ) : SynthesisEngine {
 
     private var env: OrtEnvironment? = null
-    private var graphs: NanoBenchmarkCore.Graphs? = null
+    private var graphs: OrtGraphs? = null
 
     override var isLoaded: Boolean = false
         private set
@@ -35,13 +39,20 @@ class OrtSynthesisEngine(
     override fun load(modelDir: String, threads: Int) {
         try {
             val e = OrtEnvironment.getEnvironment()
-            val so = NanoBenchmarkCore.sessionOptionsForProvider(provider).first
+            val so = OrtSessionOptions.providerStatusFor(provider).first
             so.setIntraOpNumThreads(threads)
             val base = { name: String ->
-                val f = File(modelDir, name)
-                if (f.isFile) f.absolutePath else File(modelDir, "nano_graphs/${File(name).name}").absolutePath
+                // Chấp nhận cả 3 layout: modelDir/<name>, modelDir/graphs/<file>,
+                // modelDir/nano_graphs/<file> (harness cũ) và file phẳng.
+                val file = File(name).name
+                listOf(
+                    File(modelDir, name),
+                    File(modelDir, file),
+                    File(modelDir, "graphs/$file"),
+                    File(modelDir, "nano_graphs/$file"),
+                ).firstOrNull { it.isFile }?.absolutePath ?: File(modelDir, name).absolutePath
             }
-            graphs = NanoBenchmarkCore.Graphs(e, so, base)
+            graphs = OrtGraphs(e, so, base)
             env = e
             isLoaded = true
         } catch (t: Throwable) {
@@ -60,9 +71,9 @@ class OrtSynthesisEngine(
         val g = graphs ?: throw EngineError.Internal("Engine chưa load")
         val e = env ?: throw EngineError.Internal("OrtEnvironment missing")
         return try {
-            // DeterministicRng seed theo chunk nằm sẵn trong runInference (seed=0).
-            // [seed] của caller sẽ nối vào ở Sprint 4 khi GenerationQueue có cancel boundary.
-            val (wav, _, _) = NanoBenchmarkCore.runInference(
+            // DeterministicRng seed theo chunk nằm sẵn trong OrtInference.run (seed=0).
+            // [seed] của caller nối vào khi GenerationQueue có cancel boundary (defer).
+            val (wav, _, _) = OrtInference.run(
                 g, e, phoneIds, speakerEmb, style, nullSpk, nullStyle,
                 padId, bosId, eosId, fps, steps, cfg, sway,
             )

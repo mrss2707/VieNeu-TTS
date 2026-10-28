@@ -1,19 +1,18 @@
 package com.vieneu.mobile.validation
 
-import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import android.content.Context
 import android.util.Log
 import com.vieneu.mobile.core.ChunkJoiner
-import com.vieneu.mobile.core.DeterministicRng
-import com.vieneu.mobile.core.FlowScheduler
+import com.vieneu.mobile.ort.OrtGraphs
+import com.vieneu.mobile.ort.OrtInference
+import com.vieneu.mobile.ort.OrtSessionOptions
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.FloatBuffer
 
 /**
  * Real inference core for v3 Nano's four ONNX graphs, mirroring OnnxV3NanoEngine.infer()
@@ -80,38 +79,16 @@ object NanoBenchmarkCore {
         return out
     }
 
-    class Graphs(env: OrtEnvironment, so: OrtSession.SessionOptions, base: (String) -> String) {
-        val text = env.createSession(base("nano_graphs/text_encoder.onnx"), so)
-        val dur = env.createSession(base("nano_graphs/duration_predictor.onnx"), so)
-        val ve = env.createSession(base("nano_graphs/vector_estimator.onnx"), so)
-        val dec = env.createSession(base("nano_graphs/codec_decoder.onnx"), so)
-        fun close() { text.close(); dur.close(); ve.close(); dec.close() }
-    }
+    /**
+     * Giữ API `NanoBenchmarkCore.Graphs(env, so, base)` — nay là lớp con của
+     * [OrtGraphs] (engine dùng chung ở module `:sdk-engine-ort`). Không nhân bản logic.
+     */
+    class Graphs(env: OrtEnvironment, so: OrtSession.SessionOptions, base: (String) -> String) :
+        OrtGraphs(env, so, base)
 
-    fun sessionOptionsForProvider(provider: String): Pair<OrtSession.SessionOptions, String> {
-        val so = OrtSession.SessionOptions()
-        so.setIntraOpNumThreads(4)
-        var actualProvider = "CPU"
-        when (provider) {
-            "XNNPACK" -> {
-                try {
-                    so.addXnnpack(emptyMap())
-                    actualProvider = "XNNPACK"
-                } catch (e: Exception) {
-                    Log.w(TAG, "XNNPACK unavailable, falling back to CPU: ${e.message}")
-                }
-            }
-            "NNAPI" -> {
-                try {
-                    so.addNnapi()
-                    actualProvider = "NNAPI"
-                } catch (e: Exception) {
-                    Log.w(TAG, "NNAPI unavailable, falling back to CPU: ${e.message}")
-                }
-            }
-        }
-        return Pair(so, actualProvider)
-    }
+    /** Delegate sang module ORT — xem [OrtSessionOptions.sessionOptionsForProvider]. */
+    fun sessionOptionsForProvider(provider: String): Pair<OrtSession.SessionOptions, String> =
+        OrtSessionOptions.sessionOptionsForProvider(provider)
 
     /** One flow-matching Euler inference, matching OnnxV3NanoEngine.infer (src/vieneu/v3nano.py).
      * `sway` warps the Euler time schedule: tg = u + sway*(cos(pi/2*u) - 1 + u) — NOT a no-op
@@ -119,85 +96,16 @@ object NanoBenchmarkCore {
      * Duration/sway/RNG logic live in the SDK core (com.vieneu.mobile.core.*) — JVM-tested,
      * golden-locked against v3nano-mobile/host/export_golden_contract.py. */
     fun runInference(
-        g: Graphs, env: OrtEnvironment,
+        g: OrtGraphs, env: OrtEnvironment,
         idsLong: LongArray, spk: FloatArray, style: FloatArray,
         nullSpk: FloatArray, nullStyle: FloatArray,
         padId: Long, bosId: Long, eosId: Long, fps: Double, steps: Int, cfg: Double,
         sway: Double = 0.0,
-    ): Triple<FloatArray, Long, Long> {
-        val L = idsLong.size
-        val ids2d = arrayOf(idsLong)
-        val idsTensor = OnnxTensor.createTensor(env, ids2d)
-        val styleShape = longArrayOf(1, 50, 256)
-        val styleTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(style), styleShape)
-        val nullStyleTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(nullStyle), styleShape)
-        val spkShape = longArrayOf(1, 192)
-        val spkTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(spk), spkShape)
-        val nullSpkTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(nullSpk), spkShape)
-        val mask = Array(1) { BooleanArray(L) { idx -> idsLong[idx] != padId } }
-        val maskTensor = OnnxTensor.createTensor(env, mask)
-        val nullIds = arrayOf(longArrayOf(bosId, eosId))
-        val nullIdsTensor = OnnxTensor.createTensor(env, nullIds)
-        val nullMask = Array(1) { BooleanArray(2) { true } }
-        val nullMaskTensor = OnnxTensor.createTensor(env, nullMask)
-
-        val t0 = System.currentTimeMillis()
-        val ctxOut = g.text.run(mapOf("ids" to idsTensor, "style" to styleTensor))
-        val ctxTensor = ctxOut[0] as OnnxTensor
-        val nullCtxOut = g.text.run(mapOf("ids" to nullIdsTensor, "style" to nullStyleTensor))
-        val nullCtxTensor = nullCtxOut[0] as OnnxTensor
-
-        val durOut = g.dur.run(mapOf("ctx" to ctxTensor, "ctx_mask" to maskTensor, "spk" to spkTensor))
-        val logS = (durOut[0] as OnnxTensor).floatBuffer.get(0)
-        val secs = FlowScheduler.durationSeconds(logS.toDouble())
-        val T = FlowScheduler.frames(secs, fps)
-
-        val rng = DeterministicRng(0)
-        val C = 144
-        var x = FloatArray(C * T) { rng.nextGaussian() }
-        val xShape = longArrayOf(1, C.toLong(), T.toLong())
-        val n = steps
-        val sch = FlowScheduler.schedule(n, sway)
-
-        for (i in 0 until n) {
-            val tVal = floatArrayOf(sch.t[i])
-            val tTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(tVal), longArrayOf(1))
-            val xTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(x), xShape)
-            val vOut = g.ve.run(mapOf(
-                "x" to xTensor, "t" to tTensor, "ctx" to ctxTensor, "ctx_mask" to maskTensor,
-                "spk" to spkTensor, "style" to styleTensor))
-            val vBuf = (vOut[0] as OnnxTensor).floatBuffer
-            val v = FloatArray(vBuf.remaining()); vBuf.get(v)
-
-            val vFinal: FloatArray
-            if (cfg > 0) {
-                val vuOut = g.ve.run(mapOf(
-                    "x" to xTensor, "t" to tTensor, "ctx" to nullCtxTensor, "ctx_mask" to nullMaskTensor,
-                    "spk" to nullSpkTensor, "style" to nullStyleTensor))
-                val vuBuf = (vuOut[0] as OnnxTensor).floatBuffer
-                val vu = FloatArray(vuBuf.remaining()); vuBuf.get(vu)
-                vFinal = FloatArray(v.size) { j -> vu[j] + cfg.toFloat() * (v[j] - vu[j]) }
-                vuOut.close()
-            } else {
-                vFinal = v
-            }
-            val dt = sch.dt[i]
-            x = FloatArray(x.size) { j -> x[j] + dt * vFinal[j] }
-            vOut.close(); xTensor.close(); tTensor.close()
-        }
-
-        val xFinalTensor = OnnxTensor.createTensor(env, FloatBuffer.wrap(x), xShape)
-        val decOut = g.dec.run(mapOf("x" to xFinalTensor))
-        val wavBuf = (decOut[0] as OnnxTensor).floatBuffer
-        val wav = FloatArray(wavBuf.remaining()); wavBuf.get(wav)
-        val genMs = System.currentTimeMillis() - t0
-
-        idsTensor.close(); styleTensor.close(); nullStyleTensor.close(); spkTensor.close()
-        nullSpkTensor.close(); maskTensor.close(); nullIdsTensor.close(); nullMaskTensor.close()
-        ctxOut.close(); nullCtxOut.close(); decOut.close(); xFinalTensor.close()
-
-        return Triple(wav, genMs, T.toLong())
-    }
+    ): Triple<FloatArray, Long, Long> =
+        OrtInference.run(
+            g, env, idsLong, spk, style, nullSpk, nullStyle,
+            padId, bosId, eosId, fps, steps, cfg, sway,
+        )
 
     // ── Multi-chunk audio join — logic ở SDK core ChunkJoiner (JVM-tested, golden-locked).
     // Chỉ phần GHÉP được port — chunk *splitting* (normalize_to_chunks_v3_with_gaps) đã chạy
@@ -224,7 +132,7 @@ object NanoBenchmarkCore {
      * same code path (chunk0/) so callers don't need a branch. */
     fun runInferenceMultiChunk(
         context: Context, caseAssetDir: String,
-        g: Graphs, env: OrtEnvironment,
+        g: OrtGraphs, env: OrtEnvironment,
         spk: FloatArray, style: FloatArray, nullSpk: FloatArray, nullStyle: FloatArray,
         padId: Long, bosId: Long, eosId: Long, fps: Double, steps: Int, cfg: Double, sway: Double,
         sampleRate: Int,

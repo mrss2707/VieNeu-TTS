@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.library") version "8.7.2"
-    id("org.jetbrains.kotlin.android") version "1.9.24"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.24"
+    id("com.android.library") version "8.11.1"
+    id("org.jetbrains.kotlin.android") version "2.2.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.20"
 }
 
 android {
@@ -26,6 +26,6 @@ android {
 // chạy bằng JUnit4 trên CI không cần emulator. onnxruntime-android CHỈ nằm ở
 // module app (harness), không phải ở core module này (quyết định plan 001-mvp).
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     testImplementation("junit:junit:4.13.2")
 }

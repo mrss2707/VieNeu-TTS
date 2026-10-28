@@ -20,3 +20,6 @@ include(":app")
 // standalone bằng settings.gradle.kts của chính nó.
 include(":vieneu-mobile-sdk")
 project(":vieneu-mobile-sdk").projectDir = file("../sdk")
+// Module ORT (engine dùng chung với SDK sản phẩm) — cùng projectDir TƯỜNG MINH.
+include(":sdk-engine-ort")
+project(":sdk-engine-ort").projectDir = file("../sdk-engine-ort")
