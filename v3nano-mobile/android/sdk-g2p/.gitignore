@@ -1,0 +1,5 @@
+build/
+.gradle/
+local.properties
+src/main/jniLibs/
+src/main/assets/sea_g2p/

@@ -1,0 +1,1 @@
+-keepclasseswithmembernames class com.vieneu.mobile.g2p.SeaG2pNative { native <methods>; }

@@ -1,0 +1,36 @@
+[package]
+name = "sea-g2p-rs"
+version = "0.10.0"
+edition = "2021"
+readme = "README.md"
+
+[lib]
+name = "sea_g2p_rs"
+crate-type = ["cdylib", "rlib"]
+
+[features]
+# The Python wheel (what `maturin`/`uv build` produces) is the default.
+default = ["python"]
+python = ["dep:pyo3", "dep:pyo3-build-config"]
+# A C ABI for non-Rust hosts (see src/capi.rs). Off by default, and it drops
+# PyO3 entirely so the library has no Python runtime to find:
+#   cargo build --release --no-default-features --features capi
+capi = []
+# Vi-only block-compressed dictionary (SEAZ) reader, for mobile hosts.
+seaz = ["dep:zstd"]
+# JNI entry points for Android hosts (com.vieneu.mobile.g2p.SeaG2pNative). Implies capi.
+jni = ["capi", "dep:jni"]
+
+[dependencies]
+pyo3 = { version = "0.23", features = ["extension-module", "abi3-py310", "generate-import-lib"], optional = true }
+regex = "1.10"
+fancy-regex = "0.13"
+once_cell = "1.19"
+memmap2 = "0.9"
+rayon = "1.10"
+unicode-normalization = "0.1"
+zstd = { version = "0.13", default-features = false, optional = true }
+jni = { version = "0.21", optional = true }
+
+[build-dependencies]
+pyo3-build-config = { version = "0.23", optional = true }

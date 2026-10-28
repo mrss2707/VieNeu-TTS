@@ -1,0 +1,626 @@
+{
+ "max_chars": 140,
+ "source": "vieneu_utils.phonemize_text (sea-g2p)",
+ "cases": [
+  {
+   "text": "Xin chào.",
+   "chunks": [
+    "xin chào."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈin tʃˈaː2w."
+   ]
+  },
+  {
+   "text": "Trời hôm nay đẹp quá.",
+   "chunks": [
+    "trời hôm nay đẹp quá."
+   ],
+   "gaps": [],
+   "phones": [
+    "tʃˈəː2j hˈom nˈaj ɗˈɛ6p kwˈaːɜ."
+   ]
+  },
+  {
+   "text": "Bạn đã ăn cơm chưa?",
+   "chunks": [
+    "bạn đã ăn cơm chưa?"
+   ],
+   "gaps": [],
+   "phones": [
+    "bˈaː6n ɗˌaː5 ˈan kˈəːm tʃˌyə?"
+   ]
+  },
+  {
+   "text": "Ôi, thật tuyệt vời!",
+   "chunks": [
+    "ôi, thật tuyệt vời."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈoj, tˈə6t̪ t̪wˈiɛ6t̪ vˈəː2j."
+   ]
+  },
+  {
+   "text": "Sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ.",
+   "chunks": [
+    "sau khi ăn xong, chúng tôi đi dạo một vòng quanh hồ."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈaw xˌi ˈan sˈɔŋ, tʃˈuɜŋ t̪ˈoj ɗˈi zˈaː6w mˈo6t̪ vˈɔ2ŋ kwˈe-ɲ hˈo2."
+   ]
+  },
+  {
+   "text": "Buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình.",
+   "chunks": [
+    "buổi sáng ở làng chài yên tĩnh, những chiếc thuyền nhỏ lặng lẽ rời bến, mang theo hy vọng về một ngày đánh bắt bội thu cho cả gia đình."
+   ],
+   "gaps": [],
+   "phones": [
+    "bˈuə4j sˈaːɜŋ ˈəː4 lˈaː2ŋ tʃˈaː2j ˈiɛn t̪ˈi5ɲ, ɲˌy5ŋ tʃˈiɛɜc twˈiɛ2n ɲˈɔ4 lˈa6ŋ lˈɛ5 ɹˈəː2j bˈeɜn, mˈaːŋ tˈɛw hˈi vˈɔ6ŋ vˈe2 mˈo6t̪ ŋˈa2j ɗˈe-ɜɲ bˈaɜt̪ bˈo6j tˈu tʃˌɔ kˈaː4 zˈaː ɗˈi2ɲ."
+   ]
+  },
+  {
+   "text": "Ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ. Mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe.",
+   "chunks": [
+    "ngày xưa, ở một ngôi làng nhỏ ven sông, có một cụ già sống một mình trong căn nhà tranh cũ kỹ.",
+    "mỗi buổi chiều, cụ thường ngồi trước hiên nhà, ngắm hoàng hôn buông xuống mặt nước và kể chuyện cho lũ trẻ trong xóm nghe."
+   ],
+   "gaps": [
+    "sentence"
+   ],
+   "phones": [
+    "ŋˈa2j sˈyə, ˈəː4 mˈo6t̪ ŋˈoj lˈaː2ŋ ɲˈɔ4 vˈɛn sˈoŋ, kˈɔɜ mˈo6t̪ kˈu6 zˈaː2 sˈoɜŋ mˈo6t̪ mˈi2ɲ tʃˈɔŋ kˈan ɲˈaː2 tʃˈe-ɲ kˈu5 kˈi5.",
+    "mˌo5j bˈuə4j tʃˈiɛ2w, kˈu6 tˈyə2ŋ ŋˈo2j tʃˈyəɜc hˈiɛn ɲˈaː2, ŋˈaɜm hwˈaː2ŋ hˈon bˈuəŋ sˈuəɜŋ mˈa6t̪ nˈyəɜc vˌaː2 kˈe4 tʃwˈiɛ6n tʃˌɔ lˈu5 tʃˈɛ4 tʃˈɔŋ sˈɔɜm ŋˈɛ."
+   ]
+  },
+  {
+   "text": "\"Anh có chắc là đường này đúng không?\", cô hỏi. \"Chắc chắn rồi\", anh đáp, \"mình đã đi qua đây nhiều lần.\"",
+   "chunks": [
+    "anh có chắc là đường này đúng không? cô hỏi. chắc chắn rồi, anh đáp, mình đã đi qua đây nhiều lần."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈe-ɲ kˈɔɜ tʃˈaɜc lˌaː2 ɗˈyə2ŋ nˈa2j ɗˈuɜŋ xˌoŋ? kˈo hˈɔ4j. tʃˈaɜc tʃˈaɜn ɹˈo2j, ˈe-ɲ ɗˈaːɜp, mˈi2ɲ ɗˌaː5 ɗˈi kwˈaː ɗˈəɪ ɲˈiɛ2w lˈə2n."
+   ]
+  },
+  {
+   "text": "Được rồi.",
+   "chunks": [
+    "được rồi."
+   ],
+   "gaps": [],
+   "phones": [
+    "ɗˌyə6c ɹˈo2j."
+   ]
+  },
+  {
+   "text": "Sao lại như vậy?",
+   "chunks": [
+    "sao lại như vậy."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈaːw lˈaː6j ɲˌy vˈəɪ6."
+   ]
+  },
+  {
+   "text": "ví dụ 2. tính trung bình của dãy số.",
+   "chunks": [
+    "ví dụ hai. tính trung bình của dãy số."
+   ],
+   "gaps": [],
+   "phones": [
+    "vˈiɜ zˈu6 hˈaːj. t̪ˈiɜɲ tʃˈuŋ bˈi2ɲ kˌuə4 zˈa5j sˈoɜ."
+   ]
+  },
+  {
+   "text": "Trên thực tế, các nghi ngờ đã bắt đầu xuất hiện.",
+   "chunks": [
+    "trên thực tế, các nghi ngờ đã bắt đầu xuất hiện."
+   ],
+   "gaps": [],
+   "phones": [
+    "tʃˈen tˈy6c t̪ˈeɜ, kˌaːɜc ŋˈi ŋˈəː2 ɗˌaː5 bˈaɜt̪ ɗˈə2w swˈəɜt̪ hˈiɛ6n."
+   ]
+  },
+  {
+   "text": "Cậu có nhìn thấy không?",
+   "chunks": [
+    "cậu có nhìn thấy không?"
+   ],
+   "gaps": [],
+   "phones": [
+    "kˈə6w kˈɔɜ ɲˈi2n tˈəɪɜ xˌoŋ?"
+   ]
+  },
+  {
+   "text": "Tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước.",
+   "chunks": [
+    "tết là dịp mọi người háo hức đón chào một năm mới với nhiều hy vọng và mong ước."
+   ],
+   "gaps": [],
+   "phones": [
+    "t̪ˈeɜt̪ lˌaː2 zˈi6p mˌɔ6j ŋˈyə2j hˈaːɜw hˈyɜc ɗˈɔɜn tʃˈaː2w mˈo6t̪ nˈam mˈəːɜj vˌəːɜj ɲˈiɛ2w hˈi vˈɔ6ŋ vˌaː2 mˈɔŋ ˈyəɜc."
+   ]
+  },
+  {
+   "text": "Anh chỉ muốn được nhìn nhận như là một huấn luyện viên.",
+   "chunks": [
+    "anh chỉ muốn được nhìn nhận như là một huấn luyện viên."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈe-ɲ tʃˈi4 mˈuəɜn ɗˌyə6c ɲˈi2n ɲˈə6n ɲˌy lˌaː2 mˈo6t̪ hwˈəɜn lwˈiɛ6n vˈiɛn."
+   ]
+  },
+  {
+   "text": "Chúng ta có thể áp dụng logic tương tự với người khác.",
+   "chunks": [
+    "chúng ta có thể áp dụng logic tương tự với người khác."
+   ],
+   "gaps": [],
+   "phones": [
+    "tʃˈuɜŋ t̪ˈaː kˈɔɜ tˈe4 ˈaːɜp zˈu6ŋ lˈɑːdʒɪk t̪ˈyəŋ t̪ˈy6 vˌəːɜj ŋˈyə2j xˈaːɜc."
+   ]
+  },
+  {
+   "text": "Trong phòng rất tù mù, nên có thể dễ dàng che dấu nó.",
+   "chunks": [
+    "trong phòng rất tù mù, nên có thể dễ dàng che dấu nó."
+   ],
+   "gaps": [],
+   "phones": [
+    "tʃˈɔŋ fˈɔ2ŋ ɹˈəɜt̪ t̪ˈu2 mˈu2, nˌen kˈɔɜ tˈe4 zˈe5 zˈaː2ŋ tʃˈɛ zˈəɜw nˈɔɜ."
+   ]
+  },
+  {
+   "text": "Bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa.",
+   "chunks": [
+    "bạn cầm khúc cây, và ném vào bãi cỏ xanh tươi rậm rạp ở đằng xa."
+   ],
+   "gaps": [],
+   "phones": [
+    "bˈaː6n kˈə2m xˈuɜc kˈəɪ, vˌaː2 nˈɛɜm vˈaː2w bˈaː5j kˈɔ4 sˈe-ɲ t̪ˈyəj ɹˈə6m ɹˈaː6p ˈəː4 ɗˈa2ŋ sˈaː."
+   ]
+  },
+  {
+   "text": "Đến cuối thế kỷ 19, ngành đánh bắt cá được thương mại hóa.",
+   "chunks": [
+    "đến cuối thế kỷ mười chín, ngành đánh bắt cá được thương mại hóa."
+   ],
+   "gaps": [],
+   "phones": [
+    "ɗˌeɜn kˈuəɜj tˈeɜ kˈi4 mˈyə2j tʃˈiɜn, ŋˈe-2ɲ ɗˈe-ɜɲ bˈaɜt̪ kˈaːɜ ɗˌyə6c tˈyəŋ mˈaː6j hwˈaːɜ."
+   ]
+  },
+  {
+   "text": "Nuôi con theo phong cách Do Thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ.",
+   "chunks": [
+    "nuôi con theo phong cách do thái, không chỉ tốt cho đứa trẻ, mà còn tốt cho cả các bậc cha mẹ."
+   ],
+   "gaps": [],
+   "phones": [
+    "nˈuəj kˌɔn tˈɛw fˈɔŋ kˈe-ɜc zˈɔ tˈaːɜj, xˌoŋ tʃˈi4 t̪ˈoɜt̪ tʃˌɔ ɗˈyəɜ tʃˈɛ4, mˌaː2 kˌɔ2n t̪ˈoɜt̪ tʃˌɔ kˈaː4 kˌaːɜc bˈə6c tʃˈaː mˈɛ6."
+   ]
+  },
+  {
+   "text": "Tôi có ba trăm hai mươi lăm nghìn đồng trong ví.",
+   "chunks": [
+    "tôi có ba trăm hai mươi lăm nghìn đồng trong ví."
+   ],
+   "gaps": [],
+   "phones": [
+    "t̪ˈoj kˈɔɜ bˈaː tʃˈam hˈaːj mˈyəj lˈam ŋˈi2n ɗˈo2ŋ tʃˈɔŋ vˈiɜ."
+   ]
+  },
+  {
+   "text": "Cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu.",
+   "chunks": [
+    "cuộc họp sẽ diễn ra vào ngày mười lăm tháng ba năm hai nghìn không trăm hai mươi sáu."
+   ],
+   "gaps": [],
+   "phones": [
+    "kˈuə6c hˈɔ6p sˌɛ5 zˈiɛ5n ɹˈaː vˈaː2w ŋˈa2j mˈyə2j lˈam tˈaːɜŋ bˈaː nˈam hˈaːj ŋˈi2n xˌoŋ tʃˈam hˈaːj mˈyəj sˈaɜw."
+   ]
+  },
+  {
+   "text": "Sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước.",
+   "chunks": [
+    "sản phẩm này giá một triệu hai trăm nghìn đồng, giảm hai mươi phần trăm so với tuần trước."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈaː4n fˈə4m nˈa2j zˈaːɜ mˈo6t̪ tʃˈiɛ6w hˈaːj tʃˈam ŋˈi2n ɗˈo2ŋ, zˈaː4m hˈaːj mˈyəj fˈə2n tʃˈam sˈɔ vˌəːɜj t̪wˈə2n tʃˈyəɜc."
+   ]
+  },
+  {
+   "text": "Tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua.",
+   "chunks": [
+    "tỷ lệ tăng trưởng đạt bảy phẩy năm phần trăm trong quý vừa qua."
+   ],
+   "gaps": [],
+   "phones": [
+    "t̪ˈi4 lˈe6 t̪ˈaŋ tʃˈyə4ŋ ɗˈaː6t̪ bˈa4j fˈəɪ4 nˈam fˈə2n tʃˈam tʃˈɔŋ kwˈiɜ vˈyə2 kwˈaː."
+   ]
+  },
+  {
+   "text": "Nguyễn Thị Minh Khai sinh ra tại Vinh, Nghệ An, sau đó chuyển đến Sài Gòn.",
+   "chunks": [
+    "nguyễn thị minh khai sinh ra tại vinh, nghệ an, sau đó chuyển đến sài gòn."
+   ],
+   "gaps": [],
+   "phones": [
+    "ŋwˈiɛ5n tˈi6 mˈiɲ xˈaːj sˈiɲ ɹˈaː t̪ˈaː6j vˈiɲ, ŋˈe6 ˈaːn, sˈaw ɗˈɔɜ tʃwˈiɛ4n ɗˌeɜn sˈaː2j ɣˈɔ2n."
+   ]
+  },
+  {
+   "text": "Sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia.",
+   "chunks": [
+    "sự kiện này mang tính lịch sử và có ý nghĩa vô cùng trọng đại đối với quốc gia."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈy6 kˈiɛ6n nˈa2j mˈaːŋ t̪ˈiɜɲ lˈi6c sˈy4 vˌaː2 kˈɔɜ ˈiɜ ŋˈiə5 vˈo kˈu2ŋ tʃˈɔ6ŋ ɗˈaː6j ɗˈoɜj vˌəːɜj kˈuəɜc zˈaː."
+   ]
+  },
+  {
+   "text": "Chúng tôi vừa deploy xong bản update mới lên production server.",
+   "chunks": [
+    "chúng tôi vừa deploy xong bản update mới lên production server."
+   ],
+   "gaps": [],
+   "phones": [
+    "tʃˈuɜŋ t̪ˈoj vˈyə2 dᵻplˈɔɪ sˈɔŋ bˈaː4n ˈʌpdeɪt mˈəːɜj lˈen pɹədˈʌkʃən sˈɜːvɚ."
+   ]
+  },
+  {
+   "text": "Anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng.",
+   "chunks": [
+    "anh ấy nói rằng meeting hôm nay sẽ bắt đầu lúc chín giờ sáng."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈe-ɲ ˈəɪɜ nˈɔɜj ɹˈa2ŋ mˈiːɾɪŋ hˈom nˈaj sˌɛ5 bˈaɜt̪ ɗˈə2w lˌuɜc tʃˈiɜn zˈəː2 sˈaːɜŋ."
+   ]
+  },
+  {
+   "text": "Ông làm việc tại UBND TP.HCM từ năm hai nghìn lẻ chín.",
+   "chunks": [
+    "ông làm việc tại uỷ ban nhân dân thành phố hồ chí minh từ năm hai nghìn lẻ chín."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈoŋ lˈaː2m vˈiɛ6c t̪ˈaː6j wˈi4 bˈaːn ɲˈən zˈən tˈe-2ɲ fˈoɜ hˈo2 tʃˈiɜ mˈiɲ t̪ˌy2 nˈam hˈaːj ŋˈi2n lˈɛ4 tʃˈiɜn."
+   ]
+  },
+  {
+   "text": "Cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng.",
+   "chunks": [
+    "cuộc họp bắt đầu lúc tám giờ ba mươi sáng, giá vé là ba phẩy năm triệu đồng."
+   ],
+   "gaps": [],
+   "phones": [
+    "kˈuə6c hˈɔ6p bˈaɜt̪ ɗˈə2w lˌuɜc t̪ˈaːɜm zˈəː2 bˈaː mˈyəj sˈaːɜŋ, zˈaːɜ vˈɛɜ lˌaː2 bˈaː fˈəɪ4 nˈam tʃˈiɛ6w ɗˈo2ŋ."
+   ]
+  },
+  {
+   "text": "Cô hỏi: \"Anh có chắc là, kiểu như \\\"đến giờ chưa?\\\", đúng không?\"",
+   "chunks": [
+    "cô hỏi, anh có chắc là, kiểu như đến giờ chưa? đúng không?"
+   ],
+   "gaps": [],
+   "phones": [
+    "kˈo hˈɔ4j, ˈe-ɲ kˈɔɜ tʃˈaɜc lˌaː2, kˈiɛ4w ɲˌy ɗˌeɜn zˈəː2 tʃˌyə? ɗˈuɜŋ xˌoŋ?"
+   ]
+  },
+  {
+   "text": "Thật à... Không thể nào?! Chuyện gì đã xảy ra vậy???",
+   "chunks": [
+    "thật à, không thể nào? chuyện gì đã xảy ra vậy?"
+   ],
+   "gaps": [],
+   "phones": [
+    "tˈə6t̪ ˈaː2, xˌoŋ tˈe4 nˈaː2w? tʃwˈiɛ6n zˈi2 ɗˌaː5 sˈa4j ɹˈaː vˈəɪ6?"
+   ]
+  },
+  {
+   "text": "",
+   "chunks": [],
+   "gaps": [],
+   "phones": []
+  },
+  {
+   "text": "   ",
+   "chunks": [],
+   "gaps": [],
+   "phones": []
+  },
+  {
+   "text": "À.",
+   "chunks": [
+    "à."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈaː2."
+   ]
+  },
+  {
+   "text": "Hôm nay vui quá 😄🎉, mình rất thích buổi tiệc này!",
+   "chunks": [
+    "hôm nay vui quá, mình rất thích buổi tiệc này!"
+   ],
+   "gaps": [],
+   "phones": [
+    "hˈom nˈaj vˈuj kwˈaːɜ, mˈi2ɲ ɹˈəɜt̪ tˈiɜc bˈuə4j t̪ˈiɛ6c nˈa2j!"
+   ]
+  },
+  {
+   "text": "Trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế, đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày, cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế, và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này.",
+   "chunks": [
+    "trong suốt hơn ba mươi năm qua, kể từ khi thành phố bắt đầu công cuộc đổi mới và mở cửa nền kinh tế,",
+    "đời sống của người dân đã có những thay đổi to lớn, từ cách họ làm việc, sinh hoạt hàng ngày,",
+    "cho đến cách họ tiếp cận với công nghệ thông tin, giáo dục, y tế,",
+    "và các dịch vụ công cộng khác mà trước đây từng là điều xa xỉ đối với phần lớn các gia đình lao động bình thường trong khu vực này."
+   ],
+   "gaps": [
+    "minor",
+    "minor",
+    "minor"
+   ],
+   "phones": [
+    "tʃˈɔŋ sˈuəɜt̪ hˈəːn bˈaː mˈyəj nˈam kwˈaː, kˈe4 t̪ˌy2 xˌi tˈe-2ɲ fˈoɜ bˈaɜt̪ ɗˈə2w kˈoŋ kˈuə6c ɗˈo4j mˈəːɜj vˌaː2 mˈəː4 kˈyə4 nˈe2n kˈiɲ t̪ˈeɜ.",
+    "ɗˈəː2j sˈoɜŋ kˌuə4 ŋˈyə2j zˈən ɗˌaː5 kˈɔɜ ɲˌy5ŋ tˈaj ɗˈo4j t̪ˈɔ lˈəːɜn, t̪ˌy2 kˈe-ɜc hˈɔ6 lˈaː2m vˈiɛ6c, sˈiɲ hwˈaː6t̪ hˈaː2ŋ ŋˈa2j.",
+    "tʃˌɔ ɗˌeɜn kˈe-ɜc hˈɔ6 t̪ˈiɛɜp kˈə6n vˌəːɜj kˈoŋ ŋˈe6 tˈoŋ t̪ˈin, zˈaːɜw zˈu6c, ˈi t̪ˈeɜ.",
+    "vˌaː2 kˌaːɜc zˈi6c vˈu6 kˈoŋ kˈo6ŋ xˈaːɜc mˌaː2 tʃˈyəɜc ɗˈəɪ t̪ˈy2ŋ lˌaː2 ɗˈiɛ2w sˈaː sˈi4 ɗˈoɜj vˌəːɜj fˈə2n lˈəːɜn kˌaːɜc zˈaː ɗˈi2ɲ lˈaːw ɗˈo6ŋ bˈi2ɲ tˈyə2ŋ tʃˈɔŋ xˈu vˈy6c nˈa2j."
+   ]
+  },
+  {
+   "text": "Bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu.",
+   "chunks": [
+    "bức tranh sơn mài ấy được vẽ theo lối truyền thần rất công phu."
+   ],
+   "gaps": [],
+   "phones": [
+    "bˈyɜc tʃˈe-ɲ sˈəːn mˈaː2j ˈəɪɜ ɗˌyə6c vˈɛ5 tˈɛw lˈoɜj tʃwˈiɛ2n tˈə2n ɹˈəɜt̪ kˈoŋ fˈu."
+   ]
+  },
+  {
+   "text": "Albert Einstein và Isaac Newton đều là những nhà khoa học vĩ đại.",
+   "chunks": [
+    "albert einstein và isaac newton đều là những nhà khoa học vĩ đại."
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈælbɚt ˈaɪnstaɪn vˌaː2 ˈaɪsək nˈuːtən ɗˈe2w lˌaː2 ɲˌy5ŋ ɲˈaː2 xwˈaː hˈɔ6k vˈi5 ɗˈaː6j."
+   ]
+  },
+  {
+   "text": "Vui lòng liên hệ qua email support@example.com hoặc truy cập trang web để biết thêm chi tiết.",
+   "chunks": [
+    "vui lòng liên hệ qua email support a còng example chấm com hoặc truy cập trang web để biết thêm chi tiết."
+   ],
+   "gaps": [],
+   "phones": [
+    "vˈuj lˈɔ2ŋ lˈiɛn hˈe6 kwˈaː ˈiːmeɪl səpˈɔːɹt ˈaː kˈɔ2ŋ ɛɡzˈæmpəl tʃˈəɜm kˈɔm hwˌa6c tʃwˈi kˈə6p tʃˈaːŋ wˈɛb ɗˌe4 bˈiɛɜt̪ tˈem tʃˈi t̪ˈiɛɜt̪."
+   ]
+  },
+  {
+   "text": "Sakai, Nhật Bản. Tại đây, trong thành phố nằm cách Tokyo 250 dặm về phía tây nam, có lăng mộ Daisen Kofun, một trong hơn 40 ngôi mộ cổ trong bán kính sáu dặm. Dài hơn gấp đôi Kim tự tháp Giza, đây là một trong những ngôi mộ lớn nhất thế giới. Được xây dựng vào thế kỷ thứ năm sau Công nguyên. Người ta tin rằng đây là nơi an nghỉ của Nintoku, vị hoàng đế thứ mười sáu của Nhật Bản. Nhưng trong tất cả các loại hình và thiết kế tạo nên cấu trúc Kofun, có lẽ bí ẩn nhất là những ngôi mộ hình lỗ khóa, một hình dạng chỉ có thể nhìn thấy từ trên cao. Việc nó được tạo ra giống như lỗ khóa, chỉ để nhìn từ bầu trời, theo tôi cho thấy đây có thể là thông điệp rõ ràng gửi đến các vị thần rằng hãy nhìn xuống đây. Và nó là một loại điểm tham chiếu cho các vì sao, cho người nằm trong mộ. Vậy đây có phải là ngôi mộ dành cho các vị thần ngoài hành tinh để họ có thể tìm thấy và trở về các vì sao nơi họ đã đến? Liệu Kofun có phải là điểm đánh dấu cho người ngoài hành tinh dự định quay lại Trái Đất, như một số nhà lý thuyết phi hành gia cổ đại cho rằng? Có lẽ có thể tìm thấy thêm bằng chứng khi xem xét một trong những phát hiện khảo cổ vĩ đại nhất thế kỷ hai mươi, lăng mộ rộng lớn của vị hoàng đế đầu tiên của Trung Quốc. Tỉnh Thiểm Tây, Trung Quốc. Năm 1974, những người nông dân đào giếng bên ngoài thành phố Tây An đã có một khám phá đáng kinh ngạc. Một chiến binh đất sét kích thước thật, được chạm khắc tinh xảo và mặc giáp sẵn sàng chiến đấu. Khai quật thêm đã phát hiện hàng nghìn bức tượng này, được gọi là Đội quân đất nung, mỗi bức có biểu cảm khuôn mặt vô cùng sống động. Bị chôn vùi trong lòng đất hơn hai nghìn năm, đội quân này là một phần của khu lăng mộ ngầm khổng lồ được xây cho vị hoàng đế đầu tiên của triều đại nhà Tần, Tần Thủy Hoàng. Lăng mộ Tần Thủy Hoàng thật phi thường. Hơn tám nghìn chiến binh đất nung đã được tìm thấy ở đó, cùng với năm trăm hai mươi con ngựa, một trăm ba mươi cỗ xe, hầu hết Câu chuyện về những công trình cổ đại này vẫn còn khiến các nhà khảo cổ học ngày nay phải kinh ngạc, bởi lẽ với công nghệ thời bấy giờ, việc xây dựng những cấu trúc đồ sộ như vậy đòi hỏi một tổ chức lao động vô cùng quy mô và kỷ luật. \"Làm sao người xưa có thể tính toán chính xác đến vậy?\", một nhà nghiên cứu trẻ thốt lên khi lần đầu đứng trước công trình. \"Đó vẫn là một bí ẩn chưa có lời giải đáp đầy đủ\", vị giáo sư hướng dẫn ông trả lời, ánh mắt đầy suy tư.",
+   "chunks": [
+    "sakai, nhật bản. tại đây, trong thành phố nằm cách tokyo hai trăm năm mươi dặm về phía tây nam, có lăng mộ daisen kofun,",
+    "một trong hơn bốn mươi ngôi mộ cổ trong bán kính sáu dặm.",
+    "dài hơn gấp đôi kim tự tháp giza, đây là một trong những ngôi mộ lớn nhất thế giới. được xây dựng vào thế kỷ thứ năm sau công nguyên.",
+    "người ta tin rằng đây là nơi an nghỉ của nintoku, vị hoàng đế thứ mười sáu của nhật bản.",
+    "nhưng trong tất cả các loại hình và thiết kế tạo nên cấu trúc kofun, có lẽ bí ẩn nhất là những ngôi mộ hình lỗ khóa,",
+    "một hình dạng chỉ có thể nhìn thấy từ trên cao.",
+    "việc nó được tạo ra giống như lỗ khóa, chỉ để nhìn từ bầu trời,",
+    "theo tôi cho thấy đây có thể là thông điệp rõ ràng gửi đến các vị thần rằng hãy nhìn xuống đây.",
+    "và nó là một loại điểm tham chiếu cho các vì sao, cho người nằm trong mộ.",
+    "vậy đây có phải là ngôi mộ dành cho các vị thần ngoài hành tinh để họ có thể tìm thấy và trở về các vì sao nơi họ đã đến?",
+    "liệu kofun có phải là điểm đánh dấu cho người ngoài hành tinh dự định quay lại trái đất,",
+    "như một số nhà lý thuyết phi hành gia cổ đại cho rằng?",
+    "có lẽ có thể tìm thấy thêm bằng chứng khi xem xét một trong những phát hiện khảo cổ vĩ đại nhất thế kỷ hai mươi,",
+    "lăng mộ rộng lớn của vị hoàng đế đầu tiên của trung quốc. tỉnh thiểm tây, trung quốc.",
+    "năm một nghìn chín trăm bảy mươi bốn, những người nông dân đào giếng bên ngoài thành phố tây an đã có một khám phá đáng kinh ngạc.",
+    "một chiến binh đất sét kích thước thật, được chạm khắc tinh xảo và mặc giáp sẵn sàng chiến đấu.",
+    "khai quật thêm đã phát hiện hàng nghìn bức tượng này, được gọi là đội quân đất nung, mỗi bức có biểu cảm khuôn mặt vô cùng sống động.",
+    "bị chôn vùi trong lòng đất hơn hai nghìn năm,",
+    "đội quân này là một phần của khu lăng mộ ngầm khổng lồ được xây cho vị hoàng đế đầu tiên của triều đại nhà tần, tần thủy hoàng.",
+    "lăng mộ tần thủy hoàng thật phi thường.",
+    "hơn tám nghìn chiến binh đất nung đã được tìm thấy ở đó, cùng với năm trăm hai mươi con ngựa, một trăm ba mươi cỗ xe,",
+    "hầu hết câu chuyện về những công trình cổ đại này vẫn còn khiến các nhà khảo cổ học ngày nay phải kinh ngạc,",
+    "bởi lẽ với công nghệ thời bấy giờ, việc xây dựng những cấu trúc đồ sộ như vậy đòi hỏi một tổ chức lao động vô cùng quy mô và kỷ luật.",
+    "làm sao người xưa có thể tính toán chính xác đến vậy? một nhà nghiên cứu trẻ thốt lên khi lần đầu đứng trước công trình.",
+    "đó vẫn là một bí ẩn chưa có lời giải đáp đầy đủ, vị giáo sư hướng dẫn ông trả lời, ánh mắt đầy suy tư."
+   ],
+   "gaps": [
+    "minor",
+    "sentence",
+    "sentence",
+    "sentence",
+    "minor",
+    "sentence",
+    "minor",
+    "sentence",
+    "sentence",
+    "sentence",
+    "minor",
+    "sentence",
+    "minor",
+    "sentence",
+    "sentence",
+    "sentence",
+    "sentence",
+    "minor",
+    "sentence",
+    "sentence",
+    "minor",
+    "minor",
+    "sentence",
+    "sentence"
+   ],
+   "phones": [
+    "sˈækaɪ, ɲˈə6t̪ bˈaː4n. t̪ˈaː6j ɗˈəɪ, tʃˈɔŋ tˈe-2ɲ fˈoɜ nˈa2m kˈe-ɜc tˈoʊkɪˌoʊ hˈaːj tʃˈam nˈam mˈyəj zˈa6m vˈe2 fˈiəɜ t̪ˈəɪ nˈaːm, kˈɔɜ lˈaŋ mˈo6 dˈeɪzən kˈɑːfʌn.",
+    "mˈo6t̪ tʃˈɔŋ hˈəːn bˈoɜn mˈyəj ŋˈoj mˈo6 kˈo4 tʃˈɔŋ bˈaːɜn kˈiɜɲ sˈaɜw zˈa6m.",
+    "zˈaː2j hˈəːn ɣˈəɜp ɗˈoj kˈim t̪ˈy6 tˈaːɜp ɡˈiːzə, ɗˈəɪ lˌaː2 mˈo6t̪ tʃˈɔŋ ɲˌy5ŋ ŋˈoj mˈo6 lˈəːɜn ɲˈəɜt̪ tˈeɜ zˈəːɜj. ɗˌyə6c sˈəɪ zˈy6ŋ vˈaː2w tˈeɜ kˈi4 tˈyɜ nˈam sˈaw kˈoŋ ŋwˈiɛn.",
+    "ŋˈyə2j t̪ˈaː t̪ˈin ɹˈa2ŋ ɗˈəɪ lˌaː2 nˈəːj ˈaːn ŋˈi4 kˌuə4 nˈɪntoʊkˌuː, vˈi6 hwˈaː2ŋ ɗˈeɜ tˈyɜ mˈyə2j sˈaɜw kˌuə4 ɲˈə6t̪ bˈaː4n.",
+    "ɲˌyŋ tʃˈɔŋ t̪ˈəɜt̪ kˈaː4 kˌaːɜc lwˈaː6j hˈi2ɲ vˌaː2 tˈiɛɜt̪ kˈeɜ t̪ˈaː6w nˌen kˈəɜw tʃˈuɜc kˈɑːfʌn, kˈɔɜ lˈɛ5 bˈiɜ ˈə4n ɲˈəɜt̪ lˌaː2 ɲˌy5ŋ ŋˈoj mˈo6 hˈi2ɲ lˈo5 xwˈaːɜ.",
+    "mˈo6t̪ hˈi2ɲ zˈaː6ŋ tʃˈi4 kˈɔɜ tˈe4 ɲˈi2n tˈəɪɜ t̪ˌy2 tʃˈen kˈaːw.",
+    "vˈiɛ6c nˈɔɜ ɗˌyə6c t̪ˈaː6w ɹˈaː zˈoɜŋ ɲˌy lˈo5 xwˈaːɜ, tʃˈi4 ɗˌe4 ɲˈi2n t̪ˌy2 bˈə2w tʃˈəː2j.",
+    "tˈɛw t̪ˈoj tʃˌɔ tˈəɪɜ ɗˈəɪ kˈɔɜ tˈe4 lˌaː2 tˈoŋ ɗˈiɛ6p ɹˈɔ5 ɹˈaː2ŋ ɣˈy4j ɗˌeɜn kˌaːɜc vˈi6 tˈə2n ɹˈa2ŋ hˈa5j ɲˈi2n sˈuəɜŋ ɗˈəɪ.",
+    "vˌaː2 nˈɔɜ lˌaː2 mˈo6t̪ lwˈaː6j ɗˈiɛ4m tˈaːm tʃˈiɛɜw tʃˌɔ kˌaːɜc vˌi2 sˈaːw, tʃˌɔ ŋˈyə2j nˈa2m tʃˈɔŋ mˈo6.",
+    "vˈəɪ6 ɗˈəɪ kˈɔɜ fˌaː4j lˌaː2 ŋˈoj mˈo6 zˈe-2ɲ tʃˌɔ kˌaːɜc vˈi6 tˈə2n ŋwˈaː2j hˈe-2ɲ t̪ˈiɲ ɗˌe4 hˈɔ6 kˈɔɜ tˈe4 t̪ˈi2m tˈəɪɜ vˌaː2 tʃˈəː4 vˈe2 kˌaːɜc vˌi2 sˈaːw nˈəːj hˈɔ6 ɗˌaː5 ɗˌeɜn?",
+    "lˈiɛ6w kˈɑːfʌn kˈɔɜ fˌaː4j lˌaː2 ɗˈiɛ4m ɗˈe-ɜɲ zˈəɜw tʃˌɔ ŋˈyə2j ŋwˈaː2j hˈe-2ɲ t̪ˈiɲ zˈy6 ɗˈi6ɲ kwˈaj lˈaː6j tʃˈaːɜj ɗˈəɜt̪.",
+    "ɲˌy mˈo6t̪ sˈoɜ ɲˈaː2 lˈiɜ twˈiɛɜt̪ fˈi hˈe-2ɲ zˈaː kˈo4 ɗˈaː6j tʃˌɔ ɹˈa2ŋ?",
+    "kˈɔɜ lˈɛ5 kˈɔɜ tˈe4 t̪ˈi2m tˈəɪɜ tˈem bˈa2ŋ tʃˈyɜŋ xˌi sˈɛm sˈɛɜt̪ mˈo6t̪ tʃˈɔŋ ɲˌy5ŋ fˈaːɜt̪ hˈiɛ6n xˈaː4w kˈo4 vˈi5 ɗˈaː6j ɲˈəɜt̪ tˈeɜ kˈi4 hˈaːj mˈyəj.",
+    "lˈaŋ mˈo6 ɹˈo6ŋ lˈəːɜn kˌuə4 vˈi6 hwˈaː2ŋ ɗˈeɜ ɗˈə2w t̪ˈiɛn kˌuə4 tʃˈuŋ kˈuəɜc. t̪ˈi4ɲ tˈiɛ4m t̪ˈəɪ, tʃˈuŋ kˈuəɜc.",
+    "nˈam mˈo6t̪ ŋˈi2n tʃˈiɜn tʃˈam bˈa4j mˈyəj bˈoɜn, ɲˌy5ŋ ŋˈyə2j nˈoŋ zˈən ɗˈaː2w zˈiɛɜŋ bˈen ŋwˈaː2j tˈe-2ɲ fˈoɜ t̪ˈəɪ ˈaːn ɗˌaː5 kˈɔɜ mˈo6t̪ xˈaːɜm fˈaːɜ ɗˈaːɜŋ kˈiɲ ŋˈaː6c.",
+    "mˈo6t̪ tʃˈiɛɜn bˈiɲ ɗˈəɜt̪ sˈɛɜt̪ kˈiɜc tˈyəɜc tˈə6t̪, ɗˌyə6c tʃˈaː6m xˈaɜc t̪ˈiɲ sˈaː4w vˌaː2 mˈa6c zˈaːɜp sˈa5n sˈaː2ŋ tʃˈiɛɜn ɗˈəɜw.",
+    "xˈaːj kwˈə6t̪ tˈem ɗˌaː5 fˈaːɜt̪ hˈiɛ6n hˈaː2ŋ ŋˈi2n bˈyɜc t̪ˈyə6ŋ nˈa2j, ɗˌyə6c ɣˈɔ6j lˌaː2 ɗˈo6j kwˈən ɗˈəɜt̪ nˈuŋ, mˌo5j bˈyɜc kˈɔɜ bˈiɛ4w kˈaː4m xˈuən mˈa6t̪ vˈo kˈu2ŋ sˈoɜŋ ɗˈo6ŋ.",
+    "bˌi6 tʃˈon vˈu2j tʃˈɔŋ lˈɔ2ŋ ɗˈəɜt̪ hˈəːn hˈaːj ŋˈi2n nˈam.",
+    "ɗˈo6j kwˈən nˈa2j lˌaː2 mˈo6t̪ fˈə2n kˌuə4 xˈu lˈaŋ mˈo6 ŋˈə2m xˈo4ŋ lˈo2 ɗˌyə6c sˈəɪ tʃˌɔ vˈi6 hwˈaː2ŋ ɗˈeɜ ɗˈə2w t̪ˈiɛn kˌuə4 tʃˈiɛ2w ɗˈaː6j ɲˈaː2 t̪ˈə2n, t̪ˈə2n twˈi4 hwˈaː2ŋ.",
+    "lˈaŋ mˈo6 t̪ˈə2n twˈi4 hwˈaː2ŋ tˈə6t̪ fˈi tˈyə2ŋ.",
+    "hˈəːn t̪ˈaːɜm ŋˈi2n tʃˈiɛɜn bˈiɲ ɗˈəɜt̪ nˈuŋ ɗˌaː5 ɗˌyə6c t̪ˈi2m tˈəɪɜ ˈəː4 ɗˈɔɜ, kˈu2ŋ vˌəːɜj nˈam tʃˈam hˈaːj mˈyəj kˌɔn ŋˈyə6, mˈo6t̪ tʃˈam bˈaː mˈyəj kˈo5 sˈɛ.",
+    "hˈə2w hˈeɜt̪ kˈə1w tʃwˈiɛ6n vˈe2 ɲˌy5ŋ kˈoŋ tʃˈi2ɲ kˈo4 ɗˈaː6j nˈa2j vˌə5n kˌɔ2n xˈiɛɜn kˌaːɜc ɲˈaː2 xˈaː4w kˈo4 hˈɔ6k ŋˈa2j nˈaj fˌaː4j kˈiɲ ŋˈaː6c.",
+    "bˌəː4j lˈɛ5 vˌəːɜj kˈoŋ ŋˈe6 tˈəː2j bˈəɪɜ zˈəː2, vˈiɛ6c sˈəɪ zˈy6ŋ ɲˌy5ŋ kˈəɜw tʃˈuɜc ɗˈo2 sˈo6 ɲˌy vˈəɪ6 ɗˈɔ2j hˈɔ4j mˈo6t̪ t̪ˈo4 tʃˈyɜc lˈaːw ɗˈo6ŋ vˈo kˈu2ŋ kwˈi mˈo vˌaː2 kˈi4 lwˈə6t̪.",
+    "lˈaː2m sˈaːw ŋˈyə2j sˈyə kˈɔɜ tˈe4 t̪ˈiɜɲ t̪wˈaːɜn tʃˈiɜɲ sˈaːɜc ɗˌeɜn vˈəɪ6? mˈo6t̪ ɲˈaː2 ŋˈiɛn kˈiɜw tʃˈɛ4 tˈoɜt̪ lˈen xˌi lˈə2n ɗˈə2w ɗˈyɜŋ tʃˈyəɜc kˈoŋ tʃˈi2ɲ.",
+    "ɗˈɔɜ vˌə5n lˌaː2 mˈo6t̪ bˈiɜ ˈə4n tʃˌyə kˈɔɜ lˈəː2j zˈaː4j ɗˈaːɜp ɗˈəɪ2 ɗˈu4, vˈi6 zˈaːɜw sˈy hˈyəɜŋ zˈə5n ˈoŋ tʃˈaː4 lˈəː2j, ˈe-ɜɲ mˈaɜt̪ ɗˈəɪ2 swˈi t̪ˈy."
+   ]
+  },
+  {
+   "text": "Năm mười lăm tuổi, Tiêu Viêm từng là thiên tài trẻ nhất của gia tộc Tiêu. Thế nhưng, chỉ sau một đêm, đấu khí trong cơ thể hắn đột nhiên biến mất không dấu vết. Bốn năm sau, thiếu niên năm nào đứng giữa quảng trường, mặc cho ánh mắt chế giễu của tộc nhân, hắn siết chặt nắm đấm — nhất định phải lấy lại tất cả những gì đã mất.",
+   "chunks": [
+    "năm mười lăm tuổi, tiêu viêm từng là thiên tài trẻ nhất của gia tộc tiêu.",
+    "thế nhưng, chỉ sau một đêm, đấu khí trong cơ thể hắn đột nhiên biến mất không dấu vết.",
+    "bốn năm sau, thiếu niên năm nào đứng giữa quảng trường, mặc cho ánh mắt chế giễu của tộc nhân, hắn siết chặt nắm đấm,",
+    "nhất định phải lấy lại tất cả những gì đã mất."
+   ],
+   "gaps": [
+    "sentence",
+    "sentence",
+    "minor"
+   ],
+   "phones": [
+    "nˈam mˈyə2j lˈam t̪ˈuə4j, t̪ˈiɛw vˈiɛm t̪ˈy2ŋ lˌaː2 tˈiɛn t̪ˈaː2j tʃˈɛ4 ɲˈəɜt̪ kˌuə4 zˈaː t̪ˈo6k t̪ˈiɛw.",
+    "tˈeɜ ɲˌyŋ, tʃˈi4 sˈaw mˈo6t̪ ɗˈem, ɗˈəɜw xˈiɜ tʃˈɔŋ kˈəː tˈe4 hˈaɜn ɗˈo6t̪ ɲˈiɛn bˈiɛɜn mˈəɜt̪ xˌoŋ zˈəɜw vˈeɜt̪.",
+    "bˈoɜn nˈam sˈaw, tˈiɛɜw nˈiɛn nˈam nˈaː2w ɗˈyɜŋ zˈyə5 kwˈaː4ŋ tʃˈyə2ŋ, mˈa6c tʃˌɔ ˈe-ɜɲ mˈaɜt̪ tʃˈeɜ zˈe5w kˌuə4 t̪ˈo6k ɲˈən, hˈaɜn sˈiɛɜt̪ tʃˈa6t̪ nˈaɜm ɗˈəɜm.",
+    "ɲˈəɜt̪ ɗˈi6ɲ fˌaː4j lˈəɪɜ lˈaː6j t̪ˈəɜt̪ kˈaː4 ɲˌy5ŋ zˈi2 ɗˌaː5 mˈəɜt̪."
+   ]
+  },
+  {
+   "text": "Chương một: Khởi đầu.\n\nTrời hôm nay đẹp quá. Chúng tôi đi dạo quanh hồ Gươm rồi ghé quán cà phê quen thuộc.\n\nHết.",
+   "chunks": [
+    "chương một, khởi đầu.",
+    "trời hôm nay đẹp quá. chúng tôi đi dạo quanh hồ gươm rồi ghé quán cà phê quen thuộc. hết."
+   ],
+   "gaps": [
+    "para"
+   ],
+   "phones": [
+    "tʃˈyəŋ mˈo6t̪, xˈəː4j ɗˈə2w.",
+    "tʃˈəː2j hˈom nˈaj ɗˈɛ6p kwˈaːɜ. tʃˈuɜŋ t̪ˈoj ɗˈi zˈaː6w kwˈe-ɲ hˈo2 ɣˈyəm ɹˈo2j ɣˈɛɜ kwˈaːɜn kˈaː2 fˈe kwˈɛn tˈuə6c. hˈeɜt̪."
+   ]
+  },
+  {
+   "text": "Ngày 12/03/2024 anh ấy trả 1.500.000đ cho 3kg gạo, tăng 15% so với năm ngoái.",
+   "chunks": [
+    "ngày mười hai tháng ba năm hai nghìn không trăm hai mươi bốn anh ấy trả một triệu năm trăm nghìn đồng cho ba ki lô gam gạo,",
+    "tăng mười lăm phần trăm so với năm ngoái."
+   ],
+   "gaps": [
+    "minor"
+   ],
+   "phones": [
+    "ŋˈa2j mˈyə2j hˈaːj tˈaːɜŋ bˈaː nˈam hˈaːj ŋˈi2n xˌoŋ tʃˈam hˈaːj mˈyəj bˈoɜn ˈe-ɲ ˈəɪɜ tʃˈaː4 mˈo6t̪ tʃˈiɛ6w nˈam tʃˈam ŋˈi2n ɗˈo2ŋ tʃˌɔ bˈaː kˈi lˈo ɣˈaːm ɣˈaː6w.",
+    "t̪ˈaŋ mˈyə2j lˈam fˈə2n tʃˈam sˈɔ vˌəːɜj nˈam ŋwˈaːɜj."
+   ]
+  },
+  {
+   "text": "Hôm nay tôi dùng Facebook và email để gửi deadline cho team marketing. Liên hệ support@vieneu.ai hoặc https://vieneu.ai/docs nhé.",
+   "chunks": [
+    "hôm nay tôi dùng facebook và email để gửi deadline cho team marketing.",
+    "liên hệ support a còng vieneu chấm ai hoặc hát tê tê phê ét hai chấm gạch chéo gạch chéo vieneu chấm ai gạch chéo docs nhé."
+   ],
+   "gaps": [
+    "sentence"
+   ],
+   "phones": [
+    "hˈom nˈaj t̪ˈoj zˈu2ŋ fˈeɪsbʊk vˌaː2 ˈiːmeɪl ɗˌe4 ɣˈy4j dˈɛdlaɪn tʃˌɔ tˈiːm mˈɑːɹkɪɾɪŋ.",
+    "lˈiɛn hˈe6 səpˈɔːɹt ˈaː kˈɔ2ŋ vˈiːnuː tʃˈəɜm ˈaːj hwˌa6c hˈaːɜt̪ t̪ˈe t̪ˈe fˈe ˈɛɜt̪ hˈaːj tʃˈəɜm ɣˈe-6c tʃˈɛɜw ɣˈe-6c tʃˈɛɜw vˈiːnuː tʃˈəɜm ˈaːj ɣˈe-6c tʃˈɛɜw dˈɑːks ɲˈɛɜ."
+   ]
+  },
+  {
+   "text": "Anh ấy hỏi: \"Em đã ăn cơm chưa?\" Cô gái cười đáp (khá ngượng ngùng): \"Em ăn rồi ạ!\"",
+   "chunks": [
+    "anh ấy hỏi, em đã ăn cơm chưa? cô gái cười đáp, khá ngượng ngùng, em ăn rồi ạ!"
+   ],
+   "gaps": [],
+   "phones": [
+    "ˈe-ɲ ˈəɪɜ hˈɔ4j, ˈɛm ɗˌaː5 ˈan kˈəːm tʃˌyə? kˈo ɣˈaːɜj kˈyə2j ɗˈaːɜp, xˈaːɜ ŋˈyə6ŋ ŋˈu2ŋ, ˈɛm ˈan ɹˈo2j ˈaː6!"
+   ]
+  },
+  {
+   "text": "Xin chào mọi người [cười] hôm nay mình kể một câu chuyện rất vui. [thở dài] Nhưng trước hết, nghỉ chút đã.",
+   "chunks": [
+    "xin chào mọi người <|emotion_1|> hôm nay mình kể một câu chuyện rất vui. <|emotion_2|> nhưng trước hết, nghỉ chút đã."
+   ],
+   "gaps": [],
+   "phones": [
+    "sˈin tʃˈaː2w mˌɔ6j ŋˈyə2j <|emotion_1|> hˈom nˈaj mˈi2ɲ kˈe4 mˈo6t̪ kˈə1w tʃwˈiɛ6n ɹˈəɜt̪ vˈuj. <|emotion_2|> ɲˌyŋ tʃˈyəɜc hˈeɜt̪, ŋˈi4 tʃˈuɜt̪ ɗˌaː5."
+   ]
+  },
+  {
+   "text": "[hắng giọng] Thưa quý vị và các bạn.",
+   "chunks": [
+    "<|emotion_3|> thưa quý vị và các bạn."
+   ],
+   "gaps": [],
+   "phones": [
+    "<|emotion_3|> tˈyə kwˈiɜ vˈi6 vˌaː2 kˌaːɜc bˈaː6n."
+   ]
+  },
+  {
+   "text": "Thế à... thật không? Không thể tin được!!! Sao lại thế?!",
+   "chunks": [
+    "thế à, thật không? không thể tin được! sao lại thế?"
+   ],
+   "gaps": [],
+   "phones": [
+    "tˈeɜ ˈaː2, tˈə6t̪ xˌoŋ? xˌoŋ tˈe4 t̪ˈin ɗˌyə6c! sˈaːw lˈaː6j tˈeɜ?"
+   ]
+  },
+  {
+   "text": "Ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người Ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người Ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+   "chunks": [
+    "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+    "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+    "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người."
+   ],
+   "gaps": [
+    "sentence",
+    "sentence"
+   ],
+   "phones": [
+    "ˈoŋ ŋˈo2j bˈen hˈiɛn ɲˈaː2 ɲˈi2n ɹˈaː kˈe-ɜɲ ɗˈo2ŋ lˈuəɜ tʃˈiɜn vˈaː2ŋ tʃˈaː4j zˈaː2j ɗˌeɜn t̪ˈə6n tʃˈən tʃˈəː2j xˌoŋ mˈo6t̪ bˈɔɜŋ ŋˈyə2j.",
+    "ˈoŋ ŋˈo2j bˈen hˈiɛn ɲˈaː2 ɲˈi2n ɹˈaː kˈe-ɜɲ ɗˈo2ŋ lˈuəɜ tʃˈiɜn vˈaː2ŋ tʃˈaː4j zˈaː2j ɗˌeɜn t̪ˈə6n tʃˈən tʃˈəː2j xˌoŋ mˈo6t̪ bˈɔɜŋ ŋˈyə2j.",
+    "ˈoŋ ŋˈo2j bˈen hˈiɛn ɲˈaː2 ɲˈi2n ɹˈaː kˈe-ɜɲ ɗˈo2ŋ lˈuəɜ tʃˈiɜn vˈaː2ŋ tʃˈaː4j zˈaː2j ɗˌeɜn t̪ˈə6n tʃˈən tʃˈəː2j xˌoŋ mˈo6t̪ bˈɔɜŋ ŋˈyə2j."
+   ]
+  },
+  {
+   "text": "",
+   "chunks": [],
+   "gaps": [],
+   "phones": []
+  },
+  {
+   "text": "   ",
+   "chunks": [],
+   "gaps": [],
+   "phones": []
+  }
+ ]
+}
