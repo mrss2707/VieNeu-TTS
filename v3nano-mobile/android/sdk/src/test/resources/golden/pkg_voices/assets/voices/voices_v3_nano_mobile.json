@@ -1,0 +1,182 @@
+{
+  "schema_version": "1",
+  "default_voice_id": "duc_tri",
+  "voices": [
+    {
+      "voice_id": "adam",
+      "display_name": "Adam",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "natural",
+      "quality_tier": 2,
+      "files": {
+        "speaker_emb": "voices/adam/speaker_emb.bin",
+        "style": "voices/adam/style.bin"
+      },
+      "sha256": "fb11326a94f1faf484f748213fe8a31dd2fcc2c17477a4b1d28b4355fbf81c2f",
+      "wer_reference": 0.0727,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "ai_han",
+      "display_name": "Ái Hân",
+      "locale": "vi-VN",
+      "gender": "female",
+      "style_hint": "news",
+      "quality_tier": 3,
+      "files": {
+        "speaker_emb": "voices/ai_han/speaker_emb.bin",
+        "style": "voices/ai_han/style.bin"
+      },
+      "sha256": "5e5b48a22029bcfc00876ef6568687a4563b66d5b9037d40e9e3d76439ae6805",
+      "wer_reference": 0.1197,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "my_duyen",
+      "display_name": "Mỹ Duyên",
+      "locale": "vi-VN",
+      "gender": "female",
+      "style_hint": "story",
+      "quality_tier": 1,
+      "files": {
+        "speaker_emb": "voices/my_duyen/speaker_emb.bin",
+        "style": "voices/my_duyen/style.bin"
+      },
+      "sha256": "1ac3ddd889cb6cbf396753a4da5a3f488822db12d9a6531fb54acb2c3bc06398",
+      "wer_reference": 0.0571,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "duc_tri",
+      "display_name": "Đức Trí",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "story",
+      "quality_tier": 1,
+      "files": {
+        "speaker_emb": "voices/duc_tri/speaker_emb.bin",
+        "style": "voices/duc_tri/style.bin"
+      },
+      "sha256": "9d77ec9b55d0f139d6a20e586c9d07944cfe58b16fd3ff55c7c7452208948665",
+      "wer_reference": 0.0312,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "huu_quan",
+      "display_name": "Hữu Quân",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "news",
+      "quality_tier": 3,
+      "files": {
+        "speaker_emb": "voices/huu_quan/speaker_emb.bin",
+        "style": "voices/huu_quan/style.bin"
+      },
+      "sha256": "7e1516831cfad60ae0b380506b71eae3e7b3b3eedba46955bf60fcd640047dce",
+      "wer_reference": 0.2029,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "xuan_tien",
+      "display_name": "Xuân Tiên",
+      "locale": "vi-VN",
+      "gender": "female",
+      "style_hint": "news",
+      "quality_tier": 3,
+      "files": {
+        "speaker_emb": "voices/xuan_tien/speaker_emb.bin",
+        "style": "voices/xuan_tien/style.bin"
+      },
+      "sha256": "a4b13182be1f04c9e56d534a01db37a37a38555a15787ce97be5b8515e3c7e51",
+      "wer_reference": 0.1134,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "mai_anh",
+      "display_name": "Mai Anh",
+      "locale": "vi-VN",
+      "gender": "female",
+      "style_hint": "news",
+      "quality_tier": 1,
+      "files": {
+        "speaker_emb": "voices/mai_anh/speaker_emb.bin",
+        "style": "voices/mai_anh/style.bin"
+      },
+      "sha256": "2cdd80f3e325c291a8821a638b919143986400e31d5cddfee2965256ae075986",
+      "wer_reference": 0.0529,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "truc_ly",
+      "display_name": "Trúc Ly",
+      "locale": "vi-VN",
+      "gender": "female",
+      "style_hint": "natural",
+      "quality_tier": 2,
+      "files": {
+        "speaker_emb": "voices/truc_ly/speaker_emb.bin",
+        "style": "voices/truc_ly/style.bin"
+      },
+      "sha256": "cc0aa84d1a5bd22dc33b6587d62630cffd5f02d6d0fd9414b1d0e963bf01eb15",
+      "wer_reference": 0.0604,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "anh_khoi",
+      "display_name": "Anh Khôi",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "storytelling",
+      "quality_tier": 2,
+      "files": {
+        "speaker_emb": "voices/anh_khoi/speaker_emb.bin",
+        "style": "voices/anh_khoi/style.bin"
+      },
+      "sha256": "6b919e1209b138220982c7d2bfc7f2d6c6a4d27eaedf8dff3ed9348d838e9a3e",
+      "wer_reference": 0.0719,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "minh_quan",
+      "display_name": "Minh Quân",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "natural",
+      "quality_tier": 3,
+      "files": {
+        "speaker_emb": "voices/minh_quan/speaker_emb.bin",
+        "style": "voices/minh_quan/style.bin"
+      },
+      "sha256": "5ad6f23068d35bc43ed93c55c7907b57de03d0965968e5613d2fb12678b093d3",
+      "wer_reference": 0.1963,
+      "license": "repo",
+      "provenance": "official"
+    },
+    {
+      "voice_id": "manh_dung",
+      "display_name": "Mạnh Dũng",
+      "locale": "vi-VN",
+      "gender": "male",
+      "style_hint": "natural",
+      "quality_tier": 1,
+      "files": {
+        "speaker_emb": "voices/manh_dung/speaker_emb.bin",
+        "style": "voices/manh_dung/style.bin"
+      },
+      "sha256": "fccce8032739084e43b4fd26b2957190966f2d52ee4cd753a460b75857db4626",
+      "wer_reference": 0.0504,
+      "license": "repo",
+      "provenance": "official"
+    }
+  ]
+}

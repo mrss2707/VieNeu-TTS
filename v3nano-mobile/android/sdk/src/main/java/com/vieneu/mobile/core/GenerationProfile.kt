@@ -10,6 +10,8 @@ package com.vieneu.mobile.core
  * compat API cũ; khi comfort ON thì treble nằm trong chain.
  * [noiseFloorEnabled] (rev 3, default ON): downward expander −48 dBFS — hết “lạo xạo” nền.
  * [spectralDenoiseEnabled] (rev 4, default ON): STFT spectral subtraction — nhiễu trộn khi nói.
+ * [deEsserEnabled] (rev 5, default ON): de-esser động 5–8 kHz — hạ phụ âm xát/bật chói bất chợt
+ * (đỉnh ~6.6 kHz) mà EQ tĩnh không đủ sức; chỉ tác động khi dải đó trội hơn dải giọng.
  */
 data class GenerationProfile(
     val profileRevision: Int = PROFILE_REVISION,
@@ -23,6 +25,7 @@ data class GenerationProfile(
     val comfortFilterEnabled: Boolean = true,
     val noiseFloorEnabled: Boolean = true,
     val spectralDenoiseEnabled: Boolean = true,
+    val deEsserEnabled: Boolean = true,
 ) {
     init {
         require(steps >= 1) { "steps must be >= 1, got $steps" }
@@ -31,7 +34,7 @@ data class GenerationProfile(
     }
 
     companion object {
-        /** rev 4: spectral denoise default ON (nhiễu trộn trong lúc nói). */
-        const val PROFILE_REVISION = 4
+        /** rev 6: de-esser mở dải xuống 3.4 kHz; rev 5: de-esser 5–8 kHz + shelf −5 dB; rev 4: spectral denoise ON. */
+        const val PROFILE_REVISION = 6
     }
 }

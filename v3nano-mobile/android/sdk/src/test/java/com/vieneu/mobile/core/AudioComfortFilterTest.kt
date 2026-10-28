@@ -11,8 +11,29 @@ class AudioComfortFilterTest {
     @Test
     fun coefficientsPinned() {
         assertEquals(0.9135889493293752, AudioComfortFilter.PRES_B0, 1e-12)
-        assertEquals(0.8564610806506162, AudioComfortFilter.SHELF_B0, 1e-12)
+        // rev 5: shelf 5.5 kHz hạ từ −2.5 dB xuống −5.0 dB (SHELF_B0: 0.8564610806506162 → 0.7804399786855611 → nay).
+        assertEquals(0.7335560388924589, AudioComfortFilter.SHELF_B0, 1e-12)
         assertEquals(0.8912509381337456f, AudioComfortFilter.TARGET_PEAK, 1e-7f)
+    }
+
+    /** |H(e^jw)| (dB) của biquad (b0,b1,b2,a1,a2) tại [hz]. */
+    private fun gainDb(b0: Double, b1: Double, b2: Double, a1: Double, a2: Double, hz: Double): Double {
+        val w = 2 * Math.PI * hz / AudioComfortFilter.SAMPLE_RATE
+        val (c1, s1, c2, s2) = listOf(Math.cos(w), Math.sin(w), Math.cos(2 * w), Math.sin(2 * w))
+        val nr = b0 + b1 * c1 + b2 * c2; val ni = -(b1 * s1 + b2 * s2)
+        val dr = 1 + a1 * c1 + a2 * c2; val di = -(a1 * s1 + a2 * s2)
+        return 10 * Math.log10((nr * nr + ni * ni) / (dr * dr + di * di))
+    }
+
+    @Test
+    fun shelfFrequencyResponseIsMinus5dBAboveCornerAndFlatInVoiceBand() {
+        fun g(hz: Double) = with(AudioComfortFilter) { gainDb(SHELF_B0, SHELF_B1, SHELF_B2, SHELF_A1, SHELF_A2, hz) }
+        assertEquals("1 kHz gần 0 dB", 0.0, g(1000.0), 0.01)
+        assertEquals("3 kHz (giọng) đổi <0.4 dB", 0.0, g(3000.0), 0.4)
+        assertEquals("4 kHz (phụ âm rõ chữ) không hạ quá 1 dB", -0.82, g(4000.0), 0.1)
+        assertEquals("tâm 5.5 kHz ≈ nửa mức (−2.5 dB)", -2.5, g(5500.0), 0.15)
+        assertEquals("đỉnh chói 6.6 kHz ≈ −3.8 dB", -3.78, g(6600.0), 0.1)
+        assertEquals("trên 10 kHz tiến tới −5.0 dB", -5.0, g(10000.0), 0.1)
     }
 
     @Test

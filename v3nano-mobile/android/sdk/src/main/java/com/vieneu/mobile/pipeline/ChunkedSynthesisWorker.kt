@@ -42,16 +42,18 @@ class ChunkedSynthesisWorker(
             val job = queue.takePending() ?: break
             try {
                 val t0 = System.nanoTime()
-                val pcm = pipeline.synthesizePhones(
-                    phoneChunks = listOf(job.phoneChunk),
-                    gaps = listOfNotNull(job.gapAfter),
+                val result = pipeline.synthesizeStreamChunk(
+                    chunk = job.phoneChunk,
+                    isPhones = job.isPhones,
+                    gapAfter = job.gapAfter,
                     speakerEmb = speakerEmb,
                     style = style,
                     seed = job.seed,
                     sr = sampleRate,
-                ).pcm
+                )
+                val pcm = result.pcm
                 val genMs = (System.nanoTime() - t0) / 1_000_000
-                val audioSec = pcm.size.toDouble() / sampleRate
+                val audioSec = result.chunkSeconds.sum()
                 val rtf = if (audioSec > 0) genMs / 1000.0 / audioSec else null
                 metrics.recordChunk(genMs, audioSec, rtf)
                 if (b.idleBetweenChunksMs > 0) {
@@ -71,7 +73,9 @@ class ChunkedSynthesisWorker(
                 break
             } catch (e: EngineError) {
                 metrics.recordError(e.code, hard = true)
-                break
+                // Lỗi sinh một chunk phải tới host (onError) — không nuốt im lặng rồi
+                // kết thúc như thể đọc xong.
+                throw e
             }
         }
         return produced

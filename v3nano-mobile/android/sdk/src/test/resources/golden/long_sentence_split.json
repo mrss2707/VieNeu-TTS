@@ -1,0 +1,55 @@
+{
+ "k3_max140": {
+  "max": 140,
+  "sentence": "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+  "chunks": [
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người",
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người",
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người."
+  ]
+ },
+ "k2_max140": {
+  "max": 140,
+  "sentence": "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+  "chunks": [
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người",
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người."
+  ]
+ },
+ "k4_max140": {
+  "max": 140,
+  "sentence": "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+  "chunks": [
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh",
+   "đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận",
+   "chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người."
+  ]
+ },
+ "k3_max100": {
+  "max": 100,
+  "sentence": "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+  "chunks": [
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân",
+   "trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng",
+   "trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn",
+   "ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người."
+  ]
+ },
+ "k6_max60": {
+  "max": 60,
+  "sentence": "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận chân trời không một bóng người.",
+  "chunks": [
+   "ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín vàng trải",
+   "dài đến tận chân trời không một bóng người ông ngồi bên",
+   "hiên nhà nhìn ra cánh đồng lúa chín vàng trải dài đến tận",
+   "chân trời không một bóng người ông ngồi bên hiên nhà nhìn",
+   "ra cánh đồng lúa chín vàng trải dài đến tận chân trời",
+   "không một bóng người ông ngồi bên hiên nhà nhìn ra cánh",
+   "đồng lúa chín vàng trải dài đến tận chân trời không một",
+   "bóng người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa",
+   "chín vàng trải dài đến tận chân trời không một bóng",
+   "người ông ngồi bên hiên nhà nhìn ra cánh đồng lúa chín",
+   "vàng trải dài đến tận chân trời không một bóng người."
+  ]
+ }
+}

@@ -6,7 +6,7 @@ package com.vieneu.mobile.core
  * Mục tiêu nghe lâu không gắt / không xé (validated trên iPhone loa ngoài, 2026-09-30):
  *  1. [TrebleFilter] — LP 6 kHz mix 0.5 (bù steps=8, §0.8)
  *  2. Presence dip 3 kHz −3 dB Q=1 — cắt band loa phone bơm (“gắt”)
- *  3. High-shelf 5.5 kHz −2.5 dB — de-ess / bớt “xé” phụ âm
+ *  3. High-shelf 5.5 kHz −5.0 dB (rev 5; trước −2.5 dB) — de-ess / bớt “xé” phụ âm
  *  4. tanh soft-clip + peak-normalize −1 dBFS — hết clip cứng
  *
  * Hệ số biquad tính sẵn (RBJ, fs=24 kHz) — khớp NanoTtsEngine.mm trên iOS.
@@ -24,12 +24,15 @@ object AudioComfortFilter {
     const val PRES_A1 = -0.9957854991465043
     const val PRES_A2 = 0.4082533581074483
 
-    // High-shelf 5.5 kHz, −2.5 dB
-    const val SHELF_B0 = 0.8564610806506162
-    const val SHELF_B1 = -0.05949127659576462
-    const val SHELF_B2 = 0.14761344731755777
-    const val SHELF_A1 = -0.23685227176481605
-    const val SHELF_A2 = 0.18143552313722544
+    // High-shelf 5.5 kHz, −5.0 dB (rev 5; lịch sử: −2.5 → −4.0 → −5.0 dB theo phản hồi nghe thử).
+    // RBJ Audio-EQ-Cookbook high-shelf, Q=1/√2, fs=24 kHz. Tại đỉnh chói 6.6 kHz: −3.78 dB (gốc −1.90);
+    // 1 kHz 0 dB, 3 kHz −0.25 dB, 4 kHz −0.82 dB, 5 kHz −1.86 dB. Hạ thêm nữa sẽ đụng dải 4–5 kHz
+    // nơi nằm phụ âm rõ chữ → nguy cơ làm đục tiếng.
+    const val SHELF_B0 = 0.7335560388924589
+    const val SHELF_B1 = 0.010859678736298006
+    const val SHELF_B2 = 0.12588332543007208
+    const val SHELF_A1 = -0.3193563697982359
+    const val SHELF_A2 = 0.18965541285706475
 
     const val SOFT_CLIP_DRIVE = 1.15f
     /** 10^(−1/20) — peak mục tiêu −1 dBFS. */
@@ -57,6 +60,86 @@ object AudioComfortFilter {
     const val SPEC_NOISE_DOWN = 0.92f
     const val SPEC_NOISE_UP = 0.997f
     const val SPEC_GAIN_SMOOTH = 0.65f
+
+    // De-esser động (rev 5: 5–8 kHz; rev 6: 3.4–8 kHz). Đo trên audio THẬT của điện thoại (INT8 + DSP):
+    // trong 3% khung sáng nhất, 76% có đỉnh ở 3.4–4 kHz và chỉ ~18% ở 5–8 kHz → dải 5–8 kHz của rev 5
+    // gần như không chạm tới chỗ "rít/xì" (giảm TB chỉ ~1.5 dB ở khung sáng). Mở dải xuống 3.4 kHz giảm
+    // ~3.2 dB ở khung sáng, khung thường đổi TB −0.27 dB (p5 −1.57 dB), dải giọng 0.3–3 kHz đổi <0.1 dB.
+    // Dải đo giọng: 0.3–3.0 kHz (hẹp hơn rev 5 để không trùng dải sibilant mới).
+    /** Ngưỡng tỉ lệ sibilant/giọng (dB) để bắt đầu giảm. */
+    const val DS_THRESH_DB = -9.0
+    const val DS_RATIO = 6.0
+    /** Giảm tối đa (dB) của dải sibilant. */
+    const val DS_MAX_REDUCE_DB = 10.0
+    const val DS_ENV_ATTACK_SEC = 0.0008
+    const val DS_ENV_RELEASE_SEC = 0.008
+    const val DS_GAIN_ATTACK_SEC = 0.001
+    const val DS_GAIN_RELEASE_SEC = 0.040
+    private const val DS_SIB_HP_HZ = 3400.0
+    private const val DS_SIB_LP_HZ = 8000.0
+    private const val DS_VOICE_HP_HZ = 300.0
+    private const val DS_VOICE_LP_HZ = 3000.0
+
+    /** RBJ low/high-pass Q=1/√2 → (b0,b1,b2,a1,a2) đã chia a0. */
+    internal fun rbjPass(highPass: Boolean, f0: Double, sampleRate: Int = SAMPLE_RATE): DoubleArray {
+        val w0 = 2.0 * Math.PI * f0 / sampleRate
+        val cw = Math.cos(w0)
+        val alpha = Math.sin(w0) / (2.0 * 0.7071)
+        val b0: Double; val b1: Double; val b2: Double
+        if (highPass) { b0 = (1 + cw) / 2; b1 = -(1 + cw); b2 = (1 + cw) / 2 }
+        else { b0 = (1 - cw) / 2; b1 = 1 - cw; b2 = (1 - cw) / 2 }
+        val a0 = 1 + alpha
+        return doubleArrayOf(b0 / a0, b1 / a0, b2 / a0, -2 * cw / a0, (1 - alpha) / a0)
+    }
+
+    private fun bandPass(wav: FloatArray, hpHz: Double, lpHz: Double, sampleRate: Int): FloatArray {
+        val hp = rbjPass(true, hpHz, sampleRate)
+        val lp = rbjPass(false, lpHz, sampleRate)
+        return biquad(biquad(wav, hp[0], hp[1], hp[2], hp[3], hp[4]), lp[0], lp[1], lp[2], lp[3], lp[4])
+    }
+
+    /**
+     * De-esser động: hạ CHỈ dải 3.4–8 kHz khi nó trội hơn dải giọng 0.3–3.0 kHz quá [thresholdDb].
+     * y = x − s + s·g (g = gain đã làm mượt, 1 = giữ nguyên); mọi dải ngoài 3.4–8 kHz giữ nguyên.
+     */
+    fun applyDeEsser(
+        wav: FloatArray,
+        thresholdDb: Double = DS_THRESH_DB,
+        ratio: Double = DS_RATIO,
+        maxReduceDb: Double = DS_MAX_REDUCE_DB,
+        envAttackSec: Double = DS_ENV_ATTACK_SEC,
+        envReleaseSec: Double = DS_ENV_RELEASE_SEC,
+        gainAttackSec: Double = DS_GAIN_ATTACK_SEC,
+        gainReleaseSec: Double = DS_GAIN_RELEASE_SEC,
+        sampleRate: Int = SAMPLE_RATE,
+    ): FloatArray {
+        if (wav.isEmpty()) return wav
+        val sib = bandPass(wav, DS_SIB_HP_HZ, DS_SIB_LP_HZ, sampleRate)
+        val voice = bandPass(wav, DS_VOICE_HP_HZ, DS_VOICE_LP_HZ, sampleRate)
+        val ea = Math.exp(-1.0 / (envAttackSec * sampleRate))
+        val er = Math.exp(-1.0 / (envReleaseSec * sampleRate))
+        val ga = Math.exp(-1.0 / (gainAttackSec * sampleRate))
+        val gr = Math.exp(-1.0 / (gainReleaseSec * sampleRate))
+        val slope = 1.0 - 1.0 / ratio
+        val maxRed = Math.pow(10.0, -maxReduceDb / 20.0)
+        var es = 0.0
+        var ev = 0.0
+        var g = 1.0
+        val out = FloatArray(wav.size)
+        for (i in wav.indices) {
+            val ps = sib[i].toDouble() * sib[i]
+            val pv = voice[i].toDouble() * voice[i]
+            es = if (ps > es) ea * es + (1 - ea) * ps else er * es + (1 - er) * ps
+            ev = if (pv > ev) ea * ev + (1 - ea) * pv else er * ev + (1 - er) * pv
+            val rDb = 10.0 * Math.log10((es + 1e-12) / (ev + 1e-12))
+            val over = rDb - thresholdDb
+            var target = 1.0
+            if (over > 0) target = Math.max(maxRed, Math.pow(10.0, -(over * slope) / 20.0))
+            g = if (target < g) ga * g + (1 - ga) * target else gr * g + (1 - gr) * target
+            out[i] = (wav[i] - sib[i] + sib[i] * g).toFloat()
+        }
+        return out
+    }
 
     fun biquad(
         wav: FloatArray,
@@ -247,11 +330,14 @@ object AudioComfortFilter {
         wav: FloatArray,
         noiseFloorEnabled: Boolean = true,
         spectralEnabled: Boolean = false,
+        deEsserEnabled: Boolean = false,
     ): FloatArray {
         if (wav.isEmpty()) return wav
         var x = TrebleFilter.apply(wav)
         x = biquad(x, PRES_B0, PRES_B1, PRES_B2, PRES_A1, PRES_A2)
         x = biquad(x, SHELF_B0, SHELF_B1, SHELF_B2, SHELF_A1, SHELF_A2)
+        // Mặc định TẮT ở tầng hàm để các caller/test cũ giữ nguyên hợp đồng rev ≤ 4; profile rev 5 bật.
+        if (deEsserEnabled) x = applyDeEsser(x)
         if (spectralEnabled) x = applySpectralDenoise(x)
         if (noiseFloorEnabled) x = applyNoiseFloor(x)
 

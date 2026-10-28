@@ -82,7 +82,7 @@ object TextSegmenter {
                 chunks.add(paraChunks[j])
             }
         }
-        val normed = chunks.map { puncNorm(it) }
+        val normed = chunks.map { normalizer.puncNorm(it) }
         val reGaps = gaps.mapIndexed { i, g -> if (g == "para") g else classifyGap(normed[i]) }
         return mergeShortChunks(normed, reGaps, minChunkChars)
     }
@@ -284,7 +284,9 @@ object TextSegmenter {
                 pieces.add(words.subList(start, words.size).joinToString(" "))
                 break
             }
-            val nPieces = -(-rest / maxChars) // ceil
+            // ceil nguyên: `-(-rest / maxChars)` của Python dựa vào chia SÀN; Kotlin chia
+            // nguyên cắt về 0 nên cùng biểu thức đó ra thiếu một mảnh (305/140 → 2 thay vì 3).
+            val nPieces = (rest + maxChars - 1) / maxChars
             val end = balancedCut(words, start, rest.toDouble() / nPieces, maxChars, minLeft)
             pieces.add(words.subList(start, end).joinToString(" "))
             start = end

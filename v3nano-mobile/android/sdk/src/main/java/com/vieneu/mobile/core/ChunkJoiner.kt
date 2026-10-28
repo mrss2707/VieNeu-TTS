@@ -63,6 +63,27 @@ object ChunkJoiner {
         return max(0, (pauseS * sr).toInt() - tail - lead)
     }
 
+    /**
+     * Streaming: số mẫu zeros cần chèn SAU [wav] để khoảng nghỉ đạt mức của [gapType].
+     * Chunk kế chưa sinh nên chưa biết im lặng đầu của nó (coi = 0) — pad lớn hơn bản
+     * batch [pausePadSamples] đúng bằng im lặng đầu chunk kế (thường vài chục ms).
+     * Khoá lạ -> "sentence" (giống [joinAudioChunks]).
+     */
+    fun tailPadSamples(
+        wav: FloatArray,
+        sr: Int,
+        gapType: String,
+        onEvent: ((String) -> Unit)? = null,
+    ): Int {
+        val pauseS = V3_GAP_SILENCE[gapType] ?: run {
+            onEvent?.invoke("unknown gap type '$gapType' -> sentence pause")
+            V3_GAP_SILENCE.getValue("sentence")
+        }
+        val (lead, tailRaw) = edgeSilence(wav, sr)
+        val tail = if (lead == wav.size) wav.size else tailRaw
+        return max(0, (pauseS * sr).toInt() - tail)
+    }
+
     /** Port join_audio_chunks(..., silence_ps=...) — nhánh v3. [gaps][i] map qua
      * [V3_GAP_SILENCE]; khoá lạ -> mặc định "sentence" (khớp gaps_to_silence Python),
      * có thông báo một lần qua [onEvent]. Audio từng chunk giữ NGUYÊN (không trim). */

@@ -22,6 +22,8 @@ class GenerationQueue(
         val gapAfter: String?,
         val seed: Long,
         val priority: Int = 0, // 0 = near (mặc định), lớn hơn = xa hơn
+        /** true: [phoneChunk] đã là phoneme; false: là text chunk, worker phải phonemize. */
+        val isPhones: Boolean = true,
     )
 
     data class ReadyChunk(

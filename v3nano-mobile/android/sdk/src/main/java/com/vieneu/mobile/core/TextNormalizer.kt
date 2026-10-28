@@ -15,6 +15,13 @@ interface TextNormalizer {
     /** Normalize giữ inline emotion cue `[cười]` → `<|emotion_1|>`. */
     fun normalizeKeepCues(sentence: String): String
 
+    /**
+     * Chốt dấu câu cuối cho MỘT chunk. Mặc định = bản port Kotlin [TextSegmenter.puncNorm]
+     * (golden structural); normalizer dựa trên sea-g2p override bằng chính luật của lõi Rust,
+     * vì luật đó đổi theo phiên bản (0.10.0 thêm: đoạn < 3 từ giữa chuỗi đổi "." thành ",").
+     */
+    fun puncNorm(chunk: String): String = TextSegmenter.puncNorm(chunk)
+
     companion object {
         /** Identity — text đã normalize sẵn (golden structural / host pipeline). */
         val identity: TextNormalizer = object : TextNormalizer {

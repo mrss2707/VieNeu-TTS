@@ -59,6 +59,7 @@ class SynthesisPipelineTest {
         assertTrue(r.metrics.nChunks >= 2)
         assertTrue(r.pcm.isNotEmpty())
         assertTrue(r.metrics.audioSeconds!! > 0.0)
+        assertEquals("int8", r.metrics.precision)
     }
 
     @Test
