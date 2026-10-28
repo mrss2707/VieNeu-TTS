@@ -72,12 +72,13 @@ static const double kPresB2 = 0.49466440877807316;
 static const double kPresA1 = -0.9957854991465043;
 static const double kPresA2 = 0.4082533581074483;
 
-// High-shelf −2.5 dB @ 5.5 kHz — de-ess / bớt “xé” phụ âm.
-static const double kShelfB0 = 0.8564610806506162;
-static const double kShelfB1 = -0.05949127659576462;
-static const double kShelfB2 = 0.14761344731755777;
-static const double kShelfA1 = -0.23685227176481605;
-static const double kShelfA2 = 0.18143552313722544;
+// High-shelf −5.0 dB @ 5.5 kHz (rev 5; trước −2.5 dB) — de-ess / bớt “xé” phụ âm.
+// RBJ high-shelf Q=1/√2, fs=24 kHz — khớp AudioComfortFilter.SHELF_* (Kotlin).
+static const double kShelfB0 = 0.7335560388924589;
+static const double kShelfB1 = 0.010859678736298006;
+static const double kShelfB2 = 0.12588332543007208;
+static const double kShelfA1 = -0.3193563697982359;
+static const double kShelfA2 = 0.18965541285706475;
 
 // Noise-floor downward expander (rev 3) — khớp AudioComfortFilter.kt.
 static const float kNfThreshold = 0.003981071705534973f;  // −48 dBFS
@@ -221,12 +222,72 @@ static std::vector<float> ApplySpectralDenoise(const std::vector<float> &wav) {
     return y;
 }
 
+// De-esser động 3.4–8 kHz (rev 6; rev 5 là 5–8 kHz) — khớp AudioComfortFilter.applyDeEsser (Kotlin) từng mẫu.
+// Đo trên audio thật của điện thoại: chỗ "rít/xì" tập trung ở 3.4–4 kHz (76% khung sáng nhất), không phải 5–8 kHz.
+// y = x − s + s·g, s = dải 3.4–8 kHz, g = gain mượt theo tỉ lệ E(3.4–8k)/E(0.3–3.0k).
+static const double kDsThreshDb = -9.0;
+static const double kDsRatio = 6.0;
+static const double kDsMaxReduceDb = 10.0;
+static const double kDsEnvAttackSec = 0.0008;
+static const double kDsEnvReleaseSec = 0.008;
+static const double kDsGainAttackSec = 0.001;
+static const double kDsGainReleaseSec = 0.040;
+
+// RBJ low/high-pass Q = 1/√2, trả {b0,b1,b2,a1,a2} đã chia a0.
+static void RbjPass(bool highPass, double f0, int sampleRate, double c[5]) {
+    const double w0 = 2.0 * M_PI * f0 / sampleRate;
+    const double cw = std::cos(w0);
+    const double alpha = std::sin(w0) / (2.0 * 0.7071);
+    double b0, b1, b2;
+    if (highPass) { b0 = (1 + cw) / 2; b1 = -(1 + cw); b2 = (1 + cw) / 2; }
+    else          { b0 = (1 - cw) / 2; b1 = 1 - cw;    b2 = (1 - cw) / 2; }
+    const double a0 = 1 + alpha;
+    c[0] = b0 / a0; c[1] = b1 / a0; c[2] = b2 / a0; c[3] = -2 * cw / a0; c[4] = (1 - alpha) / a0;
+}
+
+static std::vector<float> BandPass(const std::vector<float> &wav, double hpHz, double lpHz, int sampleRate) {
+    double hp[5], lp[5];
+    RbjPass(true, hpHz, sampleRate, hp);
+    RbjPass(false, lpHz, sampleRate, lp);
+    std::vector<float> t = ApplyBiquad(wav, hp[0], hp[1], hp[2], hp[3], hp[4]);
+    return ApplyBiquad(t, lp[0], lp[1], lp[2], lp[3], lp[4]);
+}
+
+static std::vector<float> ApplyDeEsser(const std::vector<float> &wav, int sampleRate) {
+    if (wav.empty()) return wav;
+    const std::vector<float> sib = BandPass(wav, 3400.0, 8000.0, sampleRate);
+    const std::vector<float> voice = BandPass(wav, 300.0, 3000.0, sampleRate);
+    const double ea = std::exp(-1.0 / (kDsEnvAttackSec * sampleRate));
+    const double er = std::exp(-1.0 / (kDsEnvReleaseSec * sampleRate));
+    const double ga = std::exp(-1.0 / (kDsGainAttackSec * sampleRate));
+    const double gr = std::exp(-1.0 / (kDsGainReleaseSec * sampleRate));
+    const double slope = 1.0 - 1.0 / kDsRatio;
+    const double maxRed = std::pow(10.0, -kDsMaxReduceDb / 20.0);
+    double es = 0.0, ev = 0.0, g = 1.0;
+    std::vector<float> out(wav.size());
+    for (size_t i = 0; i < wav.size(); i++) {
+        const double ps = (double)sib[i] * sib[i];
+        const double pv = (double)voice[i] * voice[i];
+        es = (ps > es) ? ea * es + (1 - ea) * ps : er * es + (1 - er) * ps;
+        ev = (pv > ev) ? ea * ev + (1 - ea) * pv : er * ev + (1 - er) * pv;
+        const double rDb = 10.0 * std::log10((es + 1e-12) / (ev + 1e-12));
+        const double over = rDb - kDsThreshDb;
+        double target = 1.0;
+        if (over > 0) target = std::max(maxRed, std::pow(10.0, -(over * slope) / 20.0));
+        g = (target < g) ? ga * g + (1 - ga) * target : gr * g + (1 - gr) * target;
+        out[i] = (float)(wav[i] - sib[i] + sib[i] * g);
+    }
+    return out;
+}
+
 static std::vector<float> ApplyComfortChain(const std::vector<float> &wav, bool noiseFloorEnabled,
-                                            bool spectralEnabled, int sampleRate) {
+                                            bool spectralEnabled, int sampleRate,
+                                            bool deEsserEnabled = true) {
     if (wav.empty()) return wav;
     std::vector<float> x = ApplyTrebleFilter(wav);
     x = ApplyBiquad(x, kPresB0, kPresB1, kPresB2, kPresA1, kPresA2);
     x = ApplyBiquad(x, kShelfB0, kShelfB1, kShelfB2, kShelfA1, kShelfA2);
+    if (deEsserEnabled) x = ApplyDeEsser(x, sampleRate);
     if (spectralEnabled) x = ApplySpectralDenoise(x);
     if (noiseFloorEnabled) x = ApplyNoiseFloor(x, sampleRate);
 
