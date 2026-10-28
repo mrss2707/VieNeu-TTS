@@ -15,6 +15,9 @@ build/
 *.ipa
 *.xcresult/
 DerivedData/
+# Kotlin 2.x compiler daemon state + NDK/CMake intermediates
+.kotlin/
+.cxx/
 # SwiftPM cache (ios/sdk/VieNeuTTS/.build)
 .build/
 # xcodegen sinh từ project.yml — không commit project sinh
@@ -25,6 +28,8 @@ local.properties
 *.log
 *.iml
 .idea/
+xcuserdata/
+.DS_Store
 
 # ── Vendored ONNX Runtime (tải từ download.onnxruntime.ai) ─────────
 **/Frameworks/onnxruntime.xcframework/
@@ -50,6 +55,7 @@ local.properties
 #    include mixed-precision experiments (D4) — regenerate via convert_fp16.py --only
 package/fp16/
 package/pkg/
+package/pkg_int8/
 package/mixed*/
 package/int8/
 package/voices_out/
@@ -58,6 +64,10 @@ package/voices_out/
 #    giữ html + manifest; kết luận ở docs/_supermeo/_summary/001 §0.10
 eval/listening-tests/*_data.json
 eval/listening-tests/*audio*.json
+
+# ── Model package copy cho Flutter example (cp từ package/pkg/) ────
+#    example/assets/pkg/ có .gitignore riêng; các bản backup local bỏ qua hẳn
+flutter/packages/vieneu_tts/example/assets/pkg_*/
 
 # ── Host export temp ───────────────────────────────────────────────
 host/_exported_corpus_tensors/

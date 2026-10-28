@@ -1,0 +1,13 @@
+# Gói model P1 đặt ở đây khi chạy example — sinh bởi host/build_mobile_package.py.
+# Weights (135MB+) KHÔNG commit; chỉ giữ .gitignore + README mô tả layout.
+#
+# Layout bắt buộc:
+#   manifest.json, graphs/{text_encoder,duration_predictor,vector_estimator,codec_decoder}.onnx,
+#   assets/tokenizer/tokenizer.json, assets/constants.npz,
+#   assets/voices/voices_v3_nano_mobile.json, assets/voices/<voice_id>/{speaker_emb.bin,style.bin},
+#   checksums.txt, LICENSE
+#
+# Copy vào: cp -R v3nano-mobile/package/pkg/. <example>/assets/pkg/
+*
+!.gitignore
+!README.md

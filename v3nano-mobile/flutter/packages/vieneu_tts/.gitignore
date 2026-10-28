@@ -1,0 +1,14 @@
+# Dart/Flutter build artifacts — không commit (sinh bởi `flutter pub get` / build).
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android build output của plugin khi build standalone.
+android/build/
+android/.gradle/
+android/local.properties
+
+# Package (không phải app) — không commit lockfile, theo khuyến nghị Dart.
+pubspec.lock
