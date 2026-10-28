@@ -23,50 +23,52 @@ sealed class EngineError implements Exception {
       };
 }
 
+// Lưu ý: base dùng positional `EngineError(code, message)` — subclass phải truyền
+// TƯỜNG MINH cả hai vị trí (không dùng `super.message` cùng lúc với positional khác).
 final class CompatError extends EngineError {
-  const CompatError(super.message) : super('E_COMPAT');
+  const CompatError(String message) : super('E_COMPAT', message);
 }
 
 final class ChecksumError extends EngineError {
-  const ChecksumError(super.message) : super('E_MODEL_CHECKSUM');
+  const ChecksumError(String message) : super('E_MODEL_CHECKSUM', message);
 }
 
 final class CorruptError extends EngineError {
-  const CorruptError(super.message) : super('E_MODEL_CORRUPT');
+  const CorruptError(String message) : super('E_MODEL_CORRUPT', message);
 }
 
 final class MissingError extends EngineError {
-  const MissingError(super.message) : super('E_MODEL_MISSING');
+  const MissingError(String message) : super('E_MODEL_MISSING', message);
 }
 
 final class ProviderInitError extends EngineError {
-  const ProviderInitError(super.message) : super('E_PROVIDER_INIT');
+  const ProviderInitError(String message) : super('E_PROVIDER_INIT', message);
 }
 
 final class CacheFullError extends EngineError {
-  const CacheFullError(super.message) : super('E_CACHE_FULL');
+  const CacheFullError(String message) : super('E_CACHE_FULL', message);
 }
 
 final class DiskFullError extends EngineError {
-  const DiskFullError(super.message) : super('E_DISK_FULL');
+  const DiskFullError(String message) : super('E_DISK_FULL', message);
 }
 
 final class CanceledError extends EngineError {
-  const CanceledError(super.message) : super('E_CANCELED');
+  const CanceledError(String message) : super('E_CANCELED', message);
 }
 
 final class UnderrunError extends EngineError {
-  const UnderrunError(super.message) : super('E_UNDERRUN');
+  const UnderrunError(String message) : super('E_UNDERRUN', message);
 }
 
 final class ThermalT3Error extends EngineError {
-  const ThermalT3Error(super.message) : super('E_THERMAL_T3');
+  const ThermalT3Error(String message) : super('E_THERMAL_T3', message);
 }
 
 final class InvalidInputError extends EngineError {
-  const InvalidInputError(super.message) : super('E_INVALID_INPUT');
+  const InvalidInputError(String message) : super('E_INVALID_INPUT', message);
 }
 
 final class InternalError extends EngineError {
-  const InternalError(super.message) : super('E_INTERNAL');
+  const InternalError(String message) : super('E_INTERNAL', message);
 }

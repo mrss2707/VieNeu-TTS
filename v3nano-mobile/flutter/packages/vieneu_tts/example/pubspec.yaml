@@ -1,0 +1,48 @@
+name: vieneu_tts_example
+description: Demo tối giản cho plugin vieneu_tts trên Android (ô nhập text, chọn giọng, play/pause/cancel, metrics/RTF).
+publish_to: none
+version: 0.1.0
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  vieneu_tts:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  # Gói model P1 đã build (manifest.json + graphs/ + assets/ + checksums.txt).
+  # KHÔNG commit (host/build_mobile_package.py sinh ra) — đặt vào đây trước khi chạy.
+  #
+  # BẮT BUỘC liệt kê TỪNG thư mục: Flutter chỉ lấy file nằm TRỰC TIẾP trong mỗi
+  # entry (flutter_tools asset.dart dùng listSync() không đệ quy) — thư mục con
+  # bị bỏ qua im lặng. Thêm giọng mới thì thêm cả dòng `assets/pkg/assets/voices/<id>/`.
+  assets:
+    - assets/story/
+    - assets/pkg/
+    - assets/pkg/graphs/
+    - assets/pkg/assets/
+    - assets/pkg/assets/tokenizer/
+    - assets/pkg/assets/voices/
+    - assets/pkg/assets/voices/adam/
+    - assets/pkg/assets/voices/ai_han/
+    - assets/pkg/assets/voices/anh_khoi/
+    - assets/pkg/assets/voices/duc_tri/
+    - assets/pkg/assets/voices/huu_quan/
+    - assets/pkg/assets/voices/mai_anh/
+    - assets/pkg/assets/voices/manh_dung/
+    - assets/pkg/assets/voices/minh_quan/
+    - assets/pkg/assets/voices/my_duyen/
+    - assets/pkg/assets/voices/truc_ly/
+    - assets/pkg/assets/voices/xuan_tien/
