@@ -44,6 +44,13 @@ Caveats
 * ``repetition_window`` is the ring size of the on-device history, fixed per
   scheduler; requests asking for another window get the scheduler's.
 * No babble/short-row retry: audio is already on its way.
+* Each tick holds ``CAPTURE_LOCK`` shared (``_v3_turbo_engine/capture_lock.py``):
+  when a batch engine in the same process captures a new graph (~0.5 s, once
+  per batch bucket / cache length / sampling setting), the streams pause for it
+  instead of breaking the capture.
+* A request with bad input (voice, reference codes, sampling) fails alone. If
+  the worker itself dies, every waiting request gets the error, ``submit``
+  refuses new work and ``error`` says why: restart the process.
 """
 from __future__ import annotations
 
@@ -55,6 +62,8 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import torch
 
+from vieneu_utils.core_utils import check_sampling
+from .._v3_turbo_engine.capture_lock import CAPTURE_LOCK
 from .._v3_turbo_engine.rep_history import DEFAULT_REP_WINDOW
 from .fused import GpuRepHistory, StaticBackbone, acoustic_frame_gpu, sample_gpu_rows
 
@@ -86,6 +95,7 @@ class StreamFrame:
         self.B, self.max_len, self.ring = int(B), int(max_len), int(codes_ring)
         n_vq, H = cfg.n_vq, cfg.hidden_size
         self.n_vq = n_vq
+        self.vocab = int(cfg.audio_vocab_size)
         self.bb = StaticBackbone(model, self.B, self.max_len)
         self.rep = GpuRepHistory(self.B, n_vq, cfg.audio_vocab_size, repetition_window, dev)
         self.h = torch.zeros(self.B, H, device=dev, dtype=dt)
@@ -166,7 +176,9 @@ class StreamFrame:
         self.h[b].copy_(h_last.to(self.h.dtype))
         self.rep.reset_rows(torch.tensor([b], device=self.h.device))
         self.temperature[b] = float(temperature)
-        self.top_k[b] = int(top_k)
+        # top_k >= vocab keeps every code and <= 0 disables top-k, so clamping
+        # changes nothing — except that a huge value can't overflow the int64 slot.
+        self.top_k[b] = min(max(int(top_k), 0), self.vocab)
         self.top_p[b] = float(top_p)
         self.penalty[b] = float(repetition_penalty)
         if self.spk is not None:
@@ -217,6 +229,9 @@ class StreamHandle:
     def __iter__(self):
         try:
             while True:
+                # The worker's next tick may be queued behind a capture that
+                # waits for this thread: never wait here holding CAPTURE_LOCK.
+                CAPTURE_LOCK.ensure_not_held("infer_stream")
                 item = self.q.get()
                 if item is None:
                     return
@@ -258,8 +273,11 @@ class V3TurboStreamScheduler:
         # clocks (``nvidia-smi -lgc``) or set "prefer maximum performance".
         self.max_admit = max(1, int(max_admit_per_tick))
         self.repetition_window = int(repetition_window)
-        self.frame = StreamFrame(self.model, self.B, int(self.cfg.max_position_embeddings),
-                                 repetition_window=self.repetition_window)
+        # Built in the caller's thread while batch runs may be going on in
+        # others: the capture keeps every other v3 Turbo GPU job out.
+        with CAPTURE_LOCK.exclusive():
+            self.frame = StreamFrame(self.model, self.B, int(self.cfg.max_position_embeddings),
+                                     repetition_window=self.repetition_window)
         self.tick = 0
         self._slots: List[Optional[StreamHandle]] = [None] * self.B
         self._codec_rows: List[StreamHandle] = []   # order the codec session knows
@@ -272,12 +290,21 @@ class V3TurboStreamScheduler:
         self._thread.start()
 
     # ── public ────────────────────────────────────────────────────────────────
+    @property
+    def error(self) -> Optional[BaseException]:
+        """Why the worker died, or ``None`` while it runs. After a crash
+        ``submit`` refuses all work until the process restarts."""
+        return self._error
+
     def submit(self, *, phonemes: str, speaker_emb, ref_codes, use_ref_codes: bool = True,
                temperature: float = 0.8, top_k: int = 25, top_p: float = 0.95,
                repetition_penalty: float = 1.2, max_new_frames: int = 300,
                repetition_window: Optional[int] = None) -> StreamHandle:
-        if self._error is not None:
-            raise RuntimeError("stream scheduler is down") from self._error
+        # Checked in the caller's thread: a bad value must fail this call, not
+        # the worker every stream shares (NaN reaching multinomial on CUDA is a
+        # device-side assert that poisons the whole process).
+        temperature, top_k, top_p, repetition_penalty = check_sampling(
+            temperature, top_k, top_p, repetition_penalty)
         if repetition_window is not None and int(repetition_window) != self.repetition_window:
             logger.debug("stream: repetition_window=%s ignored, scheduler uses %d",
                          repetition_window, self.repetition_window)
@@ -286,7 +313,11 @@ class V3TurboStreamScheduler:
             use_ref_codes=use_ref_codes, temperature=temperature, top_k=top_k, top_p=top_p,
             repetition_penalty=repetition_penalty, max_new_frames=max(0, int(max_new_frames)),
         ))
-        with self._cv:
+        with self._cv:   # same lock as _shutdown: nothing is queued after its drain
+            if self._error is not None:
+                raise RuntimeError("stream scheduler is down") from self._error
+            if not self._running:
+                raise RuntimeError("stream scheduler is closed")
             self._pending.put(h)
             self._cv.notify()
         return h
@@ -310,19 +341,32 @@ class V3TurboStreamScheduler:
                         self._cv.wait()
                     if not self._running:
                         break
-                self._admit()
-                if self.n_active == 0:
-                    continue
-                self._step()
+                # One tick is GPU work (prefill, replay, codec): a capture in
+                # another thread (a batch engine's new graph) waits for it, and
+                # the next tick waits for the capture.
+                with CAPTURE_LOCK.shared():
+                    self._admit()
+                    if self.n_active:
+                        self._step()
         except BaseException as e:   # noqa: BLE001 — everything waiting must hear about it
             logger.exception("stream scheduler died")
-            self._error = e
-            self._running = False
-            for h in list(self._slots) + list(self._drain_pending()):
-                if h is not None:
-                    h.q.put(e)
+            self._shutdown(e, crashed=True)
+        else:
+            # close(): no request may be left waiting on a queue nobody fills.
+            self._shutdown(RuntimeError("stream scheduler closed"), crashed=False)
         finally:
             self._reset_codec()
+
+    def _shutdown(self, err: BaseException, *, crashed: bool) -> None:
+        """Stop taking work and hand ``err`` to every request still waiting —
+        the running rows and the queue (``_admit`` tells the ones it holds)."""
+        with self._cv:
+            if crashed:
+                self._error = err
+            self._running = False
+            waiting = [h for h in self._slots if h is not None] + self._drain_pending()
+        for h in waiting:
+            h.q.put(err)
 
     def _drain_pending(self) -> List[StreamHandle]:
         out = []
@@ -336,7 +380,10 @@ class V3TurboStreamScheduler:
     def _admit(self) -> None:
         free = [b for b, s in enumerate(self._slots) if s is None]
         todo: List[StreamHandle] = []
-        while free and len(todo) < self.max_admit:
+        # At most one request per free slot; the rest wait in the queue. (Taking
+        # up to ``max_admit`` regardless ran ``free`` dry, and the IndexError
+        # killed the worker whenever requests outnumbered free slots.)
+        while len(todo) < min(len(free), self.max_admit):
             try:
                 h = self._pending.get_nowait()
             except queue.Empty:
@@ -347,39 +394,72 @@ class V3TurboStreamScheduler:
             todo.append(h)
         if not todo:
             return
-        embeds = [self.be._prompt_embeds(h.req) for h in todo]
-        spks = [self.tts._resolve_speaker_emb(h.req.get("speaker_emb")) for h in todo]
-        last_h, cache, mask, _pos = self.be.bb.prefill(embeds)
-        T = mask.shape[1]
-        for i, h in enumerate(todo):
-            Ti = embeds[i].shape[0]
-            keys, values = [], []
-            for l in range(len(self.frame.bb.layers)):
-                layer = cache.layers[l] if hasattr(cache, "layers") else None
-                k = layer.keys if layer is not None else cache.key_cache[l]
-                v = layer.values if layer is not None else cache.value_cache[l]
-                keys.append(k[i, :, T - Ti:T])
-                values.append(v[i, :, T - Ti:T])
-            b = free.pop(0)
-            r = h.req
+        # Off the queue but not in a slot: no one else knows these requests, so
+        # if the worker dies in here they must hear it from here.
+        unanswered = list(todo)
+
+        def reject(h: StreamHandle, err: BaseException) -> None:
+            # A request's own bad input (voice, reference codes, ...) fails that
+            # request only; the worker keeps serving everyone else.
+            h.q.put(err)
+            unanswered.remove(h)
+
+        try:
+            batch: List[StreamHandle] = []
+            embeds, spks = [], []
+            for h in todo:
+                try:
+                    e = self.be._prompt_embeds(h.req)
+                    s = self.tts._resolve_speaker_emb(h.req.get("speaker_emb"))
+                except Exception as err:   # noqa: BLE001
+                    reject(h, err)
+                    continue
+                batch.append(h)
+                embeds.append(e)
+                spks.append(s)
+            if not batch:
+                return
             try:
-                h.f0 = self.frame.admit(
-                    b, keys, values, last_h[i], spks[i], r["max_new_frames"],
-                    temperature=r["temperature"], top_k=r["top_k"], top_p=r["top_p"],
-                    repetition_penalty=r["repetition_penalty"],
-                )
-            except ValueError as e:
-                free.insert(0, b)
-                h.q.put(e)
-                continue
-            h.slot = b
-            h.decoded_upto = h.f0
-            self._slots[b] = h
-            if r["max_new_frames"] == 0:
-                # Nothing to generate: finished before its first frame.
-                h.finished_at = h.f0
-                h.gen_done.set()
-            self._codec_rows.append(h)
+                last_h, cache, mask, _pos = self.be.bb.prefill(embeds)
+            except Exception as err:   # noqa: BLE001 — e.g. out of memory on long prompts
+                for h in batch:
+                    reject(h, err)
+                return
+            T = mask.shape[1]
+            for i, h in enumerate(batch):
+                Ti = embeds[i].shape[0]
+                keys, values = [], []
+                for l in range(len(self.frame.bb.layers)):
+                    layer = cache.layers[l] if hasattr(cache, "layers") else None
+                    k = layer.keys if layer is not None else cache.key_cache[l]
+                    v = layer.values if layer is not None else cache.value_cache[l]
+                    keys.append(k[i, :, T - Ti:T])
+                    values.append(v[i, :, T - Ti:T])
+                b = free.pop(0)
+                r = h.req
+                try:
+                    h.f0 = self.frame.admit(
+                        b, keys, values, last_h[i], spks[i], r["max_new_frames"],
+                        temperature=r["temperature"], top_k=r["top_k"], top_p=r["top_p"],
+                        repetition_penalty=r["repetition_penalty"],
+                    )
+                except Exception as err:   # noqa: BLE001
+                    free.insert(0, b)
+                    reject(h, err)
+                    continue
+                h.slot = b
+                h.decoded_upto = h.f0
+                self._slots[b] = h
+                unanswered.remove(h)
+                if r["max_new_frames"] == 0:
+                    # Nothing to generate: finished before its first frame.
+                    h.finished_at = h.f0
+                    h.gen_done.set()
+                self._codec_rows.append(h)
+        except BaseException as err:
+            for h in unanswered:
+                h.q.put(err)
+            raise
 
     def _step(self) -> None:
         self.frame.replay()
@@ -450,7 +530,8 @@ class V3TurboStreamScheduler:
         reset = getattr(self.tok, "_reset_batch_decode_streaming_state", None)
         if callable(reset):
             try:
-                reset()
+                with CAPTURE_LOCK.shared():   # frees the codec's device state
+                    reset()
             except Exception:   # noqa: BLE001
                 pass
         self._codec_fresh = True

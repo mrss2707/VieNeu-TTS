@@ -62,9 +62,9 @@ Environment:
 | `VIENEU_MAX_STREAMS` | GPU 16 · CPU 1 (int8: 2) | Streams served at once. On GPU this is the continuous-batch size — **match it to your real load** (see below) |
 | `VIENEU_QUEUE` | = `MAX_STREAMS` | Requests allowed to wait for a slot; beyond that → immediate `429` |
 | `VIENEU_QUEUE_TIMEOUT` | 10 | Max seconds in the queue; then `429` |
-| `VIENEU_API_KEY` | (empty) | If set, requires `Authorization: Bearer <key>` |
+| `VIENEU_API_KEY` | (empty) | If set, requires `Authorization: Bearer <key>`. Unset on a non-loopback `HOST` → a warning at start-up |
 | `VIENEU_WATERMARK` | 1 | Perth audio watermark, per chunk |
-| `HOST` / `PORT` | `0.0.0.0` / 8000 | |
+| `HOST` / `PORT` | `127.0.0.1` / 8000 | `HOST=0.0.0.0` to serve other machines (the Docker profiles set it) — together with `VIENEU_API_KEY` |
 
 The server runs **one worker** (`uvicorn workers=1`): the model and the scheduler live in the process; the GPU serves many streams by batching inside, not by forking. Scale out by running several containers, one GPU each.
 
@@ -87,8 +87,8 @@ JSON body — OpenAI's fields plus a few extras:
 | `stream_format` | `audio` | `audio`: raw bytes, chunked transfer · `sse`: Server-Sent Events (below) |
 | `sample_rate` | 48000 | 48000 (native) · 24000 (OpenAI's `pcm` rate) · 16000 · 8000 — resampled per chunk with soxr, no added latency |
 | `speed`, `instructions` | — | Accepted for compatibility, **ignored** (`X-VieNeu-Ignored` header says so) |
-| `temperature`, `top_k`, `top_p`, `repetition_penalty` | 0.8 / 25 / 0.95 / 1.2 | Sampling |
-| `max_chars` | 256 | Max text chunk length |
+| `temperature`, `top_k`, `top_p`, `repetition_penalty` | 0.8 / 25 / 0.95 / 1.2 | Sampling; allowed 0–2 / 1–1024 / (0, 1] / 1–2, anything else (or NaN) → `400` |
+| `max_chars` | 256 | Max text chunk length, 64–512 |
 
 Response: `200` with `Transfer-Encoding: chunked`; headers `X-Request-Id`, `X-Sample-Rate`. Errors use OpenAI's shape `{"error": {"message", "type", "code"}}`: `400` bad parameter, `401` bad key, `429` no slot (with `Retry-After`).
 
@@ -108,8 +108,8 @@ With `response_format=wav` + `sse`, the first event is the WAV header (base64).
 |---|---|
 | `GET /v1/models` | Model, `sample_rate`, `backend`, `max_streams`, supported formats |
 | `GET /v1/voices` | Presets (`id`, `name`, `description`, `gender`) |
-| `POST /v1/voices` | multipart `name`, `file` (3–8 s clip), `denoise` — clones a voice, kept in process memory |
-| `GET /health` | `active` (playing), `waiting` (queued), `max_streams` |
+| `POST /v1/voices` | multipart `name`, `file` (3–8 s clip), `denoise` — clones a voice, kept in process memory. The name of a built-in voice or alias → `409` |
+| `GET /health` | `active` (playing), `waiting` (queued), `max_streams`. `503` once the GPU stream scheduler has died (it does not recover — the Docker healthcheck restarts the container) |
 
 ### Clients
 
@@ -167,6 +167,7 @@ Code: `src/vieneu/v3_turbo_serve/stream.py` (+ `fused.py`). In short:
 2. **Continuous batching**: a new request is prefilled (HF, ~21 ms for one prompt) and **written into a free slot of the running graph** (`StaticBackbone.load_row`: the KV cache is a ring buffer, the prompt lands right-aligned to the shared write index, rotary positions are per row). When a request finishes (EOS or its frame cap) its slot frees immediately, waiting for nobody. Sampling settings are per-row tensors, so each request keeps its own temperature/top-k/top-p/penalty.
 3. **One shared streaming codec session** (MOSS): every 4 frames the codes of every running row go through **one** `batch_decode(streaming=True)` call; a new row is decoded early once it has 2 frames (lead-in) instead of waiting for the 4-frame boundary. The decoder has no lookahead; streamed audio matches the full decode (6e-4).
 4. **One worker thread** owns the GPU. `infer_stream` from N threads (N HTTP requests) is just N audio queues; the server never forks.
+5. **Captures run alone.** Recording a CUDA graph (this scheduler's, or a new one that the batch engine of `infer`/`infer_batch` needs) takes a process-wide lock (`_v3_turbo_engine/capture_lock.py`) that every other v3 Turbo inference step holds shared (not model loading, and not v1/v2 models in the same process). Another thread's allocation, sync or sampling during a capture can break it, and a broken capture leaves PyTorch's RNG stuck "capturing" (`Offset increment outside graph capture`) until the process restarts. The cost: each time a new graph is needed, playing streams pause for about the length of the capture (~0.5 s). Your own CUDA work in the same process (another model, `torch.cuda.empty_cache()`) is not covered: do not run it alongside VieNeu, or wrap it in `with CAPTURE_LOCK.shared():` (`from vieneu._v3_turbo_engine.capture_lock import CAPTURE_LOCK`, 3.8.4+; advanced: an internal path that may move in a later minor release). Put only your own CUDA calls inside that block: never call VieNeu (`infer`, `infer_batch`, `infer_stream`, `encode_reference`, `warm_fused`) or wait for another thread in it, or the process can hang. VieNeu calls that would wait for another thread raise `RuntimeError` there instead of hanging.
 
 Real costs (RTX 3060, bf16):
 
@@ -365,6 +366,8 @@ For component-level numbers (prefill / frame / codec) see the docstring of `src/
 | Frequent `429` | Slots and queue exhausted | Raise `VIENEU_QUEUE` / `VIENEU_QUEUE_TIMEOUT` if waiting is acceptable; otherwise add a GPU/container |
 | Choppy audio at the client | No pre-buffer, or RTF > 1 (CPU fp32 with several requests) | Pre-buffer 150–300 ms (GPU) / ≥ 300 ms (CPU); on CPU use int8 and keep 1–2 streams |
 | First request after start-up takes 1–2 s | Warm-up not finished | The server warms itself; wait for `/health` to return `ok` before sending traffic |
+| Every request fails with `Offset increment outside graph capture encountered unexpectedly` (GPU) | A CUDA graph capture broke (SDK < 3.8.4, or other CUDA work ran beside a capture) | Restart the process; upgrade to `vieneu>=3.8.4`; wrap only your own CUDA calls in `CAPTURE_LOCK.shared()` (item 5 of *GPU: how streaming works*); last resort `VIENEU_FUSED_FRAME=0` |
+| `RuntimeError: ... while this thread holds CAPTURE_LOCK` | VieNeu was called inside your own `CAPTURE_LOCK.shared()` block | Keep only your own CUDA calls in the block; call VieNeu outside it |
 | Disable the CUDA-graph path (debugging) | — | `VIENEU_FUSED_FRAME=0` → `infer_stream` falls back to the single engine (1 stream, ~300 ms) |
 | Turing/Pascal GPU, odd audio | fp16 fallback is unverified | Try `Vieneu(dtype="float32")` (~1.5× slower) or open an issue with a sample |
 | Need mp3/opus | Not supported | Put a reverse proxy/ffmpeg in front, or take `pcm` and encode client-side; adds ~20–40 ms |

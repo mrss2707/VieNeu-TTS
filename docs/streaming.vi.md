@@ -62,9 +62,9 @@ Biến môi trường:
 | `VIENEU_MAX_STREAMS` | GPU 16 · CPU 1 (int8: 2) | Số luồng phục vụ đồng thời. GPU: kích thước batch liên tục — **đặt sát tải thật** (xem bên dưới) |
 | `VIENEU_QUEUE` | = `MAX_STREAMS` | Số request được xếp hàng chờ slot; quá → `429` ngay |
 | `VIENEU_QUEUE_TIMEOUT` | 10 | Giây chờ tối đa trong hàng; hết → `429` |
-| `VIENEU_API_KEY` | (trống) | Nếu đặt, yêu cầu `Authorization: Bearer <key>` |
+| `VIENEU_API_KEY` | (trống) | Nếu đặt, yêu cầu `Authorization: Bearer <key>`. Để trống mà `HOST` không phải loopback → cảnh báo lúc khởi động |
 | `VIENEU_WATERMARK` | 1 | Đóng watermark âm thanh (Perth) từng chunk |
-| `HOST` / `PORT` | `0.0.0.0` / 8000 | |
+| `HOST` / `PORT` | `127.0.0.1` / 8000 | `HOST=0.0.0.0` để máy khác gọi được (các profile Docker đã đặt sẵn) — kèm `VIENEU_API_KEY` |
 
 Server chỉ chạy **một worker** (`uvicorn workers=1`): model và scheduler nằm trong tiến trình; GPU phục vụ nhiều luồng bằng batching bên trong chứ không bằng nhiều tiến trình. Muốn scale ngang thì chạy nhiều container, mỗi container một GPU.
 
@@ -87,8 +87,8 @@ Body JSON — các trường của OpenAI cộng vài trường mở rộng:
 | `stream_format` | `audio` | `audio`: body là bytes theo chunked transfer · `sse`: Server-Sent Events (bên dưới) |
 | `sample_rate` | 48000 | 48000 (gốc) · 24000 (chuẩn `pcm` của OpenAI) · 16000 · 8000 — resample từng chunk bằng soxr, không thêm trễ |
 | `speed`, `instructions` | — | Nhận để tương thích, **bỏ qua** (header `X-VieNeu-Ignored` cho biết) |
-| `temperature`, `top_k`, `top_p`, `repetition_penalty` | 0,8 / 25 / 0,95 / 1,2 | Sampling |
-| `max_chars` | 256 | Độ dài chunk văn bản tối đa |
+| `temperature`, `top_k`, `top_p`, `repetition_penalty` | 0,8 / 25 / 0,95 / 1,2 | Sampling; cho phép 0–2 / 1–1024 / (0, 1] / 1–2, ngoài khoảng (hoặc NaN) → `400` |
+| `max_chars` | 256 | Độ dài chunk văn bản tối đa, 64–512 |
 
 Response: `200` với `Transfer-Encoding: chunked`; header `X-Request-Id`, `X-Sample-Rate`. Lỗi trả đúng dạng OpenAI `{"error": {"message", "type", "code"}}`: `400` tham số sai, `401` sai key, `429` hết slot (kèm `Retry-After`).
 
@@ -108,8 +108,8 @@ Với `response_format=wav` + `sse`, event đầu tiên là header WAV (base64).
 |---|---|
 | `GET /v1/models` | Model, `sample_rate`, `backend`, `max_streams`, định dạng hỗ trợ |
 | `GET /v1/voices` | Danh sách preset (`id`, `name`, `description`, `gender`) |
-| `POST /v1/voices` | multipart `name`, `file` (clip 3–8 s), `denoise` — nhân bản giọng, giữ trong bộ nhớ tiến trình |
-| `GET /health` | `active` (đang phát), `waiting` (đang xếp hàng), `max_streams` |
+| `POST /v1/voices` | multipart `name`, `file` (clip 3–8 s), `denoise` — nhân bản giọng, giữ trong bộ nhớ tiến trình. Trùng tên giọng có sẵn hoặc alias → `409` |
+| `GET /health` | `active` (đang phát), `waiting` (đang xếp hàng), `max_streams`. `503` khi scheduler streaming GPU đã chết (không tự hồi phục — healthcheck của Docker sẽ restart container) |
 
 ### Client
 
@@ -167,6 +167,7 @@ Code: `src/vieneu/v3_turbo_serve/stream.py` (+ `fused.py`). Tóm tắt:
 2. **Continuous batching**: request mới được prefill (HF, ~21 ms cho một prompt) rồi **nạp vào một slot trống của graph đang chạy** (`StaticBackbone.load_row`: KV cache là ring buffer, prompt được ghi căn phải theo con trỏ ghi chung; RoPE tính theo vị trí riêng từng row). Request xong (EOS hoặc chạm trần khung) thì slot trống ngay, không phải đợi ai. Tham số sampling là tensor theo row nên mỗi request giữ temperature/top-k/top-p/penalty của mình.
 3. **Codec MOSS một phiên streaming chung**: cứ 4 khung, mã của mọi row đang chạy đi qua **một** lời gọi `batch_decode(streaming=True)`; row mới được decode sớm ngay khi có 2 khung (lead-in) thay vì đợi mốc 4. Decoder không lookahead, audio stream khớp decode đầy đủ (sai số 6e-4).
 4. **Một worker thread** sở hữu GPU. `infer_stream` từ N thread (N request HTTP) chỉ là N hàng đợi audio; server không tạo thêm tiến trình.
+5. **Capture chạy một mình.** Ghi một CUDA graph (graph của scheduler này, hoặc graph mới mà batch engine của `infer`/`infer_batch` cần) phải giữ một khoá chung cả tiến trình (`_v3_turbo_engine/capture_lock.py`); mọi bước suy luận GPU khác của v3 Turbo giữ khoá ấy ở chế độ chia sẻ (trừ lúc nạp model, và trừ model v1/v2 chạy cùng tiến trình). Một thread khác cấp phát bộ nhớ, đồng bộ hay lấy mẫu đúng lúc capture có thể làm capture hỏng, và capture hỏng thì bộ sinh số ngẫu nhiên của PyTorch kẹt ở trạng thái "đang capture" (`Offset increment outside graph capture`) tới khi khởi động lại tiến trình. Cái giá: mỗi lần cần graph mới, các stream đang phát dừng khoảng 0,5 s chờ capture xong. Việc CUDA của chính bạn trong cùng tiến trình (model khác, `torch.cuda.empty_cache()`) không được khoá này che: đừng chạy nó song song với VieNeu, hoặc bọc nó trong `with CAPTURE_LOCK.shared():` (`from vieneu._v3_turbo_engine.capture_lock import CAPTURE_LOCK`, từ 3.8.4; dành cho người dùng nâng cao: đường dẫn nội bộ, có thể đổi ở bản minor sau). Chỉ bọc đúng các lệnh CUDA của bạn: đừng gọi VieNeu (`infer`, `infer_batch`, `infer_stream`, `encode_reference`, `warm_fused`) hay chờ thread khác bên trong khối này, nếu không tiến trình có thể treo. Lời gọi VieNeu nào phải chờ thread khác sẽ báo `RuntimeError` ngay tại đó thay vì treo.
 
 Chi phí thực (RTX 3060, bf16):
 
@@ -365,6 +366,8 @@ Muốn đo sâu hơn (từng thành phần: prefill / khung / codec), xem docstr
 | `429` thường xuyên | Hết slot + hàng đợi | Tăng `VIENEU_QUEUE`/`VIENEU_QUEUE_TIMEOUT` nếu chấp nhận chờ; hoặc thêm GPU/container |
 | Tiếng đứt quãng ở client | Client không prebuffer, hoặc RTF > 1 (CPU fp32 nhiều request) | Prebuffer 150–300 ms (GPU) / ≥ 300 ms (CPU); CPU dùng int8, giữ 1–2 luồng |
 | Request đầu tiên sau khởi động chậm 1–2 s | Warm-up chưa xong | Server đã tự warm; chờ `/health` trả `ok` trước khi mở traffic |
+| Mọi request lỗi `Offset increment outside graph capture encountered unexpectedly` (GPU) | Một lần capture CUDA graph bị hỏng (SDK < 3.8.4, hoặc việc CUDA khác chạy cùng lúc capture) | Khởi động lại tiến trình; nâng lên `vieneu>=3.8.4`; chỉ bọc lệnh CUDA của bạn trong `CAPTURE_LOCK.shared()` (mục 5 phần *GPU: cơ chế streaming*); cùng lắm thì `VIENEU_FUSED_FRAME=0` |
+| `RuntimeError: ... while this thread holds CAPTURE_LOCK` | Gọi VieNeu bên trong khối `CAPTURE_LOCK.shared()` của bạn | Chỉ để lệnh CUDA của bạn trong khối; gọi VieNeu ở ngoài |
 | Muốn tắt đường CUDA graph (gỡ lỗi) | — | `VIENEU_FUSED_FRAME=0` → `infer_stream` quay về engine đơn (1 luồng, ~300 ms) |
 | GPU Turing/Pascal, tiếng lạ | fp16 fallback chưa kiểm chứng | Thử `Vieneu(dtype="float32")` (chậm hơn ~1,5×) hoặc báo issue kèm mẫu |
 | Cần mp3/opus | Chưa hỗ trợ | Đặt reverse proxy/ffmpeg phía trước, hoặc client nhận `pcm` rồi tự mã hoá; thêm ~20–40 ms trễ |
