@@ -34,6 +34,24 @@ xcuserdata/
 # ── Vendored ONNX Runtime (tải từ download.onnxruntime.ai) ─────────
 **/Frameworks/onnxruntime.xcframework/
 
+# ── iOS SDK — binary/golden staged bởi ios/scripts/sync_frameworks.sh
+#    + sync_golden.sh (nguồn ở android/), không commit ────────────────
+ios/sdk/VieNeuTTS/Frameworks/SeaG2p.xcframework/
+ios/sdk/VieNeuTTS/Sources/VieNeuTTSCore/resources/vi.seaz
+ios/sdk/VieNeuTTS/Tests/VieNeuTTSCoreTests/golden/
+
+# ── Expo — dependency, prebuild (CNG) output, binary fetch bởi
+#    scripts/fetch-binaries.mjs, model copy bởi scripts/link-model.sh ──
+node_modules/
+.expo/
+*.tsbuildinfo
+expo/packages/*/android/maven/
+expo/packages/*/ios/Frameworks/
+expo/packages/*/.binaries-cache/
+expo/packages/*/example/android/
+expo/packages/*/example/ios/
+expo/packages/*/example/assets/vieneu-pkg
+
 # ── Model weights / tensor binary (tải từ HF hoặc sinh bởi host/) ──
 *.onnx
 *.onnx.data
@@ -71,3 +89,10 @@ flutter/packages/vieneu_tts/example/assets/pkg_*/
 
 # ── Host export temp ───────────────────────────────────────────────
 host/_exported_corpus_tensors/
+
+# ── Model archive phân phối (host/patch_mobile_manifest.py --archive) ──
+package/*.zip
+package/*.zip.sha256
+
+# Fixture test nhỏ (53 KB) — cần cho ModelConstantsTest trên clone sạch (Android + iOS sync_golden)
+!android/sdk/src/test/resources/golden/constants.npz
